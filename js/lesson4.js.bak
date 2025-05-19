@@ -1,0 +1,204 @@
+// Lesson 4 Module
+window.lessonModules = window.lessonModules || {};
+
+const lesson4 = {
+    // Vocabulary
+    vocabulary: [
+        {
+            "en": "where",
+            "es": "dónde",
+            "example": "Where are you?",
+            "audio": "L4_where_audio"
+        },
+        {
+            "en": "how",
+            "es": "cómo",
+            "example": "How are you?",
+            "audio": "L4_how_audio"
+        },
+        {
+            "en": "at home",
+            "es": "en casa",
+            "example": "He's at home.",
+            "audio": "L4_athome_audio"
+        },
+        {
+            "en": "in school",
+            "es": "en la escuela",
+            "example": "We're in school.",
+            "audio": "L4_inschool_audio"
+        },
+        {
+            "en": "American",
+            "es": "americano/a",
+            "example": "You're an American.",
+            "audio": "L4_american_audio"
+        },
+        {
+            "en": "car",
+            "es": "carro, auto",
+            "example": "Where's the car?",
+            "audio": "L4_car_audio"
+        },
+        {
+            "en": "notebook",
+            "es": "cuaderno",
+            "example": "Where are the notebooks?",
+            "audio": "L4_notebook_audio"
+        },
+        {
+            "en": "telephone",
+            "es": "teléfono",
+            "example": "Where is the telephone?",
+            "audio": "L4_telephone_audio"
+        },
+        {
+            "en": "office",
+            "es": "oficina",
+            "example": "It's in the office.",
+            "audio": "L4_office_audio"
+        }
+    ],
+
+    // Teaching Concepts
+    teachingConcepts: {
+        // Prepositions
+        prepositions: {
+            title: "LAS PREPOSICIONES ON, AT, FROM",
+            explanation: "La preposición on (en, sobre) indica estar sobre una superficie. La preposición at (en) indica un lugar determinado. La preposición from (de) indica procedencia u origen.",
+            examples: [
+                { q: "on the table", a: "sobre la mesa" },
+                { q: "on the desk", a: "sobre el escritorio" },
+                { q: "on Reforma", a: "en Reforma" },
+                { q: "at the movies", a: "en el cine" },
+                { q: "at home", a: "en casa" },
+                { q: "at school", a: "en la escuela" },
+                { q: "at 5 Reforma", a: "en Reforma 5" },
+                { q: "from the office", a: "de la oficina" },
+                { q: "from home", a: "de casa" },
+                { q: "from school", a: "de la escuela" },
+                { q: "from the movies", a: "del cine" }
+            ]
+        },
+
+        // There is/There are
+        thereIs: {
+            title: "THERE IS / THERE ARE",
+            explanation: "Usamos 'There is' para indicar que algo existe en singular y 'There are' para plural. La forma negativa es 'There isn't' y 'There aren't'. Para preguntas, invertimos el orden: 'Is there' y 'Are there'.",
+            examples: [
+                { q: "There is a book on the table.", a: "Hay un libro sobre la mesa." },
+                { q: "There are two pens on the desk.", a: "Hay dos plumas sobre el escritorio." },
+                { q: "There isn't a car in the garage.", a: "No hay un carro en el garaje." },
+                { q: "There aren't any students in the classroom.", a: "No hay estudiantes en el salón de clase." },
+                { q: "Is there a telephone in the office?", a: "¿Hay un teléfono en la oficina?" },
+                { q: "Are there any books on the shelf?", a: "¿Hay libros en el estante?" }
+            ]
+        }
+    },
+
+    // Exercise 1 - Translation Practice
+    exercise1: {
+        title: "EJERCICIO 1",
+        explanation: "Traduzca las siguientes oraciones y practique leyéndolas.",
+        items: [
+            { q: "Where are you?", a: "¿Dónde estás?" },
+            { q: "How are you?", a: "¿Cómo estás?" },
+            { q: "He's at home.", a: "Él está en casa." },
+            { q: "He isn't at home.", a: "Él no está en casa." },
+            { q: "Is she at home?", a: "¿Está ella en casa?" },
+            { q: "Isn't she at home?", a: "¿No está ella en casa?" },
+            { q: "We're in school.", a: "Estamos en la escuela." },
+            { q: "We aren't in school.", a: "No estamos en la escuela." },
+            { q: "Is Mary in school?", a: "¿Está Mary en la escuela?" },
+            { q: "Isn't Mary in school?", a: "¿No está Mary en la escuela?" },
+            { q: "You're an American.", a: "Eres americano/a." },
+            { q: "You aren't an American.", a: "No eres americano/a." },
+            { q: "Are they Americans?", a: "¿Son ellos americanos?" },
+            { q: "Aren't they Americans?", a: "¿No son ellos americanos?" },
+            { q: "Where's the car?", a: "¿Dónde está el carro?" },
+            { q: "Where are the notebooks?", a: "¿Dónde están los cuadernos?" },
+            { q: "The boys go to school.", a: "Los niños van a la escuela." },
+            { q: "The girls go to school too.", a: "Las niñas van a la escuela también." },
+            { q: "Where is the telephone?", a: "¿Dónde está el teléfono?" },
+            { q: "It's in the office.", a: "Está en la oficina." },
+            { q: "Robert goes to school.", a: "Robert va a la escuela." },
+            { q: "My sister goes to school.", a: "Mi hermana va a la escuela." },
+            { q: "They come to school.", a: "Ellos vienen a la escuela." },
+            { q: "I come to school too.", a: "Yo vengo a la escuela también." },
+            { q: "Mr. Hunt works in an office.", a: "El Sr. Hunt trabaja en una oficina." }
+        ]
+    },
+
+    // Exercise 2 - Preposition Practice
+    exercise2: {
+        title: "EJERCICIO 2",
+        explanation: "Llene los espacios con la preposición correcta y traduzca.",
+        items: [
+            { q: "My father is (en) _______ home.", a: "at" },
+            { q: "My little brothers are (en) _______ school.", a: "at" },
+            { q: "My father works (en) _______ an office.", a: "in" },
+            { q: "My sister comes (de) _______ school.", a: "from" },
+            { q: "The letter is (sobre) _______ the table.", a: "on" },
+            { q: "The pencil is (en) _______ the notebook.", a: "in" },
+            { q: "John is (en) _______ the movies.", a: "at" },
+            { q: "I come (de) _______ home.", a: "from" },
+            { q: "My sister goes (a) _______ school.", a: "to" },
+            { q: "This pen is (sobre) _______ the desk.", a: "on" },
+            { q: "I work (en) _______ Insurgentes.", a: "on" },
+            { q: "I work (en) _______ 4 Insurgentes.", a: "at" }
+        ]
+    },
+
+    // Initialize the lesson
+    initialize: async function() {
+        console.log('Starting Lesson 4 initialization...');
+        
+        window.lessonStates['L4'] = {
+            currentFlashcardIndex: 0,
+            isFlipped: false,
+            vocabulary: lesson4.vocabulary,
+            initialized: true
+        };
+
+        try {
+            // Initialize flashcards
+            await window.flashcardModule.initializeFlashcards(this.vocabulary);
+
+            // Initialize Exercise 1
+            const exercise1Container = document.getElementById('exercise1-L4');
+            if (exercise1Container) {
+                window.exerciseModule.initializeExercise(exercise1Container, this.exercise1.items, 'translation');
+            }
+
+            // Initialize Teaching Concept - Prepositions
+            const prepositionContainer = document.getElementById('preposition-concept-L4');
+            if (prepositionContainer) {
+                window.exerciseModule.initializeExercise(prepositionContainer, this.teachingConcepts.prepositions.examples, 'translation');
+            }
+
+            // Initialize Exercise 2
+            const exercise2Container = document.getElementById('exercise2-L4');
+            if (exercise2Container) {
+                window.exerciseModule.initializeExercise(exercise2Container, this.exercise2.items, 'fillIn');
+            }
+
+            // Initialize Teaching Concept - There is/There are
+            const thereIsContainer = document.getElementById('thereis-concept-L4');
+            if (thereIsContainer) {
+                window.exerciseModule.initializeExercise(thereIsContainer, this.teachingConcepts.thereIs.examples, 'translation');
+            }
+
+            console.log('Lesson 4 initialization completed successfully');
+        } catch (error) {
+            console.error('Error during Lesson 4 initialization:', error);
+            throw error;
+        }
+    },
+
+    // Utility functions
+    checkAnswer: function(userAnswer, correctAnswer) {
+        return userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim();
+    }
+};
+
+window.lessonModules.lesson4 = lesson4; 

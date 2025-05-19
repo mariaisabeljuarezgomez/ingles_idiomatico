@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 1 - El Tiempo Presente del Verbo BE</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .teaching-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .teaching-section h3 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .concept-introduction {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .verb-form-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .verb-form-section h4 {
+            color: #1e40af;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .conjugation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .grid-header {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            font-weight: bold;
+            background-color: #e0f2fe;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .conjugation-pair {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .conjugation-item {
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .note-box {
+            background-color: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .note-box strong {
+            color: #92400e;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .contractions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .contraction-item {
+            background-color: #f1f5f9;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .concept-explanation {
+            color: #334155;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            color: #0369a1;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content-area">
+    <div class="lesson-content-area">
+            <div id="lesson-content">
+                <header>
+                    <h1>Lección 1: El Tiempo Presente del Verbo BE</h1>
+        </header>
+
+                <section class="vocabulary-section">
+                    <h2 class="section-title">VOCABULARIO</h2>
+                    <div class="flashcard-container">
+                        <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                                    <div class="flashcard-word"></div>
+                                    <div class="flashcard-example"></div>
+                                    <button class="audio-btn" onclick="flashcardModule.speak('')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                        </div>
+                        <div class="flashcard-back">
+                                    <div class="flashcard-translation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flashcard-controls">
+                        <button class="nav-btn" onclick="window.prevFlashcard('L1')">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <button class="nav-btn" onclick="window.flipFlashcard('L1')">
+                            <i class="fas fa-sync-alt"></i> Girar
+                        </button>
+                        <button class="nav-btn" onclick="window.nextFlashcard('L1')">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </button>
+            </div>
+        </section>
+
+                <section class="teaching-section">
+                    <h3>EL TIEMPO PRESENTE DEL VERBO BE</h3>
+                    
+                    <div class="concept-explanation">
+                        Los infinitivos en inglés se forman colocando la partícula <strong>to</strong> antes del verbo. 
+                        Así, <strong>to be</strong> forma un infinitivo con la partícula to antes del verbo be. 
+                        Los infinitivos en castellano se forman con las terminaciones ar, er, ir. 
+                        To be equivale a ser (terminación er) o estar (terminación ar). 
+                        En inglés no se puede sobreentender el pronombre como en castellano. Siempre hay que expresarlo.
+                    </div>
+
+                    <div class="concept-grid">
+                        <h4>Be Afirmativo</h4>
+                        <div class="concept-grid-header">
+                            <div>INGLÉS</div>
+                            <div>ESPAÑOL</div>
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">I am</div>
+                                <div class="concept-spanish">(yo) soy, estoy</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you are</div>
+                                <div class="concept-spanish">(tú) eres, estás</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">he is</div>
+                                <div class="concept-spanish">(él) es, está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">she is</div>
+                                <div class="concept-spanish">(ella) es, está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">it is</div>
+                                <div class="concept-spanish">(cosa) es, está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">we are</div>
+                                <div class="concept-spanish">(nosotros) somos, estamos</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you are</div>
+                                <div class="concept-spanish">(Uds.) son, están</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">they are</div>
+                                <div class="concept-spanish">(ellos/as) son, están</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise 1 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 1</h3>
+                        <p class="exercise-instruction">Traduzca las siguientes oraciones y practique leyéndolas.</p>
+                        <div id="exercise1-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Contracciones Afirmativas -->
+                    <div class="concept-grid">
+                        <h4>LAS CONTRACCIONES AFIRMATIVAS CON LOS PRONOMBRES</h4>
+                        <div class="concept-explanation">
+                            Fíjese en las contracciones afirmativas con los pronombres. Estas solamente se pueden usar cuando el verbo se complementa. 
+                            En oraciones negativas las contracciones se pueden usar haya o no haya complemento.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">I'm Mexican.</div>
+                                <div class="concept-spanish">Soy mexicano.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're American.</div>
+                                <div class="concept-spanish">Eres americano.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're young.</div>
+                                <div class="concept-spanish">Ud. es joven.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">He's old.</div>
+                                <div class="concept-spanish">El es viejo.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">She's little.</div>
+                                <div class="concept-spanish">Ella es pequeña.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's sweet.</div>
+                                <div class="concept-spanish">Está dulce.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">We're American.</div>
+                                <div class="concept-spanish">Somos americanos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're Mexican.</div>
+                                <div class="concept-spanish">Uds. son mexicanos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're boys.</div>
+                                <div class="concept-spanish">Son muchachos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're girls.</div>
+                                <div class="concept-spanish">Son muchachas.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're big.</div>
+                                <div class="concept-spanish">Están grandes.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Posición de los Adjetivos -->
+                    <div class="concept-grid">
+                        <h4>LA POSICIÓN DE LOS ADJETIVOS EN INGLÉS</h4>
+                        <div class="concept-explanation">
+                            En inglés se colocan los adjetivos antes de los sustantivos. Los adjetivos en inglés nunca cambian de forma. 
+                            No tienen ni singular ni plural, ni son masculinos ni femeninos como en castellano. 
+                            Estudie Ud. las siguientes frases. Fíjese en la posición de los adjetivos red, big, little en las expresiones, 
+                            así como también que no cambian de forma. Puesto que el artículo the es adjetivo, tampoco sufre cambio.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">the big house</div>
+                                <div class="concept-spanish">la casa grande</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the big houses</div>
+                                <div class="concept-spanish">las casas grandes</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the red car</div>
+                                <div class="concept-spanish">el coche rojo</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the red cars</div>
+                                <div class="concept-spanish">los coches rojos</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the little girl</div>
+                                <div class="concept-spanish">la muchacha pequeña</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the little boys</div>
+                                <div class="concept-spanish">los muchachos pequeños</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- El Uso de la Particula Not -->
+                    <div class="concept-grid">
+                        <h4>EL USO DE LA PARTÍCULA NOT</h4>
+                        <div class="concept-explanation">
+                            La palabra <strong>not</strong> se usa en inglés para negar con verbos. En general se coloca inmediatamente después del verbo. 
+                            En las siguientes frases <strong>I am not</strong>, <strong>he is not</strong>, <strong>they are not</strong>, <strong>we are not</strong>, 
+                            nótese que el verbo y la partícula not se escriben como dos palabras separadas. Esto es muy común en el inglés escrito.
+                        </div>
+                        <div class="concept-note">
+                            <strong>Uso en conversación:</strong>
+                            <p>En conversación, sin embargo, el verbo y la partícula not se juntan para formar una contracción, 
+                            la que se usa con gran frecuencia y casi sin excepción.</p>
+                            <div class="contractions-grid">
+                                <div class="contraction-item">I am not → I'm not</div>
+                                <div class="contraction-item">is not → isn't</div>
+                                <div class="contraction-item">are not → aren't</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Be Negativo -->
+                    <div class="concept-grid">
+                        <h4>Be Negativo</h4>
+                        <div class="concept-explanation">
+                            La forma negativa se construye añadiendo <strong>not</strong> después del verbo.
+                        </div>
+                        <div class="concept-grid-header">
+                            <div>INGLÉS</div>
+                            <div>ESPAÑOL</div>
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">I am not</div>
+                                <div class="concept-spanish">yo no soy, no estoy</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you are not</div>
+                                <div class="concept-spanish">tú no eres, no estás</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">he is not</div>
+                                <div class="concept-spanish">él no es, no está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">she is not</div>
+                                <div class="concept-spanish">ella no es, no está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">it is not</div>
+                                <div class="concept-spanish">no es, no está</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">we are not</div>
+                                <div class="concept-spanish">nosotros no somos, no estamos</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you are not</div>
+                                <div class="concept-spanish">ustedes no son, no están</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">they are not</div>
+                                <div class="concept-spanish">ellos/ellas no son, no están</div>
+                            </div>
+                        </div>
+                        <div class="concept-note">
+                            <strong>Formas contraídas:</strong>
+                            <div class="contractions-grid">
+                                <div class="contraction-item">is not = isn't</div>
+                                <div class="contraction-item">are not = aren't</div>
+                                <div class="contraction-item">am not = (no tiene)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise 2 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 2</h3>
+                        <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                        <div id="exercise2-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Exercise 3 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 3</h3>
+                        <p class="exercise-instruction">Cambie las siguientes oraciones a la forma negativa.</p>
+                        <div id="exercise3-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Exercise 4 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 4</h3>
+                        <p class="exercise-instruction">Traduzca al inglés las siguientes frases interrogativas.</p>
+                        <div id="exercise4-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Be Interrogativo -->
+                    <div class="concept-grid">
+                        <h4>Be Interrogativo</h4>
+                        <div class="concept-explanation">
+                            La forma interrogativa se construye invirtiendo el orden del verbo y el sujeto.
+                        </div>
+                        <div class="concept-grid-header">
+                            <div>INGLÉS</div>
+                            <div>ESPAÑOL</div>
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">am I?</div>
+                                <div class="concept-spanish">¿soy yo?, ¿estoy yo?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">are you?</div>
+                                <div class="concept-spanish">¿eres tú?, ¿estás tú?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">is he?</div>
+                                <div class="concept-spanish">¿es él?, ¿está él?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">is she?</div>
+                                <div class="concept-spanish">¿es ella?, ¿está ella?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">is it?</div>
+                                <div class="concept-spanish">¿es?, ¿está?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">are we?</div>
+                                <div class="concept-spanish">¿somos nosotros?, ¿estamos nosotros?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">are you?</div>
+                                <div class="concept-spanish">¿son ustedes?, ¿están ustedes?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">are they?</div>
+                                <div class="concept-spanish">¿son ellos/ellas?, ¿están ellos/ellas?</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise 5 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 5</h3>
+                        <p class="exercise-instruction">Para cada oración, proporcione su forma negativa e interrogativa.</p>
+                        <div id="exercise5-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Exercise 6 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 6</h3>
+                        <p class="exercise-instruction">Traduzca al inglés las siguientes frases interrogativas negativas.</p>
+                        <div id="exercise6-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Exercise 7 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 7</h3>
+                        <p class="exercise-instruction">Para cada oración, proporcione su forma negativa, interrogativa e interrogativa negativa.</p>
+                        <div id="exercise7-L1" class="exercise-container"></div>
+                    </section>
+
+                    <!-- Exercise 8 -->
+                    <section class="exercises-section">
+                        <h3>Ejercicio 8</h3>
+                        <p class="exercise-instruction">Traduzca las siguientes oraciones al inglés.</p>
+                        <div id="exercise8-L1" class="exercise-container"></div>
+                    </section>
+                </section>
+                </div>
+            </div>
+    </div>
+
+    <!-- Load modules in correct order -->
+    <script src="../js/main.js"></script>
+    <script src="../js/flashcards.js"></script>
+    <script src="../js/exercise.js"></script>
+    <script src="../js/lesson1.js"></script>
+
+    <script>
+        // Initialize lesson when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize lesson
+                await window.lessonModules.lesson1.initialize();
+            } catch (error) {
+                console.error('Failed to initialize lesson:', error);
+                const container = document.querySelector('.lesson-content-area');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h2>Error</h2>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

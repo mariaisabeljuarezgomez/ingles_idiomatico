@@ -1,0 +1,106 @@
+Changes Log - Lesson 4 Audio Fixes
+Date: May 17, 2025
+
+1. Initial Issues Identified:
+- Vocabulary audio files working correctly
+- First 8 audio exercises playing nothing
+- Exercise 8 (verbal practice): Only exercises 2, 3, 4, and 5 playing audio, but incorrect content
+- Exercise 9: First 8 exercises playing incorrect audio, last 2 (9 and 10) not playing
+- Exercise 11: First exercise not working, others playing incorrect audio
+- Preposition section (Exercise 2): Only repeating prepositions instead of full sentences
+
+2. Changes Made to lesson4.js:
+- Updated vocabulary structure from array to object format
+- Fixed audio file references to use consistent naming (_audio suffix)
+- Updated prepositionExamples section to use unique audio files for each sentence
+- Added proper audio initialization in initializeLesson4() function
+- Fixed exercise audio references in exercise6Sentences, exercise8Sentences, exercise9Sentences, and exercise11Sentences
+
+3. Changes Made to generate_audio.py:
+- Updated generate_vocabulary_audio_lesson4() method
+- Added complete sentence generation for all exercises
+- Added preposition practice sentences
+- Implemented consistent audio file naming convention
+- Generated audio files for:
+  * Basic vocabulary (15 files)
+  * Exercise 6 sentences (4 files)
+  * Exercise 8 sentences (4 files)
+  * Exercise 9 sentences (10 files)
+  * Exercise 11 sentences (3 files)
+  * Preposition practice sentences (11 files)
+
+4. Audio Files Generated:
+Vocabulary:
+- L4_read_audio.mp3: "to read"
+- L4_say_audio.mp3: "to say"
+- L4_write_audio.mp3: "to write"
+- L4_use_audio.mp3: "to use"
+- L4_take_audio.mp3: "to take"
+- L4_on_audio.mp3: "on"
+- L4_at_audio.mp3: "at"
+- L4_from_audio.mp3: "from"
+- L4_this_audio.mp3: "this"
+- L4_thisone_audio.mp3: "this one"
+- L4_these_audio.mp3: "these"
+- L4_how_audio.mp3: "how"
+- L4_howmany_audio.mp3: "how many"
+- L4_good_audio.mp3: "good"
+- L4_well_audio.mp3: "well"
+
+Exercise 6:
+- L4_ex6_1_audio.mp3: "There's a boy here"
+- L4_ex6_2_audio.mp3: "There are three books"
+- L4_ex6_3_audio.mp3: "Is there a pencil"
+- L4_ex6_4_audio.mp3: "Are there any pens"
+
+Exercise 8:
+- L4_ex8_1_audio.mp3: "This book is good"
+- L4_ex8_2_audio.mp3: "These pens are blue"
+- L4_ex8_3_audio.mp3: "I like this one"
+- L4_ex8_4_audio.mp3: "How many books are there"
+
+Exercise 9:
+- L4_ex9_1_audio.mp3: "The book is on the table"
+- L4_ex9_2_audio.mp3: "He's at home"
+- L4_ex9_3_audio.mp3: "They come from school"
+- L4_ex9_4_audio.mp3: "The picture is on the wall"
+- L4_ex9_5_audio.mp3: "She's at the office"
+- L4_ex9_6_audio.mp3: "I am from Spain"
+- L4_ex9_7_audio.mp3: "The pen is on the desk"
+- L4_ex9_8_audio.mp3: "We are at school"
+- L4_ex9_9_audio.mp3: "This book is good"
+- L4_ex9_10_audio.mp3: "These are my books"
+
+Exercise 11:
+- L4_ex11_1_audio.mp3: "I read books"
+- L4_ex11_2_audio.mp3: "She writes letters"
+- L4_ex11_3_audio.mp3: "What do you say"
+
+Preposition Practice:
+- L4_prep_on_1_audio.mp3: "The book is on the table"
+- L4_prep_on_2_audio.mp3: "The pen is on the desk"
+- L4_prep_on_3_audio.mp3: "The store is on Reforma"
+- L4_prep_at_1_audio.mp3: "We are at the movies"
+- L4_prep_at_2_audio.mp3: "I am at home"
+- L4_prep_at_3_audio.mp3: "She is at school"
+- L4_prep_at_4_audio.mp3: "The store is at 5 Reforma"
+- L4_prep_from_1_audio.mp3: "I am from the office"
+- L4_prep_from_2_audio.mp3: "They are from home"
+- L4_prep_from_3_audio.mp3: "We are from school"
+- L4_prep_from_4_audio.mp3: "They are from the movies"
+
+5. Server Configuration:
+- Running on port 8000
+- CORS enabled
+- Audio files served from /audio/lesson4/ directory
+
+6. Known Issues:
+- Some audio files still returning 404 errors
+- Need to verify all audio content matches intended sentences
+- May need to update file naming convention for better consistency
+
+7. Next Steps:
+- Verify all audio files are generated correctly
+- Test all exercises with new audio files
+- Update error handling in audio playback
+- Consider implementing audio preloading for better performance 

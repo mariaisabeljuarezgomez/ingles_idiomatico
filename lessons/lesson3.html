@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 3 - Preposiciones IN, ON, y Números</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="main-content-area">
+        <div class="lesson-content-area">
+            <div id="lesson-content">
+                <header>
+                    <h1>Lección 3: Preposiciones IN, ON, y Números</h1>
+                </header>
+
+                <section class="vocabulary-section">
+                    <h2 class="section-title">VOCABULARIO</h2>
+                    <div class="flashcard-container">
+                        <div class="flashcard" onclick="window.flipFlashcard('L3')">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="flashcard-word"></div>
+                                    <div class="flashcard-example"></div>
+                                    <button class="audio-btn" onclick="event.stopPropagation(); window.flashcardModule.speak(document.querySelector('.flashcard-word').textContent)">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="flashcard-translation"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flashcard-controls">
+                            <button class="nav-btn" onclick="window.prevFlashcard('L3')">
+                                <i class="fas fa-chevron-left"></i> Anterior
+                            </button>
+                            <button class="nav-btn" onclick="window.flipFlashcard('L3')">
+                                <i class="fas fa-sync-alt"></i> Girar
+                            </button>
+                            <button class="nav-btn" onclick="window.nextFlashcard('L3')">
+                                Siguiente <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: Common Idioms -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>MODISMOS COMUNES</h4>
+                        <div class="concept-explanation">
+                            Los siguientes modismos son expresiones comunes en inglés para saludos y descripciones de personas.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">Mr. Hunt</div>
+                                <div class="concept-spanish">el Sr. Hunt</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">Mrs. Hunt</div>
+                                <div class="concept-spanish">la Sra. Hunt</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">Miss Hunt</div>
+                                <div class="concept-spanish">la Srita. Hunt</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">Mr. and Mrs. Hunt</div>
+                                <div class="concept-spanish">los Sres. Hunt</div>
+                            </div>
+                            <div class="concept-note">
+                                <em>Nota: Mr., Mrs., Miss se emplean solamente con los apellidos. El artículo no se usa con estas palabras.</em>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">He goes to the movies.</div>
+                                <div class="concept-spanish">El va al cine.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">every day</div>
+                                <div class="concept-spanish">todos los días</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">Thank you.</div>
+                                <div class="concept-spanish">Gracias.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're welcome.</div>
+                                <div class="concept-spanish">De nada, Por nada.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 1 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 1</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones y practique leyéndolas.</p>
+                    <div id="exercise1-L3" class="exercise-container"></div>
+                </section>
+
+                <!-- Teaching Concept: Articles a/an -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>LOS ARTÍCULOS A y AN</h4>
+                        <div class="concept-explanation">
+                            El artículo a se emplea antes de palabras que empiezan con sonido de consonante. El artículo an se emplea antes de palabras que empiezan con sonido de vocal.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">an American girl</div>
+                                <div class="concept-spanish">una chica americana</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">an office</div>
+                                <div class="concept-spanish">una oficina</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">a boy</div>
+                                <div class="concept-spanish">un chico</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">a Mexican man</div>
+                                <div class="concept-spanish">un hombre mexicano</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 2 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 2</h3>
+                    <p class="exercise-instruction">Llene los espacios con a o an y traduzca.</p>
+                    <div id="exercise2-L3" class="exercise-container">
+                        <div class="fill-in-exercise">
+                            <div class="exercise-items"></div>
+                            <div class="translation-display"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: Complements with indefinite articles -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>LOS COMPLEMENTOS CON EL ARTÍCULO INDEFINIDO</h4>
+                        <div class="concept-explanation">
+                            En inglés, los complementos en singular que se pueden contar llevan el artículo indefinido antes del sustantivo. Los complementos en plural no van precedidos de artículo indefinido.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">He's a little boy.</div>
+                                <div class="concept-spanish">El es muchachito.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">I'm a teacher.</div>
+                                <div class="concept-spanish">Soy profesor.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's a big car.</div>
+                                <div class="concept-spanish">Es coche grande.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's water.</div>
+                                <div class="concept-spanish">Es agua.</div>
+                                <div class="concept-note"><em>No se puede contar agua.</em></div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're little boys.</div>
+                                <div class="concept-spanish">Son muchachitos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">We're teachers.</div>
+                                <div class="concept-spanish">Somos profesores.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're big cars.</div>
+                                <div class="concept-spanish">Son coches grandes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 3 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 3</h3>
+                    <p class="exercise-instruction">Traduzca al inglés.</p>
+                    <div id="exercise3-L3" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 4 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 4</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones. Cámbielas al negativo, interrogativo e interrogativo negativo.</p>
+                    <div id="exercise4-L3" class="exercise-container">
+                        <div class="multi-form-exercise">
+                            <div class="exercise-items"></div>
+                            <div class="form-inputs">
+                                <div class="form-group">
+                                    <label>Forma Negativa:</label>
+                                    <input type="text" class="interactive-input" data-form="negative">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Forma Interrogativa:</label>
+                                    <input type="text" class="interactive-input" data-form="interrogative">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Forma Interrogativa Negativa:</label>
+                                    <input type="text" class="interactive-input" data-form="negativeInterrogative">
+                                    <div class="feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: Present Tense -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>EL TIEMPO PRESENTE</h4>
+                        <div class="concept-explanation">
+                            Para conjugar cualquier verbo en el afirmativo del presente (menos los dos verbos be y have), se quita la partícula to del infinitivo y se antepone el pronombre. Con los pronombres de la tercera persona del singular, o sea he, she, it, y con un sustantivo usado en singular como boy, girl, house siempre se añade una s al verbo. Este tiempo se usa para representar acción habitual o un estado o un hecho.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">I come</div>
+                                <div class="concept-spanish">(yo) vengo</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you come</div>
+                                <div class="concept-spanish">(tú) vienes</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you come</div>
+                                <div class="concept-spanish">(Ud.) viene</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">he comes</div>
+                                <div class="concept-spanish">(él) viene</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">she comes</div>
+                                <div class="concept-spanish">(ella) viene</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">it comes</div>
+                                <div class="concept-spanish">(cosa) viene</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">we come</div>
+                                <div class="concept-spanish">(nosotros) venimos</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">you come</div>
+                                <div class="concept-spanish">(Uds.) vienen</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">they come</div>
+                                <div class="concept-spanish">(ellos) vienen</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">they come</div>
+                                <div class="concept-spanish">(ellas) vienen</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">they come</div>
+                                <div class="concept-spanish">(cosas) vienen</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 5 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 5</h3>
+                    <p class="exercise-instruction">Práctica Verbal</p>
+                    <div id="exercise5-L3" class="exercise-container"></div>
+                </section>
+
+                <!-- Teaching Concept: Prepositions -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>PREPOSICIONES IN, ON</h4>
+                        <div class="concept-explanation">
+                            Las preposiciones IN y ON se usan para indicar ubicación.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">in</div>
+                                <div class="concept-spanish">en, dentro de</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">The book is in my bag.</div>
+                                <div class="concept-spanish">El libro está en mi bolsa.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">on</div>
+                                <div class="concept-spanish">sobre, encima de</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">The book is on the table.</div>
+                                <div class="concept-spanish">El libro está sobre la mesa.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 6 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 6</h3>
+                    <p class="exercise-instruction">Llene los espacios con la preposición correcta y traduzca.</p>
+                    <div id="exercise6-L3" class="exercise-container">
+                        <div class="fill-in-exercise">
+                            <div class="exercise-items"></div>
+                            <div class="translation-display"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 7 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 7</h3>
+                    <p class="exercise-instruction">Lea y traduzca estas oraciones.</p>
+                    <div id="exercise7-L3" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 8 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 8</h3>
+                    <p class="exercise-instruction">Escriba en inglés.</p>
+                    <div id="exercise8-L3" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 9 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 9</h3>
+                    <p class="exercise-instruction">Dictado - Escuche el audio y practique la pronunciación grabando su voz.</p>
+                    <div id="exercise9-L3" class="exercise-container">
+                        <div class="dictation-exercises space-y-6">
+                            <!-- Dictation items will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 10 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 10</h3>
+                    <p class="exercise-instruction">Conversación: Conteste cada pregunta en afirmativo y en negativo.</p>
+                    <div id="exercise10-L3" class="exercise-container">
+                        <div class="conversation-exercise">
+                            <div class="exercise-items"></div>
+                            <div class="answer-section">
+                                <div class="form-group">
+                                    <label>Respuesta Afirmativa:</label>
+                                    <input type="text" class="interactive-input" data-form="affirmative">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Respuesta Negativa:</label>
+                                    <input type="text" class="interactive-input" data-form="negative">
+                                    <div class="feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Load modules in correct order -->
+    <script src="../js/main.js"></script>
+    <script src="../js/flashcards.js"></script>
+    <script src="../js/exercise.js"></script>
+    <script src="../js/lesson3.js"></script>
+
+    <script>
+        // Initialize lesson when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize lesson
+                await window.lessonModules.lesson3.initialize();
+            } catch (error) {
+                console.error('Failed to initialize lesson:', error);
+                const container = document.querySelector('.lesson-content-area');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h2>Error</h2>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

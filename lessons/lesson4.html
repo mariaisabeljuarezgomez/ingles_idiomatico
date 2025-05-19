@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 4 - Verbos y Objetos del Salón</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .teaching-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .teaching-section h4 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .concept-explanation {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .concept-grid {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .concept-grid-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .concept-row {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .concept-english, .concept-spanish {
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .concept-english {
+            color: #1e40af;
+            font-weight: 500;
+        }
+
+        .concept-spanish {
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content-area">
+        <div class="lesson-content-area">
+            <div id="lesson-content">
+                <header>
+                    <h1>Lección 4: Verbos y Objetos del Salón</h1>
+                </header>
+
+                <section class="vocabulary-section">
+                    <h2 class="section-title">VOCABULARIO</h2>
+                    <div class="flashcard-container">
+                        <div class="flashcard" onclick="window.flipFlashcard('L4')">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="flashcard-word"></div>
+                                    <div class="flashcard-example"></div>
+                                    <button class="audio-btn" onclick="event.stopPropagation(); window.flashcardModule.speak(document.querySelector('.flashcard-word').textContent)">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="flashcard-translation"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flashcard-controls">
+                            <button class="nav-btn" onclick="window.prevFlashcard('L4')">
+                                <i class="fas fa-chevron-left"></i> Anterior
+                            </button>
+                            <button class="nav-btn" onclick="window.flipFlashcard('L4')">
+                                <i class="fas fa-sync-alt"></i> Girar
+                            </button>
+                            <button class="nav-btn" onclick="window.nextFlashcard('L4')">
+                                Siguiente <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modismos Comunes -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>MODISMOS COMUNES</h4>
+                        <div class="concept-explanation">
+                            Los siguientes modismos son expresiones comunes en inglés para presentaciones y saludos.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    How are you?
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('How are you?')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">¿Cómo está Ud.?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    Fine, thank you.
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('Fine, thank you.')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Bien, gracias.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    What's your name?
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('What\'s your name?')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">¿Cómo se llama?</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    My name is John.
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('My name is John.')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Me llamo Juan.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    first name
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('first name')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">nombre de pila</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    last name
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('last name')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">apellido</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    He's at home.
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('He\'s at home.')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Él está en casa.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 1 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 1</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones y practique leyéndolas.</p>
+                    <div id="exercise1-L4" class="exercise-container">
+                        <div class="translation-exercise">
+                            <div class="exercise-items"></div>
+                            <template id="exercise-item-template">
+                                <div class="exercise-item">
+                                    <div class="question-text"></div>
+                                    <button class="audio-btn" onclick="window.exerciseModule.playAudio(this.dataset.audio)">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <input type="text" class="answer-input" placeholder="Tu respuesta aquí...">
+                                    <button class="check-btn">Verificar</button>
+                                    <div class="feedback"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: Prepositions -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>LAS PREPOSICIONES ON, AT, FROM</h4>
+                        <div class="concept-explanation">
+                            La preposición <strong>on</strong> (en, sobre) indica estar sobre una superficie. La preposición <strong>at</strong> (en) indica un lugar determinado. La preposición <strong>from</strong> (de) indica procedencia u origen.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-subheader">Con <strong>on</strong> (sobre una superficie):</div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    on the table
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('on the table')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">sobre la mesa</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    on the desk
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('on the desk')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">sobre el escritorio</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    on Reforma
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('on Reforma')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">en Reforma</div>
+                            </div>
+
+                            <div class="concept-subheader">Con <strong>at</strong> (lugar determinado):</div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    at the movies
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('at the movies')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">en el cine</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    at home
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('at home')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">en casa</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    at school
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('at school')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">en la escuela</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    at 5 Reforma
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('at 5 Reforma')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">en Reforma 5</div>
+                            </div>
+
+                            <div class="concept-subheader">Con <strong>from</strong> (procedencia u origen):</div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    from the office
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('from the office')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">de la oficina</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    from home
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('from home')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">de casa</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    from school
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('from school')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">de la escuela</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    from the movies
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('from the movies')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">del cine</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 2 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 2</h3>
+                    <p class="exercise-instruction">Llene los espacios con la preposición correcta y traduzca.</p>
+                    <div id="exercise2-L4" class="exercise-container">
+                        <div class="preposition-exercise">
+                            <div class="exercise-items"></div>
+                            <template id="exercise-item-template">
+                                <div class="exercise-item mb-4 p-4 border rounded-lg bg-white shadow-sm">
+                                    <div class="flex items-start gap-4">
+                                        <span class="font-semibold text-sky-700"></span>
+                                        <div class="flex-1">
+                                            <div class="exercise-header flex items-center gap-2 mb-2">
+                                                <button class="audio-btn" onclick="window.exerciseModule.playAudio(this.dataset.audio)">
+                                                    <i class="fas fa-volume-up"></i>
+                                                </button>
+                                                <p class="exercise-text"></p>
+                                            </div>
+                                            <div class="exercise-input-container">
+                                                <div class="flex gap-4 mb-2">
+                                                    <input type="text" 
+                                                           class="interactive-input w-32 p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           placeholder="Preposición...">
+                                                    <input type="text" 
+                                                           class="interactive-input flex-1 p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           placeholder="Traducción completa...">
+                                                </div>
+                                                <div class="feedback mt-2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 3 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 3</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones. Cámbielas al negativo, interrogativo e interrogativo negativo.</p>
+                    <div id="exercise3-L4" class="exercise-container">
+                        <div class="multi-form-exercise">
+                            <div class="exercise-items"></div>
+                            <template id="exercise-item-template">
+                                <div class="exercise-item mb-4 p-4 border rounded-lg bg-white shadow-sm">
+                                    <div class="flex items-start gap-4">
+                                        <span class="font-semibold text-sky-700"></span>
+                                        <div class="flex-1">
+                                            <div class="exercise-header flex items-center gap-2 mb-2">
+                                                <button class="audio-btn" onclick="window.exerciseModule.playAudio(this.dataset.audio)">
+                                                    <i class="fas fa-volume-up"></i>
+                                                </button>
+                                                <p class="exercise-text"></p>
+                                            </div>
+                                            <div class="form-inputs space-y-3">
+                                                <div class="form-group">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Traducción normal:</label>
+                                                    <input type="text" 
+                                                           class="interactive-input w-full p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           data-form="affirmative"
+                                                           placeholder="Traducción en español...">
+                                                    <div class="feedback mt-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Forma negativa:
+                                                        <button class="audio-btn ml-2" onclick="window.exerciseModule.playAudio(this.closest('.exercise-item').dataset.negativeAudio)">
+                                                            <i class="fas fa-volume-up"></i>
+                                                        </button>
+                                                    </label>
+                                                    <input type="text" 
+                                                           class="interactive-input w-full p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           data-form="negative"
+                                                           placeholder="English negative form...">
+                                                    <div class="feedback mt-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Forma interrogativa:
+                                                        <button class="audio-btn ml-2" onclick="window.exerciseModule.playAudio(this.closest('.exercise-item').dataset.interrogativeAudio)">
+                                                            <i class="fas fa-volume-up"></i>
+                                                        </button>
+                                                    </label>
+                                                    <input type="text" 
+                                                           class="interactive-input w-full p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           data-form="interrogative"
+                                                           placeholder="English interrogative form...">
+                                                    <div class="feedback mt-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Forma interrogativa negativa:
+                                                        <button class="audio-btn ml-2" onclick="window.exerciseModule.playAudio(this.closest('.exercise-item').dataset.negativeInterrogativeAudio)">
+                                                            <i class="fas fa-volume-up"></i>
+                                                        </button>
+                                                    </label>
+                                                    <input type="text" 
+                                                           class="interactive-input w-full p-2 border rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500" 
+                                                           data-form="negativeInterrogative"
+                                                           placeholder="English negative interrogative form...">
+                                                    <div class="feedback mt-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: HAY -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>HAY - THERE IS (THERE'S) y THERE ARE</h4>
+                        <div class="concept-explanation">
+                            Hay equivale a there is (there's) y there are. There is (there's) es singular y there are es plural. Is there y are there son las formas interrogativas. There isn't y there aren't son las formas negativas.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-subheader">Forma Singular:</div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There is a book.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There is a book'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Hay un libro.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There's a pen.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There\'s a pen'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Hay una pluma.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There isn't a book.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There isn\'t a book'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">No hay un libro.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    Is there a book?
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('Is there a book?'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">¿Hay un libro?</div>
+                            </div>
+
+                            <div class="concept-subheader">Forma Plural:</div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There are books.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There are books'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Hay libros.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There are pens.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There are pens'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Hay plumas.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    There aren't any books.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('There aren\'t any books'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">No hay libros.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    Are there any books?
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('Are there any books?'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">¿Hay libros?</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 4 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 4</h3>
+                    <p class="exercise-instruction">Llene los espacios con there is (there's) o there are, is there o are there, there isn't o there aren't y traduzca.</p>
+                    <div id="exercise4-L4" class="exercise-container">
+                        <div class="there-is-exercise">
+                            <div class="exercise-items"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: THIS, THIS ONE y THESE -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>THIS, THIS ONE y THESE</h4>
+                        <div class="concept-explanation">
+                            Se emplea el adjetivo this (este, esta) con sustantivo en singular y el pronombre this one (éste, ésta) al referirse a un sustantivo ya mencionado o sobreentendido. La palabra these (estos, estas; éstos, éstas) se emplea, tanto en inglés como en castellano, con o sin sustantivo.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    This book is red and this one is green.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('This book is red and this one is green'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Este libro es rojo y éste es verde.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">
+                                    These books are red and these are green.
+                                    <button class="audio-btn" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('These books are red and these are green'))">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="concept-spanish">Estos libros son rojos y éstos son verdes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 5 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 5</h3>
+                    <p class="exercise-instruction">Llene los espacios con this, these o this one y traduzca.</p>
+                    <div id="exercise5-L4" class="exercise-container">
+                        <div class="exercise-items"></div>
+                    </div>
+                </section>
+
+                <!-- Exercise 6 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 6</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones y practique leyéndolas.</p>
+                    <div id="exercise6-L4" class="exercise-container">
+                        <div class="exercise-items"></div>
+                    </div>
+                </section>
+
+                <!-- Exercise 7 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 7</h3>
+                    <p class="exercise-instruction">Práctica Verbal - Traduzca las siguientes oraciones y practique leyéndolas.</p>
+                    <div id="exercise7-L4" class="exercise-container">
+                        <div class="exercise-items"></div>
+                    </div>
+                </section>
+
+                <!-- Exercise 8 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 8</h3>
+                    <p class="exercise-instruction">Lea y traduzca estas oraciones.</p>
+                    <div id="exercise8-L4" class="exercise-container">
+                        <div class="exercise-items"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load dependencies first -->
+    <script src="../js/main.js"></script>
+    <script src="../js/flashcards.js"></script>
+    <script src="../js/exercise.js"></script>
+    <!-- Load lesson module last -->
+    <script src="../js/lesson4.js"></script>
+</body>
+</html> 

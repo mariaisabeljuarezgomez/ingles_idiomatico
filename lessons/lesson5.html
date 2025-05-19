@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 5 - Verbos y Expresiones Comunes</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .teaching-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .teaching-section h4 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .concept-explanation {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .concept-grid {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .concept-grid-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .concept-row {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .concept-english, .concept-spanish {
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .concept-english {
+            color: #1e40af;
+            font-weight: 500;
+        }
+
+        .concept-spanish {
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content-area">
+        <div class="lesson-content-area">
+            <div id="lesson-content">
+                <header>
+                    <h1>Lección 5: Verbos y Expresiones Comunes</h1>
+                </header>
+
+                <section class="vocabulary-section">
+                    <h2 class="section-title">VOCABULARIO</h2>
+                    <div class="flashcard-container">
+                        <div class="flashcard">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="flashcard-word"></div>
+                                    <div class="flashcard-example"></div>
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="flashcard-translation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flashcard-controls">
+                        <button class="nav-btn" onclick="window.flashcardModule.prevFlashcard()">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <button class="nav-btn" onclick="window.flashcardModule.flipFlashcard()">
+                            <i class="fas fa-sync-alt"></i> Girar
+                        </button>
+                        <button class="nav-btn" onclick="window.flashcardModule.nextFlashcard()">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Modismos Comunes -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>MODISMOS</h4>
+                        <div class="concept-explanation">
+                            Los siguientes modismos son expresiones comunes en inglés.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">Here it is.</div>
+                                <div class="concept-spanish">Aquí está.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's very big.</div>
+                                <div class="concept-spanish">Es muy grande.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's very little.</div>
+                                <div class="concept-spanish">Es muy chico.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">There's room.</div>
+                                <div class="concept-spanish">Hay lugar.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">There's no room.</div>
+                                <div class="concept-spanish">No hay lugar.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">He's very nice.</div>
+                                <div class="concept-spanish">El es muy simpático (agradable).</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">The car is very nice.</div>
+                                <div class="concept-spanish">El coche es muy bonito.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">He can read, write, etc.</div>
+                                <div class="concept-spanish">Él sabe leer, escribir, etc.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">all the boys, girls, books, etc.</div>
+                                <div class="concept-spanish">todos los muchachos, muchachas, libros, etc.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 1 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 1</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise1-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 2 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 2</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise2-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 3 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 3</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise3-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 4 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 4</h3>
+                    <p class="exercise-instruction">Complete las diferentes formas de cada oración.</p>
+                    <div id="exercise4-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 5 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 5</h3>
+                    <p class="exercise-instruction">Complete con la forma correcta del verbo.</p>
+                    <div id="exercise5-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 6 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 6</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise6-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 7 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 7</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise7-L5" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 8 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 8</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise8-L5" class="exercise-container"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/flashcards.js"></script>
+    <script src="../js/exercise.js"></script>
+    <script src="../js/lesson5.js"></script>
+</body>
+</html> 
