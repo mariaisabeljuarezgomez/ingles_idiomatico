@@ -2,9 +2,15 @@ services:
   - type: web
     name: ingles-idiomatico
     env: python
+    region: ohio
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.8.0
-    autoDeploy: true 
+      - key: PORT
+        value: 10000
+    autoDeploy: true
+    healthCheckPath: /
+    numInstances: 1
+    plan: free 
