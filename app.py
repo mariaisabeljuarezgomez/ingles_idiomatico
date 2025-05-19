@@ -12,7 +12,10 @@ def serve_index():
 
 @app.route('/<path:path>')
 def serve_static(path):
-    return send_from_directory('.', path)
+    try:
+        return send_from_directory('.', path)
+    except Exception as e:
+        return str(e), 404
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
