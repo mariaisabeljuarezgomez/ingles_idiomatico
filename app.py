@@ -29,6 +29,4 @@ def get_lessons():
         {"id": 9, "title": "El Verbo DO y El Imperativo"},
         {"id": 10, "title": "El Verbo HAVE y Expresiones"}
     ]
-    return jsonify(lessons)
-
-# Remove the if __name__ == '__main__' block since we're using Gunicorn 
+    return jsonify(lessons) 
