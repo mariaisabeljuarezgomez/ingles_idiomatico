@@ -3,8 +3,10 @@ services:
     name: ingles-idiomatico
     env: python
     region: ohio
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind :$PORT app:app
+    buildCommand: |
+      pip install -r requirements.txt
+      chmod +x start.sh
+    startCommand: ./start.sh
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
