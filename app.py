@@ -31,6 +31,4 @@ def get_lessons():
     ]
     return jsonify(lessons)
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port, debug=False) 
+# Remove the if __name__ == '__main__' block since we're using Gunicorn 
