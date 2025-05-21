@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -21,15 +22,8 @@ wheels/
 *.egg
 
 # Virtual Environment
-.env
-.venv
-env/
 venv/
 ENV/
-
-# Database
-*.db
-*.sqlite3
 
 # IDE
 .idea/
@@ -37,16 +31,25 @@ ENV/
 *.swp
 *.swo
 
-# Logs
-*.log
-
 # Local development
+.env
+.env.local
+*.sqlite
+
+# Flask
 instance/
 .webassets-cache
-.env.local
-.env.development
-.env.test
-.env.production
+
+# Database migrations
+migrations/
+initial_setup.py
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
 
 # OS
 .DS_Store
