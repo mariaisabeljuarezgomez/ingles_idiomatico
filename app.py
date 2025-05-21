@@ -23,6 +23,9 @@ from init_users import init_users
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+
 # Configure the application
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
@@ -239,11 +242,20 @@ def serve_lesson_interface():
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     """Explicitly serve static files"""
-    response = send_from_directory(app.static_folder, filename)
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '0'
-    return response
+    app.logger.info(f'Serving static file: {filename}')
+    app.logger.info(f'Static folder: {app.static_folder}')
+    app.logger.info(f'Full path: {os.path.join(app.static_folder, filename)}')
+    
+    try:
+        response = send_from_directory(app.static_folder, filename)
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        app.logger.info('Successfully served static file')
+        return response
+    except Exception as e:
+        app.logger.error(f'Error serving static file: {str(e)}')
+        return f'Error serving static file: {str(e)}', 404
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
