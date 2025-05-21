@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.blob {
+    @apply absolute rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob;
+}
+
+.blob:nth-child(1) {
+    @apply bg-purple-300 w-72 h-72 -top-4 -right-4;
+}
+
+.blob:nth-child(2) {
+    @apply bg-yellow-300 w-72 h-72 top-20 right-20;
+}
+
+.blob:nth-child(3) {
+    @apply bg-pink-300 w-72 h-72 -bottom-8 right-20;
+} 
