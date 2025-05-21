@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inglés Idiomático I - Curso Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div id="cover-page">
+        <canvas id="sphereCanvas"></canvas>
+        <div class="cover-content">
+            <h1>Inglés Idiomático I</h1>
+            <p>Un curso online interactivo basado en el libro de Eugene E. Long y William Buckwald.</p>
+            <p style="font-weight: 600; color: var(--primary-dark);">CREADO POR PROFESSOR ROGELIO CORRAL</p>
+            <button id="start-course-btn" class="btn">
+                Comenzar Curso <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="main-content-area">
+        <div class="main-layout">
+            <nav id="sidebar">
+                <h2>Lecciones</h2>
+                <ul id="lesson-toc">
+                    <li><a href="#lesson-1">Lección 1: El Tiempo Presente del Verbo BE</a></li>
+                    <li><a href="#lesson-2">Lección 2: Artículos y Plurales</a></li>
+                    <li><a href="#lesson-3">Lección 3: Preposiciones IN, ON, y Números</a></li>
+                    <li><a href="#lesson-4">Lección 4: There is/are y Demostrativos</a></li>
+                    <li><a href="#lesson-5">Lección 5: Preposición OF y Adjetivos Posesivos</a></li>
+                    <li><a href="#lesson-6">Lección 6: La Palabra HOME y El Gerundio</a></li>
+                    <li><a href="#lesson-7">Lección 7: Preposición FOR y Futuro Idiomático</a></li>
+                    <li><a href="#lesson-8">Lección 8: Días y Forma Posesiva</a></li>
+                    <li><a href="#lesson-9">Lección 9: El Verbo DO y El Imperativo</a></li>
+                    <li><a href="#lesson-10">Lección 10: El Verbo HAVE y Expresiones</a></li>
+                </ul>
+            </nav>
+            <main id="lesson-display-container">
+                <div id="lesson-default-content" class="lesson-content-area">
+                    <div class="welcome-content">
+                        <h1>Bienvenido al Curso de Inglés Idiomático I</h1>
+                        <p>Selecciona una lección del menú de la izquierda para comenzar.</p>
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZW5nbGlzaCUyMGNsYXNzfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60" 
+                             alt="English Learning Illustration" 
+                             class="welcome-image" />
+                    </div>
+                </div>
+                <div id="lesson-content"></div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Adaptación del curso Inglés Idiomático I. Creado para fines educativos.</p>
+    </footer>
+
+    <!-- Initialize global objects -->
+    <script>
+        window.lessonModules = window.lessonModules || {};
+        window.lessonStates = window.lessonStates || {};
+    </script>
+
+    <!-- Load dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Load common modules -->
+    <script src="js/flashcards.js"></script>
+    <script src="js/exercise.js"></script>
+    
+    <!-- Load lesson modules -->
+    <script src="js/lesson1.js"></script>
+    <script src="js/lesson2.js"></script>
+    <script src="js/lesson3.js"></script>
+    <script src="js/lesson4.js"></script>
+    <script src="js/lesson5.js"></script>
+    <script src="js/lesson6.js"></script>
+    <script src="js/lesson7.js"></script>
+    <script src="js/lesson8.js"></script>
+    <script src="js/lesson9.js"></script>
+    <script src="js/lesson10.js"></script>
+    
+    <!-- Load application scripts -->
+    <script src="js/coverSphere.js"></script>
+    <script src="js/audioRecorder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

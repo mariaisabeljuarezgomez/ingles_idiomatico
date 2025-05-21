@@ -1,0 +1,15 @@
+{
+  "name": "ingles-idiomatico",
+  "version": "1.0.0",
+  "description": "Ingles Idiomatico Language Learning Platform",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+} 

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2 - Artículos y Plurales</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .teaching-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .teaching-section h4 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .concept-explanation {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .concept-grid {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .concept-grid-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .concept-row {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .concept-english, .concept-spanish {
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .concept-english {
+            color: #1e40af;
+            font-weight: 500;
+        }
+
+        .concept-spanish {
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content-area">
+    <div class="lesson-content-area">
+            <div id="lesson-content">
+                <header>
+                    <h1>Lección 2: Artículos y Plurales</h1>
+        </header>
+
+                <section class="vocabulary-section">
+                    <h2 class="section-title">VOCABULARIO</h2>
+                    <div class="flashcard-container">
+                        <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                                    <div class="flashcard-word"></div>
+                                    <div class="flashcard-example"></div>
+                                    <button class="audio-btn" onclick="window.flashcardModule.speak('')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                        </div>
+                        <div class="flashcard-back">
+                                    <div class="flashcard-translation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flashcard-controls">
+                        <button class="nav-btn" onclick="window.prevFlashcard('L2')">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <button class="nav-btn" onclick="window.flipFlashcard('L2')">
+                            <i class="fas fa-sync-alt"></i> Girar
+                        </button>
+                        <button class="nav-btn" onclick="window.nextFlashcard('L2')">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </button>
+                </div>
+                </section>
+
+                <!-- Modismos Comunes -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>MODISMOS COMUNES</h4>
+                        <div class="concept-explanation">
+                            Los siguientes modismos son expresiones comunes en inglés para saludos y descripciones de personas.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">hello</div>
+                                <div class="concept-spanish">hola</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">good-bye</div>
+                                <div class="concept-spanish">adiós</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">good morning</div>
+                                <div class="concept-spanish">buenos días</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">good afternoon</div>
+                                <div class="concept-spanish">buenas tardes</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">good evening</div>
+                                <div class="concept-spanish">buenas noches (para saludar)</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">good night</div>
+                                <div class="concept-spanish">buenas noches (para despedirse)</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the young man (boy)</div>
+                                <div class="concept-spanish">el joven</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the young woman (girl)</div>
+                                <div class="concept-spanish">la joven</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the old man</div>
+                                <div class="concept-spanish">el anciano</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the old woman</div>
+                                <div class="concept-spanish">la anciana</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 1 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 1</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise1-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Teaching Concept: Contracciones Afirmativas -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>LAS CONTRACCIONES AFIRMATIVAS CON LOS PRONOMBRES</h4>
+                        <div class="concept-explanation">
+                            Fíjese en las contracciones afirmativas con los pronombres. Estas solamente se pueden usar cuando el verbo se complementa. En oraciones negativas las contracciones se pueden usar haya o no haya complemento.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">I'm Mexican.</div>
+                                <div class="concept-spanish">Soy mexicano.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're American.</div>
+                                <div class="concept-spanish">Eres americano.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're young.</div>
+                                <div class="concept-spanish">Ud. es joven.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">He's old.</div>
+                                <div class="concept-spanish">El es viejo.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">She's little.</div>
+                                <div class="concept-spanish">Ella es pequeña.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">It's sweet.</div>
+                                <div class="concept-spanish">Está dulce.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">We're American.</div>
+                                <div class="concept-spanish">Somos americanos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">You're Mexican.</div>
+                                <div class="concept-spanish">Uds. son mexicanos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're boys.</div>
+                                <div class="concept-spanish">Son muchachos.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're girls.</div>
+                                <div class="concept-spanish">Son muchachas.</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">They're big.</div>
+                                <div class="concept-spanish">Están grandes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Teaching Concept: Posición de los Adjetivos -->
+                <section class="teaching-section">
+                    <div class="concept-grid">
+                        <h4>LA POSICIÓN DE LOS ADJETIVOS EN INGLÉS</h4>
+                        <div class="concept-explanation">
+                            En inglés se colocan los adjetivos antes de los sustantivos. Los adjetivos en inglés nunca cambian de forma. No tienen ni singular ni plural, ni son masculinos ni femeninos como en castellano. Estudie Ud. las siguientes frases. Fíjese en la posición de los adjetivos red, big, little en las expresiones, así como también que no cambian de forma. Puesto que el artículo the es adjetivo, tampoco sufre cambio.
+                        </div>
+                        <div class="concept-grid-content">
+                            <div class="concept-row">
+                                <div class="concept-english">the big house</div>
+                                <div class="concept-spanish">la casa grande</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the big houses</div>
+                                <div class="concept-spanish">las casas grandes</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the red car</div>
+                                <div class="concept-spanish">el coche rojo</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the red cars</div>
+                                <div class="concept-spanish">los coches rojos</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the little girl</div>
+                                <div class="concept-spanish">la muchacha pequeña</div>
+                            </div>
+                            <div class="concept-row">
+                                <div class="concept-english">the little boys</div>
+                                <div class="concept-spanish">los muchachos pequeños</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise 2 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 2</h3>
+                    <p class="exercise-instruction">Traduzca al inglés las siguientes frases.</p>
+                    <div id="exercise2-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 3 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 3</h3>
+                    <p class="exercise-instruction">Traduzca al castellano las siguientes oraciones y practique su pronunciación.</p>
+                    <div id="exercise3-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 4 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 4</h3>
+                    <p class="exercise-instruction">Para cada oración, proporcione su forma negativa, interrogativa e interrogativa negativa.</p>
+                    <div id="exercise4-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 5 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 5</h3>
+                    <p class="exercise-instruction">Complete las oraciones con la forma correcta del verbo BE (is/are).</p>
+                    <div id="exercise5-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 6 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 6</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones al español.</p>
+                    <div id="exercise6-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 7 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 7</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones al español y practique su pronunciación.</p>
+                    <div id="exercise7-L2" class="exercise-container"></div>
+                </section>
+
+                <!-- Exercise 8 -->
+                <section class="exercises-section">
+                    <h3>Ejercicio 8</h3>
+                    <p class="exercise-instruction">Traduzca las siguientes oraciones al inglés.</p>
+                    <div id="exercise8-L2" class="exercise-container"></div>
+                </section>
+            </div>
+                </div>
+            </div>
+
+    <!-- Load modules in correct order -->
+    <script src="../js/main.js"></script>
+    <script src="../js/flashcards.js"></script>
+    <script src="../js/exercise.js"></script>
+    <script src="../js/lesson2.js"></script>
+
+    <script>
+        // Initialize lesson when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize lesson
+                await window.lessonModules.lesson2.initialize();
+            } catch (error) {
+                console.error('Failed to initialize lesson:', error);
+                const container = document.querySelector('.lesson-content-area');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h2>Error</h2>
+                            <p>${error.message}</p>
+    </div>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
