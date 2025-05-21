@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inglés Idiomático - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(
+                45deg,
+                rgba(59, 130, 246, 0.8),
+                rgba(147, 51, 234, 0.8),
+                rgba(236, 72, 153, 0.8)
+            );
+            animation: gradient 15s ease infinite;
+            background-size: 400% 400%;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .input-effect {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .input-effect:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-3d {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        .btn-3d:hover {
+            transform: perspective(1000px) translateZ(20px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg flex items-center justify-center p-6">
+    <div class="floating max-w-md w-full space-y-8 p-10 glass-morphism rounded-2xl">
+        <div class="text-center">
+            <h2 class="mt-6 text-4xl font-bold text-white">
+                Inglés Idiomático
+            </h2>
+            <div class="mt-2 text-sm text-white/80">
+                Inicia tu viaje al dominio del inglés
+            </div>
+        </div>
+
+        <form class="mt-8 space-y-6" action="{{ url_for('login') }}" method="POST">
+            <div class="space-y-4">
+                <div>
+                    <label for="email" class="sr-only">Email</label>
+                    <input id="email" name="email" type="email" required 
+                           class="input-effect w-full px-4 py-3 rounded-xl text-gray-700 placeholder-gray-400"
+                           placeholder="Email">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Contraseña</label>
+                    <input id="password" name="password" type="password" required 
+                           class="input-effect w-full px-4 py-3 rounded-xl text-gray-700 placeholder-gray-400"
+                           placeholder="Contraseña">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox" 
+                           class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-white">
+                        Recordarme
+                    </label>
+                </div>
+
+                <div>
+                    <a href="{{ url_for('login') }}" class="font-medium text-white hover:text-indigo-100">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" 
+                        class="btn-3d group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <svg class="h-5 w-5 text-indigo-300 group-hover:text-indigo-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    Iniciar Sesión
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-sm text-white">
+                ¿No tienes una cuenta? 
+                <a href="{{ url_for('login') }}" class="font-medium text-indigo-200 hover:text-indigo-100">
+                    Regístrate aquí
+                </a>
+            </p>
+        </div>
+
+        <!-- Decorative elements -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.querySelectorAll('.input-effect').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('relative');
+                const ripple = document.createElement('div');
+                ripple.classList.add('absolute', 'inset-0', 'border-2', 'border-indigo-500', 'rounded-xl', 'animate-ping');
+                input.parentElement.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            });
+        });
+    </script>
+</body>
+</html> 
