@@ -2,112 +2,210 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lecciones - Inglés Idiomático</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="/static/css/styles.css" rel="stylesheet">
     <style>
-        .dashboard-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #1a73e8 100%);
-            padding: 2rem 0;
-            color: white;
-            margin-bottom: 2rem;
-        }
-
-        .skill-progress {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .skill-bars {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        /* Mobile-first approach */
+        .lessons-container {
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
-            margin-top: 1rem;
+            padding: 1rem;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
-        .skill-bar {
-            background: #f1f3f4;
-            border-radius: 50px;
-            height: 8px;
-            overflow: hidden;
+        @media (min-width: 768px) {
+            .lessons-container {
+                flex-direction: row;
+            }
         }
 
-        .skill-progress-bar {
-            height: 100%;
-            background: var(--primary-color);
-            border-radius: 50px;
-            transition: width 0.3s ease;
+        /* Sidebar styles */
+        .lessons-sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 80px;
         }
 
-        .recommendations {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        @media (min-width: 768px) {
+            .lessons-sidebar {
+                width: 300px;
+                flex-shrink: 0;
+            }
         }
 
-        .recommendation-card {
+        /* Lesson content styles */
+        .lesson-content {
             background: white;
             border-radius: 10px;
             padding: 1.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-grow: 1;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
-        .readiness-indicator {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .ready {
-            background: #e6f4ea;
-            color: #1e8e3e;
-        }
-
-        .in-progress {
-            background: #fef7e0;
-            color: #b06000;
-        }
-
-        .locked {
-            background: #f1f3f4;
-            color: #5f6368;
-        }
-
-        .study-tips {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .study-tips h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .study-tips ul {
-            list-style-type: none;
+        .lesson-list {
+            list-style: none;
             padding: 0;
+            margin: 0;
         }
 
-        .study-tips li {
-            padding: 0.5rem 0;
+        .lesson-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
         }
 
-        .study-tips li i {
-            margin-right: 0.5rem;
+        .lesson-item:hover {
+            background-color: var(--primary-light);
+        }
+
+        .lesson-item.active {
+            background-color: var(--primary-light);
             color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .lesson-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        /* Mobile navigation button */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+            .mobile-nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .lessons-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 80%;
+                max-width: 300px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1001;
+            }
+
+            .lessons-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        /* Responsive typography */
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+
+        h2 {
+            font-size: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        p {
+            font-size: clamp(0.875rem, 3vw, 1rem);
+        }
+
+        /* Lesson content responsiveness */
+        .lesson-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .lesson-content video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Exercise container responsiveness */
+        .exercise-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .exercise-item {
+            background: var(--background-light);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Form elements responsiveness */
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        /* Button responsiveness */
+        .btn {
+            width: auto;
+            min-width: 120px;
+            padding: 0.75rem 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -124,106 +222,66 @@
         </div>
     </nav>
 
-    <div class="dashboard-header">
-        <div class="container">
-            <h1>Mi Progreso de Aprendizaje</h1>
-            <p>Sigue tu progreso y descubre qué lecciones te conviene estudiar a continuación.</p>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="skill-progress">
-            <h2>Dominio de Habilidades</h2>
-            <div class="skill-bars">
-                <div>
-                    <label>Gramática</label>
-                    <div class="skill-bar">
-                        <div class="skill-progress-bar" id="grammar-progress"></div>
-                    </div>
-                </div>
-                <div>
-                    <label>Vocabulario</label>
-                    <div class="skill-bar">
-                        <div class="skill-progress-bar" id="vocabulary-progress"></div>
-                    </div>
-                </div>
-                <div>
-                    <label>Pronunciación</label>
-                    <div class="skill-bar">
-                        <div class="skill-progress-bar" id="pronunciation-progress"></div>
-                    </div>
-                </div>
-                <div>
-                    <label>Expresiones Idiomáticas</label>
-                    <div class="skill-bar">
-                        <div class="skill-progress-bar" id="idioms-progress"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="lessons-container">
+            <!-- Sidebar -->
+            <aside class="lessons-sidebar">
+                <h2>Lecciones</h2>
+                <ul class="lesson-list">
+                    <!-- Lessons will be dynamically populated -->
+                </ul>
+            </aside>
 
-        <h2>Lecciones Recomendadas</h2>
-        <div class="recommendations" id="lesson-recommendations">
-            <!-- Recommendations will be dynamically populated -->
-        </div>
-
-        <div class="study-tips">
-            <h3><i class="fas fa-lightbulb"></i> Consejos de Estudio Personalizados</h3>
-            <ul id="study-tips-list">
-                <!-- Study tips will be dynamically populated -->
-            </ul>
+            <!-- Lesson content -->
+            <main class="lesson-content">
+                <div id="lesson-content">
+                    <!-- Lesson content will be dynamically populated -->
+                    <h1>Selecciona una lección</h1>
+                    <p>Elige una lección del menú para comenzar a aprender.</p>
+                </div>
+            </main>
         </div>
     </div>
+
+    <!-- Mobile navigation toggle -->
+    <button class="mobile-nav-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay"></div>
 
     <script src="/static/js/learningPath.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Update skill progress bars
-            function updateSkillBars() {
-                const skills = ['grammar', 'vocabulary', 'pronunciation', 'idioms'];
-                skills.forEach(skill => {
-                    const progress = LearningPath.skillMastery[skill];
-                    document.getElementById(`${skill}-progress`).style.width = `${progress}%`;
-                });
-            }
+        // Mobile sidebar functionality
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        const sidebar = document.querySelector('.lessons-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
 
-            // Update lesson recommendations
-            function updateRecommendations() {
-                const recommendationsContainer = document.getElementById('lesson-recommendations');
-                const recommendations = LearningPath.getRecommendedLessons();
-                
-                recommendationsContainer.innerHTML = recommendations.map(rec => `
-                    <div class="recommendation-card">
-                        <span class="readiness-indicator ${rec.readiness >= 100 ? 'ready' : 'in-progress'}">
-                            ${rec.readiness >= 100 ? 'Listo para comenzar' : `${Math.floor(rec.readiness)}% preparado`}
-                        </span>
-                        <h3>Lección ${rec.lesson}</h3>
-                        <p>${lessonsData[rec.lesson - 1].title}</p>
-                        <a href="/lesson/${rec.lesson}/start" class="btn btn-primary">
-                            ${rec.readiness >= 100 ? 'Comenzar' : 'Ver requisitos'}
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                `).join('');
-            }
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            mobileNavToggle.innerHTML = sidebar.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        }
 
-            // Update study tips
-            function updateStudyTips() {
-                const tipsContainer = document.getElementById('study-tips-list');
-                const tips = LearningPath.getStudyTips();
-                
-                tipsContainer.innerHTML = tips.map(tip => `
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        ${tip}
-                    </li>
-                `).join('');
-            }
+        mobileNavToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
 
-            // Initialize the page
-            updateSkillBars();
-            updateRecommendations();
-            updateStudyTips();
+        // Close sidebar when a lesson is selected (mobile)
+        document.querySelector('.lesson-list').addEventListener('click', (e) => {
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
         });
     </script>
 </body>

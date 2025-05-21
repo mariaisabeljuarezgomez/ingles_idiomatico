@@ -1,13 +1,24 @@
 import os
 import json
-from gtts import gTTS
+import boto3
+from botocore.exceptions import BotoCoreError, ClientError
+from contextlib import closing
 import re
 import ast
+from dotenv import load_dotenv
 
 class AudioGenerator:
     def __init__(self, base_dir='.'):
         self.base_dir = base_dir
         self.ensure_directories()
+        load_dotenv()  # Load environment variables from .env file
+        
+        # Initialize Amazon Polly client using environment variables
+        self.polly = boto3.client('polly',
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            region_name='us-east-1'
+        )
 
     def ensure_directories(self):
         """Ensure all necessary audio directories exist"""
@@ -15,45 +26,34 @@ class AudioGenerator:
             os.makedirs(os.path.join(self.base_dir, 'audio', f'lesson{lesson_num}'), exist_ok=True)
 
     def generate_audio(self, text, filepath):
-        """Generate an audio file from text using gTTS."""
+        """Generate an audio file from text using Amazon Polly."""
         try:
-            # Create directories if they don't exist
-            os.makedirs(os.path.dirname(filepath), exist_ok=True)
+            # Request speech synthesis
+            response = self.polly.synthesize_speech(
+                Text=text,
+                OutputFormat='mp3',
+                VoiceId='Matthew',  # A natural-sounding male voice
+                Engine='neural',    # Use the neural engine for better quality
+                TextType='text'
+            )
+
+            # Save the audio file
+            if "AudioStream" in response:
+                with closing(response["AudioStream"]) as stream:
+                    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+                    with open(filepath, "wb") as file:
+                        file.write(stream.read())
+                print(f"Generated audio file: {filepath}")
             
-            # Generate audio
-            tts = gTTS(text=text, lang='en', slow=False)
-            tts.save(filepath)
-            print(f"Generated audio file: {filepath}")
+        except (BotoCoreError, ClientError) as error:
+            print(f"Error generating audio for {text}: {str(error)}")
         except Exception as e:
             print(f"Error generating audio for {text}: {str(e)}")
 
     def clean_text(self, text):
         """Clean text before generating audio"""
-        # Replace common contractions with their full forms
-        contractions = {
-            "isn't": "is not",
-            "aren't": "are not",
-            "don't": "do not",
-            "doesn't": "does not",
-            "can't": "cannot",
-            "won't": "will not",
-            "he's": "he is",
-            "she's": "she is",
-            "it's": "it is",
-            "I'm": "I am",
-            "you're": "you are",
-            "they're": "they are",
-            "we're": "we are",
-            "that's": "that is",
-            "what's": "what is",
-            "where's": "where is",
-            "who's": "who is",
-            "how's": "how is"
-        }
-        
-        for contraction, full_form in contractions.items():
-            text = text.replace(contraction, full_form)
-        
+        # Amazon Polly handles contractions well, just clean up any problematic characters
+        text = text.strip()
         return text
 
     def generate_vocabulary_audio_lesson1(self):

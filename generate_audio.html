@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Generator</title>
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        async function generateAudio(text) {
+            return new Promise((resolve, reject) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Get available voices
+                const voices = window.speechSynthesis.getVoices();
+                
+                // Try to find a good English voice
+                const preferredVoice = voices.find(voice => 
+                    voice.name.includes('Microsoft') && voice.name.includes('Natural') && voice.lang.startsWith('en')
+                ) || voices.find(voice => 
+                    voice.name.includes('Google') && voice.lang.startsWith('en')
+                ) || voices.find(voice => 
+                    voice.lang.startsWith('en')
+                );
+
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+
+                // Optimize speech parameters
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                // Set up audio recording
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+                        
+                        mediaRecorder.ondataavailable = (event) => {
+                            audioChunks.push(event.data);
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            resolve(audioBlob);
+                            stream.getTracks().forEach(track => track.stop());
+                        };
+
+                        // Start recording and speaking
+                        mediaRecorder.start();
+                        window.speechSynthesis.speak(utterance);
+
+                        // Stop recording when speech ends
+                        utterance.onend = () => {
+                            mediaRecorder.stop();
+                            audioChunks = [];
+                        };
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        }
+
+        // Function to be called from Python
+        async function synthesizeAndDownload(text) {
+            try {
+                const audioBlob = await generateAudio(text);
+                const url = URL.createObjectURL(audioBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'output.wav';
+                a.click();
+                URL.revokeObjectURL(url);
+                return "success";
+            } catch (error) {
+                console.error("Error:", error);
+                return "error: " + error;
+            }
+        }
+
+        // Initialize voices when they are available
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+    </script>
+</head>
+<body>
+    <div id="status">Ready</div>
+</body>
+</html> 
