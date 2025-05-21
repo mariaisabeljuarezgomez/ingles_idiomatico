@@ -853,6 +853,11 @@ def update_lesson_progress():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
+@app.route('/practica')
+@login_required
+def practice_page():
+    return render_template('practica.html')
+
 # Error handlers
 @app.errorhandler(404)
 def not_found_error(error):
