@@ -20,6 +20,10 @@ app = Flask(__name__, static_folder='.')
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
 
+# Ensure secret key is set
+if not app.secret_key:
+    app.secret_key = os.urandom(24)
+
 # Initialize extensions
 CORS(app)
 db.init_app(app)
@@ -72,26 +76,40 @@ def api_register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-    
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        remember = request.form.get('remember', False)
-        
-        user = User.query.filter_by(email=email).first()
-        
-        if user and user.check_password(password):
-            login_user(user, remember=remember)
-            user.last_active = datetime.utcnow()
-            db.session.commit()
+    try:
+        if current_user.is_authenticated:
             return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid email or password')
+        
+        if request.method == 'POST':
+            email = request.form.get('email')
+            password = request.form.get('password')
+            remember = request.form.get('remember', False)
+            
+            if not email or not password:
+                flash('Please provide both email and password')
+                return redirect(url_for('login'))
+            
+            user = User.query.filter_by(email=email).first()
+            
+            if user and user.check_password(password):
+                try:
+                    login_user(user, remember=remember)
+                    user.last_active = datetime.utcnow()
+                    db.session.commit()
+                    return redirect(url_for('dashboard'))
+                except Exception as e:
+                    app.logger.error(f"Login error for user {email}: {str(e)}")
+                    db.session.rollback()
+                    flash('An error occurred during login. Please try again.')
+            else:
+                flash('Invalid email or password')
             return redirect(url_for('login'))
-    
-    return render_template('login.html')
+        
+        return render_template('login.html')
+    except Exception as e:
+        app.logger.error(f"Unexpected error in login route: {str(e)}")
+        flash('An unexpected error occurred. Please try again later.')
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 @login_required
