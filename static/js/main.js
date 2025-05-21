@@ -49,13 +49,16 @@ function playAudio(audioId) {
     const lessonMatch = audioId.match(/L(\d+)/);
     const lessonNumber = lessonMatch ? lessonMatch[1] : '1';
 
-    const audio = new Audio(`../audio/lesson${lessonNumber}/${audioId}.mp3`);
+    const audio = new Audio(`/static/audio/lesson${lessonNumber}/${audioId}.mp3`);
     audio.play().catch(error => {
         console.error('Error playing audio:', error);
         // Fallback to speech synthesis if audio file fails to play
         if (error.name === 'NotSupportedError' || error.name === 'NotFoundError') {
             const text = audioId.split('_')[2] || audioId.split('_')[1]; // Extract the word from the audio ID
-            speakText(text);
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
         }
     });
 }
