@@ -70,24 +70,28 @@ def api_register():
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 500
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = request.form.get('remember', False)
+        
+        user = User.query.filter_by(email=email).first()
+        
+        if user and user.check_password(password):
+            login_user(user, remember=remember)
+            user.last_active = datetime.utcnow()
+            db.session.commit()
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid email or password')
+            return redirect(url_for('login'))
+    
     return render_template('login.html')
-
-@app.route('/api/login', methods=['POST'])
-def api_login():
-    data = request.get_json()
-    user = User.query.filter_by(email=data.get('email')).first()
-    
-    if user and user.check_password(data.get('password')):
-        login_user(user)
-        user.last_active = datetime.utcnow()
-        db.session.commit()
-        return jsonify({'success': True})
-    
-    return jsonify({'success': False, 'message': 'Invalid email or password'}), 401
 
 @app.route('/logout')
 @login_required
