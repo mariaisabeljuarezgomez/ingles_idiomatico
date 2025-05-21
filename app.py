@@ -21,7 +21,13 @@ from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording
 from config import config
 from init_users import init_users
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+# Get the deployment directory from environment or default to current directory
+DEPLOY_DIR = os.getenv('DEPLOY_DIR', os.path.dirname(os.path.abspath(__file__)))
+STATIC_DIR = os.path.join(DEPLOY_DIR, 'static')
+
+app = Flask(__name__, 
+           static_folder=STATIC_DIR,  # Use the deployment static directory
+           static_url_path='/static')
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -35,12 +41,18 @@ CORS(app)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching during development
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Debug logging for database configuration
+# Debug logging for static file configuration
 app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
 app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
-app.logger.info(f"Static folder: {app.static_folder}")
+app.logger.info(f"Deploy Directory: {DEPLOY_DIR}")
+app.logger.info(f"Static Directory: {STATIC_DIR}")
 app.logger.info(f"Static URL path: {app.static_url_path}")
+
+# List static files for debugging
+for root, dirs, files in os.walk(STATIC_DIR):
+    for file in files:
+        app.logger.info(f"Static file found: {os.path.join(root, file)}")
 
 # Configure logging
 if not app.debug:
@@ -241,21 +253,33 @@ def index():
 def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
-# Direct file serving routes
+# Direct file serving routes with explicit paths
 @app.route('/static/js/<path:filename>')
 def serve_js(filename):
-    app.logger.info(f'[JS Request] Serving: {filename}')
-    return send_from_directory('static/js', filename)
+    app.logger.info(f'[JS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "js")}')
+    try:
+        return send_from_directory(os.path.join(STATIC_DIR, 'js'), filename)
+    except Exception as e:
+        app.logger.error(f'Error serving JS file {filename}: {str(e)}')
+        return f'File not found: {filename}', 404
 
 @app.route('/static/css/<path:filename>')
 def serve_css(filename):
-    app.logger.info(f'[CSS Request] Serving: {filename}')
-    return send_from_directory('static/css', filename)
+    app.logger.info(f'[CSS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "css")}')
+    try:
+        return send_from_directory(os.path.join(STATIC_DIR, 'css'), filename)
+    except Exception as e:
+        app.logger.error(f'Error serving CSS file {filename}: {str(e)}')
+        return f'File not found: {filename}', 404
 
 @app.route('/static/audio/<path:filename>')
 def serve_audio(filename):
-    app.logger.info(f'[Audio Request] Serving: {filename}')
-    return send_from_directory('static/audio', filename)
+    app.logger.info(f'[Audio Request] Serving: {filename} from {os.path.join(STATIC_DIR, "audio")}')
+    try:
+        return send_from_directory(os.path.join(STATIC_DIR, 'audio'), filename)
+    except Exception as e:
+        app.logger.error(f'Error serving audio file {filename}: {str(e)}')
+        return f'File not found: {filename}', 404
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])

@@ -7,18 +7,34 @@ services:
       pip install --upgrade pip
       pip install --no-cache-dir -r requirements.txt
       
-      # Copy static files to deployment directory
-      echo "Setting up static files..."
-      mkdir -p /opt/render/project/deploy/static
-      cp -rv static/* /opt/render/project/deploy/static/
-      chmod -R 755 /opt/render/project/deploy/static
+      # Set up deployment directory structure
+      echo "Setting up deployment directory..."
+      DEPLOY_DIR=/opt/render/project/deploy
+      mkdir -p $DEPLOY_DIR/static/js $DEPLOY_DIR/static/css $DEPLOY_DIR/static/audio
+      
+      # Copy application files
+      echo "Copying application files..."
+      cp -rv app.py config.py extensions.py init_users.py models.py requirements.txt $DEPLOY_DIR/
+      
+      # Copy static files with verbose output
+      echo "Copying static files..."
+      cp -rv static/* $DEPLOY_DIR/static/
+      
+      # Set permissions
+      echo "Setting permissions..."
+      chmod -R 755 $DEPLOY_DIR/static
+      
+      # Verify static files
+      echo "Verifying static files..."
+      ls -R $DEPLOY_DIR/static
       
       echo "Setting up environment..."
       export FLASK_APP=app.py
       export FLASK_ENV=production
+      export DEPLOY_DIR=$DEPLOY_DIR
       
       echo "Build process completed ✅"
-    startCommand: "gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120"
+    startCommand: "cd /opt/render/project/deploy && gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
@@ -32,6 +48,8 @@ services:
           property: connectionString
       - key: FLASK_APP
         value: app.py
+      - key: DEPLOY_DIR
+        value: /opt/render/project/deploy
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT
