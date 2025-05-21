@@ -6,7 +6,7 @@ migrate = Migrate(app, db)
 """Add progress tracking and analytics
 
 Revision ID: 1a2b3c4d5e6f
-Revises: 
+Revises: initial_setup
 Create Date: 2024-03-19 10:00:00.000000
 
 """
@@ -16,7 +16,7 @@ from sqlalchemy.dialects.postgresql import JSON
 
 # revision identifiers, used by Alembic.
 revision = '1a2b3c4d5e6f'
-down_revision = None
+down_revision = 'initial_setup'
 branch_labels = None
 depends_on = None
 

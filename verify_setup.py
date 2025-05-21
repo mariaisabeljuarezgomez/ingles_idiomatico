@@ -1,6 +1,6 @@
 import os
 import logging
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 import boto3
 from botocore.exceptions import ClientError
 
@@ -16,16 +16,44 @@ def verify_database():
             logger.error("❌ DATABASE_URL environment variable not set")
             return False
 
+        # Transform postgres:// to postgresql:// if needed
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+
         # Test database connection
         engine = create_engine(database_url)
+        inspector = inspect(engine)
+        
         with engine.connect() as connection:
+            # Basic connection test
             result = connection.execute(text("SELECT 1"))
-            if result.scalar() == 1:
-                logger.info("✅ Database connection successful")
-                return True
-            else:
+            if result.scalar() != 1:
                 logger.error("❌ Database connection test failed")
                 return False
+            logger.info("✅ Database connection successful")
+            
+            # Check if user table exists
+            if 'user' not in inspector.get_table_names():
+                logger.error("❌ User table does not exist")
+                return False
+            logger.info("✅ User table exists")
+            
+            # Verify user table structure
+            columns = {col['name']: col for col in inspector.get_columns('user')}
+            required_columns = ['id', 'email', 'password_hash', 'role', 'created_at']
+            
+            for col in required_columns:
+                if col not in columns:
+                    logger.error(f"❌ Required column '{col}' missing from user table")
+                    return False
+            logger.info("✅ User table structure verified")
+            
+            # Test user table query
+            result = connection.execute(text("SELECT COUNT(*) FROM \"user\""))
+            count = result.scalar()
+            logger.info(f"✅ User table contains {count} records")
+            
+            return True
 
     except Exception as e:
         logger.error(f"❌ Database error: {str(e)}")
@@ -87,4 +115,11 @@ if __name__ == "__main__":
     if db_status and aws_status:
         print("\n✅ All systems verified successfully!")
     else:
-        print("\n❌ Some verifications failed. Please check the logs above.") 
+        print("\n❌ Some verifications failed. Please check the logs above.")
+
+    if verify_database():
+        logger.info("✅ All database checks passed")
+        exit(0)
+    else:
+        logger.error("❌ Database verification failed")
+        exit(1) 
