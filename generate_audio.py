@@ -32,13 +32,10 @@ class AudioGenerator:
         filepath = os.path.join(self.base_dir, 'static', 'audio', f'lesson{lesson_number}', filename)
 
         try:
-            # Wrap the text in simple SSML tags for better voice quality
-            ssml_text = f'<speak>{text}</speak>'
-
+            # For single words and simple phrases, don't use SSML
             # Use Amazon Polly to synthesize speech
             response = self.polly.synthesize_speech(
-                Text=ssml_text,
-                TextType="ssml",
+                Text=text,
                 OutputFormat="mp3",
                 VoiceId="Matthew",
                 Engine="neural"
