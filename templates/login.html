@@ -232,9 +232,10 @@
         {% endif %}
 
         <form method="POST" action="{{ url_for('login') }}">
+            {{ form.csrf_token }}
             <div class="form-group">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required autocomplete="username">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
             </div>
 
             <div class="form-group">

@@ -9,6 +9,7 @@ import csv
 from io import StringIO
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
+from flask_wtf import FlaskForm
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -111,12 +112,16 @@ def api_register():
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 500
 
+class LoginForm(FlaskForm):
+    pass
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     try:
         if current_user.is_authenticated:
             return redirect(url_for('dashboard'))
         
+        form = LoginForm()
         if request.method == 'POST':
             email = request.form.get('email')
             password = request.form.get('password')
@@ -142,7 +147,7 @@ def login():
                 flash('Invalid email or password')
             return redirect(url_for('login'))
         
-        return render_template('login.html')
+        return render_template('login.html', form=form)
     except Exception as e:
         app.logger.error(f"Unexpected error in login route: {str(e)}")
         flash('An unexpected error occurred. Please try again later.')
