@@ -16,17 +16,33 @@ services:
       echo "Copying application files..."
       cp -rv app.py config.py extensions.py init_users.py models.py requirements.txt $DEPLOY_DIR/
       
-      # Copy static files with verbose output
+      # Copy static files with verbose output and preserve permissions
       echo "Copying static files..."
-      cp -rv static/* $DEPLOY_DIR/static/
+      cp -rpv static/* $DEPLOY_DIR/static/
       
       # Set permissions
       echo "Setting permissions..."
       chmod -R 755 $DEPLOY_DIR/static
       
-      # Verify static files
-      echo "Verifying static files..."
-      ls -R $DEPLOY_DIR/static
+      # Verify deployment
+      echo "Verifying deployment..."
+      echo "Static directory contents:"
+      ls -la $DEPLOY_DIR/static
+      echo "JS directory contents:"
+      ls -la $DEPLOY_DIR/static/js
+      echo "CSS directory contents:"
+      ls -la $DEPLOY_DIR/static/css
+      
+      # Verify file contents
+      echo "Verifying file contents..."
+      for file in $DEPLOY_DIR/static/js/*.js; do
+        echo "=== $file ==="
+        head -n 1 "$file"
+      done
+      for file in $DEPLOY_DIR/static/css/*.css; do
+        echo "=== $file ==="
+        head -n 1 "$file"
+      done
       
       echo "Setting up environment..."
       export FLASK_APP=app.py
@@ -34,7 +50,11 @@ services:
       export DEPLOY_DIR=$DEPLOY_DIR
       
       echo "Build process completed ✅"
-    startCommand: "cd /opt/render/project/deploy && gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120"
+    startCommand: |
+      cd /opt/render/project/deploy && \
+      PYTHONPATH=/opt/render/project/deploy \
+      STATIC_ROOT=/opt/render/project/deploy/static \
+      gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120 --log-level=debug
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
@@ -50,6 +70,8 @@ services:
         value: app.py
       - key: DEPLOY_DIR
         value: /opt/render/project/deploy
+      - key: STATIC_ROOT
+        value: /opt/render/project/deploy/static
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT

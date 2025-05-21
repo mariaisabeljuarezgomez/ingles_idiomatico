@@ -255,6 +255,7 @@ def serve_lesson_interface():
 
 # Direct file serving routes with explicit paths
 @app.route('/static/js/<path:filename>')
+@app.route('/js/<path:filename>')  # Fallback route
 def serve_js(filename):
     app.logger.info(f'[JS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "js")}')
     try:
@@ -264,6 +265,7 @@ def serve_js(filename):
         return f'File not found: {filename}', 404
 
 @app.route('/static/css/<path:filename>')
+@app.route('/css/<path:filename>')  # Fallback route
 def serve_css(filename):
     app.logger.info(f'[CSS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "css")}')
     try:
@@ -273,6 +275,7 @@ def serve_css(filename):
         return f'File not found: {filename}', 404
 
 @app.route('/static/audio/<path:filename>')
+@app.route('/audio/<path:filename>')  # Fallback route
 def serve_audio(filename):
     app.logger.info(f'[Audio Request] Serving: {filename} from {os.path.join(STATIC_DIR, "audio")}')
     try:
@@ -952,6 +955,24 @@ def test_static():
     </body>
     </html>
     '''
+
+@app.route('/test-static-paths')
+def test_static_paths():
+    """Test route to verify static file paths"""
+    static_files = []
+    for root, dirs, files in os.walk(STATIC_DIR):
+        for file in files:
+            full_path = os.path.join(root, file)
+            rel_path = os.path.relpath(full_path, STATIC_DIR)
+            static_files.append(rel_path)
+    
+    return jsonify({
+        'static_dir': STATIC_DIR,
+        'files': static_files,
+        'exists': os.path.exists(STATIC_DIR),
+        'is_dir': os.path.isdir(STATIC_DIR),
+        'readable': os.access(STATIC_DIR, os.R_OK)
+    })
 
 if __name__ == '__main__':
     with app.app_context():
