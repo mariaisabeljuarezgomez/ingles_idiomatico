@@ -32,12 +32,11 @@ class AudioGenerator:
         filepath = os.path.join(self.base_dir, 'static', 'audio', f'lesson{lesson_number}', filename)
 
         try:
-            # For single words and simple phrases, don't use SSML
-            # Use Amazon Polly to synthesize speech
+            # Use Kevin's neural voice since it's available
             response = self.polly.synthesize_speech(
                 Text=text,
                 OutputFormat="mp3",
-                VoiceId="Matthew",
+                VoiceId="Kevin",  # Changed from Matthew to Kevin
                 Engine="neural"
             )
 
