@@ -33,11 +33,14 @@ config[os.getenv('FLASK_ENV', 'production')].init_app(app)
 # Enable CORS and configure static file serving
 CORS(app)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching during development
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Debug logging for database configuration
 app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
 app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
+app.logger.info(f"Static folder: {app.static_folder}")
+app.logger.info(f"Static URL path: {app.static_url_path}")
 
 # Configure logging
 if not app.debug:
@@ -238,24 +241,21 @@ def index():
 def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
-# Explicit static file serving route
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    """Explicitly serve static files"""
-    app.logger.info(f'Serving static file: {filename}')
-    app.logger.info(f'Static folder: {app.static_folder}')
-    app.logger.info(f'Full path: {os.path.join(app.static_folder, filename)}')
-    
-    try:
-        response = send_from_directory(app.static_folder, filename)
-        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        app.logger.info('Successfully served static file')
-        return response
-    except Exception as e:
-        app.logger.error(f'Error serving static file: {str(e)}')
-        return f'Error serving static file: {str(e)}', 404
+# Direct file serving routes
+@app.route('/static/js/<path:filename>')
+def serve_js(filename):
+    app.logger.info(f'[JS Request] Serving: {filename}')
+    return send_from_directory('static/js', filename)
+
+@app.route('/static/css/<path:filename>')
+def serve_css(filename):
+    app.logger.info(f'[CSS Request] Serving: {filename}')
+    return send_from_directory('static/css', filename)
+
+@app.route('/static/audio/<path:filename>')
+def serve_audio(filename):
+    app.logger.info(f'[Audio Request] Serving: {filename}')
+    return send_from_directory('static/audio', filename)
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
@@ -891,6 +891,43 @@ def internal_error(error):
 def bad_gateway_error(error):
     app.logger.error(f'Bad Gateway Error: {error}')
     return render_template('502.html'), 502
+
+@app.route('/test-static')
+def test_static():
+    """Test route to verify static file serving"""
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Static File Test</title>
+        <link href="/static/css/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Static File Test</h1>
+        <div id="test-content">
+            <p>This page tests static file loading.</p>
+            <p>CSS Status: <span id="css-status">Checking...</span></p>
+            <p>JS Status: <span id="js-status">Checking...</span></p>
+        </div>
+        <script src="/static/js/main.js"></script>
+        <script>
+            // Test CSS loading
+            window.onload = function() {
+                const testEl = document.getElementById('test-content');
+                const cssStatus = document.getElementById('css-status');
+                const jsStatus = document.getElementById('js-status');
+                
+                // Check if CSS is loaded
+                const styles = window.getComputedStyle(testEl);
+                cssStatus.textContent = styles ? 'Loaded ✅' : 'Failed ❌';
+                
+                // Check if JS is loaded
+                jsStatus.textContent = typeof showLesson === 'function' ? 'Loaded ✅' : 'Failed ❌';
+            };
+        </script>
+    </body>
+    </html>
+    '''
 
 if __name__ == '__main__':
     with app.app_context():
