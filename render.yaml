@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ingles-idiomatico
+    name: ingles_idiomatico
     env: python
     buildCommand: |
       echo "Starting build process..."
