@@ -761,7 +761,15 @@ def test_email():
 def student_dashboard():
     if current_user.role != 'student':
         return redirect(url_for('index'))
-    return render_template('student_dashboard.html')
+    
+    # Get student stats
+    stats = StudentStats.query.filter_by(user_id=current_user.id).first()
+    if not stats:
+        stats = StudentStats(user_id=current_user.id)
+        db.session.add(stats)
+        db.session.commit()
+    
+    return render_template('student_dashboard.html', stats=stats)
 
 @app.route('/lecciones')
 @login_required
