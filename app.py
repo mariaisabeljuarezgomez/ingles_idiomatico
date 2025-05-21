@@ -18,6 +18,7 @@ from extensions import db
 # Then import models after db is defined
 from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording, StudentStats, Analytics, TeacherFeedback
 from config import config
+from init_users import init_users
 
 app = Flask(__name__, static_folder='static')
 
@@ -56,8 +57,11 @@ with app.app_context():
     try:
         db.create_all()
         app.logger.info("Database tables created successfully")
+        # Initialize default users
+        init_users()
+        app.logger.info("Default users initialized")
     except Exception as e:
-        app.logger.error(f"Error creating database tables: {str(e)}")
+        app.logger.error(f"Error during startup: {str(e)}")
 
 # Initialize other extensions
 migrate = Migrate(app, db)
