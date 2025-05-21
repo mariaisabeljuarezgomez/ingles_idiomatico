@@ -3,11 +3,199 @@ services:
     name: ingles-idiomatico
     env: python
     buildCommand: |
+      echo "Starting build process..."
       pip install --upgrade pip
       pip install --no-cache-dir -r requirements.txt
-      python manage.py db upgrade
-      python init_users.py
-    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app --log-level debug
+      
+      echo "Setting up environment..."
+      export FLASK_APP=app.py
+      export FLASK_ENV=production
+      
+      echo "\n=== Database Connection Check ==="
+      python -c "
+      from sqlalchemy import create_engine, text
+      import os
+      import sys
+      
+      print('\nChecking DATABASE_URL...')
+      db_url = os.getenv('DATABASE_URL')
+      if not db_url:
+          print('ERROR: DATABASE_URL not set', file=sys.stderr)
+          sys.exit(1)
+      
+      print('Attempting database connection...')
+      engine = create_engine(db_url)
+      try:
+          with engine.connect() as conn:
+              result = conn.execute(text('SELECT current_database(), current_schema(), current_user, version()'))
+              db, schema, user, version = result.fetchone()
+              print(f'\nConnection successful!')
+              print(f'Database: {db}')
+              print(f'Schema: {schema}')
+              print(f'User: {user}')
+              print(f'Version: {version}')
+      except Exception as e:
+          print(f'\nERROR: Failed to connect to database: {str(e)}', file=sys.stderr)
+          sys.exit(1)
+      "
+      
+      echo "\n=== Database Migration Process ==="
+      
+      # Check if migrations directory exists
+      if [ ! -d "migrations" ]; then
+          echo "No existing migrations found. Initializing fresh migrations..."
+          flask db init
+          
+          echo "Creating initial migration..."
+          cat > migrations/versions/initial_setup.py << 'EOL'
+"""Initial database setup
+Revision ID: initial_setup
+Revises: 
+Create Date: 2024-03-21 00:00:00.000000
+"""
+from alembic import op
+import sqlalchemy as sa
+from sqlalchemy.dialects.postgresql import JSON
+
+revision = 'initial_setup'
+down_revision = None
+branch_labels = None
+depends_on = None
+
+def upgrade():
+    print("Starting table creation...")
+    
+    print("Creating user table...")
+    op.create_table('user',
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('email', sa.String(120), nullable=False),
+        sa.Column('password_hash', sa.String(128), nullable=False),
+        sa.Column('name', sa.String(120), nullable=True),
+        sa.Column('role', sa.String(20), nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=False),
+        sa.Column('current_lesson', sa.Integer(), nullable=True),
+        sa.Column('total_study_time', sa.Integer(), nullable=True),
+        sa.Column('last_active', sa.DateTime(), nullable=True),
+        sa.Column('specialization', sa.String(100), nullable=True),
+        sa.Column('teaching_since', sa.DateTime(), nullable=True),
+        sa.Column('availability', JSON, nullable=True),
+        sa.Column('admin_level', sa.Integer(), nullable=True),
+        sa.Column('managed_sections', JSON, nullable=True),
+        sa.Column('last_admin_action', sa.DateTime(), nullable=True),
+        sa.Column('is_active', sa.Boolean(), nullable=False, server_default='true'),
+        sa.Column('last_login_ip', sa.String(45), nullable=True),
+        sa.Column('access_level', sa.Integer(), nullable=True),
+        sa.Column('email_verified', sa.Boolean(), nullable=False, server_default='false'),
+        sa.Column('verification_token', sa.String(100), nullable=True),
+        sa.Column('reset_token', sa.String(100), nullable=True),
+        sa.Column('reset_token_expiry', sa.DateTime(), nullable=True),
+        sa.Column('last_login', sa.DateTime(), nullable=True),
+        sa.Column('login_count', sa.Integer(), nullable=False, server_default='0'),
+        sa.Column('failed_login_attempts', sa.Integer(), nullable=False, server_default='0'),
+        sa.Column('account_locked_until', sa.DateTime(), nullable=True),
+        sa.PrimaryKeyConstraint('id'),
+        sa.UniqueConstraint('email')
+    )
+    print("User table created successfully")
+
+    print("Creating teacher_student_association table...")
+    op.create_table('teacher_student_association',
+        sa.Column('teacher_id', sa.Integer(), nullable=False),
+        sa.Column('student_id', sa.Integer(), nullable=False),
+        sa.Column('assigned_at', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('active', sa.Boolean(), server_default='true'),
+        sa.ForeignKeyConstraint(['student_id'], ['user.id'], ),
+        sa.ForeignKeyConstraint(['teacher_id'], ['user.id'], ),
+        sa.PrimaryKeyConstraint('teacher_id', 'student_id')
+    )
+    print("Teacher-student association table created successfully")
+    print("All tables created successfully")
+
+def downgrade():
+    print("Running downgrade (dropping tables)...")
+    op.drop_table('teacher_student_association')
+    op.drop_table('user')
+    print("Tables dropped successfully")
+EOL
+      else
+          echo "Existing migrations found. Skipping initialization."
+      fi
+      
+      echo "\n=== Running Database Migrations ==="
+      
+      # Check current database state
+      echo "Checking current database state..."
+      flask db current || echo "No current revision (this is expected for fresh deployments)"
+      
+      # Stamp the database with the current head if needed
+      echo "Ensuring database is stamped with current head..."
+      flask db stamp head || echo "Failed to stamp head (this might be normal for first deploy)"
+      
+      # Run migrations
+      echo "Running database migrations..."
+      flask db upgrade || {
+          echo "ERROR: Migration failed. Checking database state..."
+          python -c "
+          from sqlalchemy import create_engine, inspect, text
+          import os
+          
+          engine = create_engine(os.getenv('DATABASE_URL'))
+          inspector = inspect(engine)
+          
+          print('\nCurrent tables:', inspector.get_table_names())
+          
+          with engine.connect() as conn:
+              result = conn.execute(text('''
+                  SELECT table_name, table_schema 
+                  FROM information_schema.tables 
+                  WHERE table_schema = current_schema()
+              '''))
+              print('\nDetailed table information:')
+              for table in result:
+                  print(f'- {table.table_schema}.{table.table_name}')
+          "
+          exit 1
+      }
+      
+      echo "\n=== Verifying Database Setup ==="
+      python -c "
+      from sqlalchemy import create_engine, inspect, text
+      import os
+      import sys
+      
+      engine = create_engine(os.getenv('DATABASE_URL'))
+      inspector = inspect(engine)
+      
+      print('\nChecking tables...')
+      tables = inspector.get_table_names()
+      print('Found tables:', tables)
+      
+      required_tables = ['user', 'teacher_student_association']
+      missing = [t for t in required_tables if t not in tables]
+      
+      if missing:
+          print(f'\nERROR: Missing tables: {missing}', file=sys.stderr)
+          sys.exit(1)
+      
+      print('\nChecking user table structure...')
+      columns = {col['name']: col for col in inspector.get_columns('user')}
+      print('User table columns:', list(columns.keys()))
+      
+      print('\nTesting table access...')
+      with engine.connect() as conn:
+          try:
+              result = conn.execute(text('SELECT COUNT(*) FROM \"user\"'))
+              count = result.scalar()
+              print(f'Successfully queried user table. Current record count: {count}')
+          except Exception as e:
+              print(f'ERROR: Failed to query user table: {str(e)}', file=sys.stderr)
+              sys.exit(1)
+      "
+      
+      echo "\nBuild process completed successfully ✅"
+    startCommand: |
+      echo "Starting Gunicorn with debug logging..."
+      gunicorn --bind 0.0.0.0:$PORT app:app --log-level debug --timeout 120 --access-logfile - --error-logfile - --capture-output
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -33,8 +221,10 @@ services:
         sync: false
       - key: WEB_CONCURRENCY
         value: "2"
+      - key: SQLALCHEMY_TRACK_MODIFICATIONS
+        value: "false"
       - key: GUNICORN_CMD_ARGS
-        value: "--timeout 60 --access-logfile - --error-logfile -"
+        value: "--timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output"
     healthCheckPath: /login
     autoDeploy: true
 
