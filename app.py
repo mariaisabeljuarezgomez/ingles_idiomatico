@@ -244,6 +244,17 @@ def index():
 def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
+# Add route to serve lesson HTML files
+@app.route('/lessons/<path:filename>')
+@login_required
+def serve_lesson(filename):
+    app.logger.info(f'[Lesson Request] Serving: {filename}')
+    try:
+        return send_from_directory('lessons', filename)
+    except Exception as e:
+        app.logger.error(f'Error serving lesson file {filename}: {str(e)}')
+        return f'Lesson file not found: {filename}', 404
+
 # Direct file serving routes with explicit paths
 @app.route('/css/<path:filename>')
 def serve_css(filename):
