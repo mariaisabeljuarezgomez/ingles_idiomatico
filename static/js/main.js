@@ -38,7 +38,7 @@ function speakText(text) {
     window.speechSynthesis.speak(utterance);
 }
 
-// Function to play audio with fallback to speech synthesis
+// Function to play audio with retries
 function playAudio(audioId) {
     if (!audioId) {
         console.error('No audio ID provided');
@@ -50,17 +50,30 @@ function playAudio(audioId) {
     const lessonNumber = lessonMatch ? lessonMatch[1] : '1';
 
     const audio = new Audio(`/static/audio/lesson${lessonNumber}/${audioId}.mp3`);
-    audio.play().catch(error => {
-        console.error('Error playing audio:', error);
-        // Fallback to speech synthesis if audio file fails to play
-        if (error.name === 'NotSupportedError' || error.name === 'NotFoundError') {
-            const text = audioId.split('_')[2] || audioId.split('_')[1]; // Extract the word from the audio ID
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
-        }
+    
+    // Add loading event to track when audio is ready
+    audio.addEventListener('loadeddata', () => {
+        console.log('Audio loaded successfully:', audioId);
     });
+
+    // Try to play the audio with retries
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    function tryPlayAudio() {
+        audio.play().catch(error => {
+            console.error('Error playing audio:', error);
+            if (retryCount < maxRetries) {
+                retryCount++;
+                console.log(`Retrying audio playback (${retryCount}/${maxRetries})...`);
+                setTimeout(tryPlayAudio, 1000); // Wait 1 second before retrying
+            } else {
+                console.error('Failed to play audio after retries:', audioId);
+            }
+        });
+    }
+
+    tryPlayAudio();
 }
 
 // Initialize voices when they are available
