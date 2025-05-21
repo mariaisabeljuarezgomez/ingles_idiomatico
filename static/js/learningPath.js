@@ -1,169 +1,123 @@
-class LearningPath {
-    constructor() {
-        this.skills = {
-            grammar: 0,
-            vocabulary: 0,
-            pronunciation: 0,
-            idioms: 0
-        };
-        this.fetchProgress();
-    }
+// Learning Path Management System
+const LearningPath = {
+    // Track mastery levels for different skills
+    skillMastery: {
+        grammar: 0,
+        vocabulary: 0,
+        pronunciation: 0,
+        idioms: 0
+    },
 
-    async fetchProgress() {
-        try {
-            const response = await fetch('/api/student/stats');
-            const data = await response.json();
-            
-            // Update skill progress based on stats
-            this.skills.grammar = data.grammar_score || 0;
-            this.skills.vocabulary = data.vocabulary_score || 0;
-            this.skills.pronunciation = data.pronunciation_score || 0;
-            this.skills.idioms = data.idioms_score || 0;
-            
-            this.updateUI();
-            this.generateRecommendations();
-            this.generateStudyTips();
-        } catch (error) {
-            console.error('Error fetching progress:', error);
-        }
-    }
+    // Lesson prerequisites and dependencies
+    lessonDependencies: {
+        1: { required: [], skills: { grammar: 10, vocabulary: 5 } },
+        2: { required: [1], skills: { grammar: 15, vocabulary: 10 } },
+        3: { required: [2], skills: { grammar: 20, vocabulary: 15, pronunciation: 5 } },
+        4: { required: [3], skills: { grammar: 25, vocabulary: 20, pronunciation: 10 } },
+        5: { required: [4], skills: { grammar: 30, vocabulary: 25, pronunciation: 15 } },
+        6: { required: [5], skills: { grammar: 35, vocabulary: 30, pronunciation: 20, idioms: 5 } },
+        7: { required: [6], skills: { grammar: 40, vocabulary: 35, pronunciation: 25, idioms: 10 } },
+        8: { required: [7], skills: { grammar: 45, vocabulary: 40, pronunciation: 30, idioms: 15 } },
+        9: { required: [8], skills: { grammar: 50, vocabulary: 45, pronunciation: 35, idioms: 20 } },
+        10: { required: [9], skills: { grammar: 55, vocabulary: 50, pronunciation: 40, idioms: 25 } }
+    },
 
-    updateUI() {
-        // Update skill bars
-        Object.keys(this.skills).forEach(skill => {
-            const progressBar = document.getElementById(`${skill}-progress`);
-            if (progressBar) {
-                progressBar.style.width = `${this.skills[skill]}%`;
-            }
-        });
-    }
-
-    generateRecommendations() {
-        const recommendationsContainer = document.getElementById('lesson-recommendations');
-        if (!recommendationsContainer) return;
-
-        // Clear existing recommendations
-        recommendationsContainer.innerHTML = '';
-
-        // Find weakest skills
-        const sortedSkills = Object.entries(this.skills)
-            .sort(([,a], [,b]) => a - b)
-            .map(([skill]) => skill);
-
-        // Generate recommendations based on weakest skills
-        const recommendations = this.getRecommendationsForSkills(sortedSkills.slice(0, 2));
-        
-        recommendations.forEach(rec => {
-            const recElement = document.createElement('div');
-            recElement.className = 'recommendation-card';
-            recElement.innerHTML = `
-                <h3>${rec.title}</h3>
-                <p>${rec.description}</p>
-                <div class="readiness-indicator ${rec.status}">${rec.statusText}</div>
-                <a href="${rec.link}" class="btn btn-primary">Comenzar</a>
-            `;
-            recommendationsContainer.appendChild(recElement);
-        });
-    }
-
-    generateStudyTips() {
-        const tipsContainer = document.getElementById('study-tips-list');
-        if (!tipsContainer) return;
-
-        // Clear existing tips
-        tipsContainer.innerHTML = '';
-
-        // Generate tips based on current progress
-        const tips = this.getStudyTipsForProgress();
-        
-        tips.forEach(tip => {
-            const tipElement = document.createElement('li');
-            tipElement.innerHTML = `<i class="fas fa-check-circle"></i> ${tip}`;
-            tipsContainer.appendChild(tipElement);
-        });
-    }
-
-    getRecommendationsForSkills(weakestSkills) {
+    // Calculate recommended next lessons based on current progress
+    getRecommendedLessons() {
+        const completedLessons = this.getCompletedLessons();
         const recommendations = [];
-        
-        weakestSkills.forEach(skill => {
-            switch(skill) {
-                case 'grammar':
+
+        for (let lessonNum = 1; lessonNum <= 10; lessonNum++) {
+            if (!completedLessons.includes(lessonNum)) {
+                const deps = this.lessonDependencies[lessonNum].required;
+                if (deps.every(dep => completedLessons.includes(dep))) {
                     recommendations.push({
-                        title: 'Práctica de Gramática',
-                        description: 'Refuerza tus bases gramaticales con ejercicios específicos.',
-                        status: 'ready',
-                        statusText: 'Listo para comenzar',
-                        link: '/lecciones#grammar'
+                        lesson: lessonNum,
+                        readiness: this.calculateReadiness(lessonNum)
                     });
-                    break;
-                case 'vocabulary':
-                    recommendations.push({
-                        title: 'Expansión de Vocabulario',
-                        description: 'Amplía tu vocabulario con palabras y frases nuevas.',
-                        status: 'ready',
-                        statusText: 'Listo para comenzar',
-                        link: '/lecciones#vocabulary'
-                    });
-                    break;
-                case 'pronunciation':
-                    recommendations.push({
-                        title: 'Mejora tu Pronunciación',
-                        description: 'Practica la pronunciación con ejercicios de audio.',
-                        status: 'ready',
-                        statusText: 'Listo para comenzar',
-                        link: '/lecciones#pronunciation'
-                    });
-                    break;
-                case 'idioms':
-                    recommendations.push({
-                        title: 'Expresiones Idiomáticas',
-                        description: 'Aprende expresiones comunes del inglés.',
-                        status: 'ready',
-                        statusText: 'Listo para comenzar',
-                        link: '/lecciones#idioms'
-                    });
-                    break;
+                }
             }
-        });
+        }
 
-        return recommendations;
-    }
+        return recommendations.sort((a, b) => b.readiness - a.readiness);
+    },
 
-    getStudyTipsForProgress() {
+    // Calculate student's readiness for a specific lesson (0-100%)
+    calculateReadiness(lessonNum) {
+        const requirements = this.lessonDependencies[lessonNum].skills;
+        let totalReadiness = 0;
+        let totalWeight = 0;
+
+        for (const [skill, required] of Object.entries(requirements)) {
+            totalReadiness += (this.skillMastery[skill] / required) * 100;
+            totalWeight++;
+        }
+
+        return Math.min(100, totalReadiness / totalWeight);
+    },
+
+    // Update skill mastery based on exercise performance
+    updateSkillMastery(exerciseResults) {
+        const { grammar, vocabulary, pronunciation, idioms } = exerciseResults;
+        
+        if (grammar) this.skillMastery.grammar = Math.min(100, this.skillMastery.grammar + grammar);
+        if (vocabulary) this.skillMastery.vocabulary = Math.min(100, this.skillMastery.vocabulary + vocabulary);
+        if (pronunciation) this.skillMastery.pronunciation = Math.min(100, this.skillMastery.pronunciation + pronunciation);
+        if (idioms) this.skillMastery.idioms = Math.min(100, this.skillMastery.idioms + idioms);
+
+        this.saveProgress();
+    },
+
+    // Get personalized study tips based on current progress
+    getStudyTips() {
         const tips = [];
-        const lowestSkill = Object.entries(this.skills)
-            .sort(([,a], [,b]) => a - b)[0][0];
+        const weakestSkill = Object.entries(this.skillMastery)
+            .reduce((a, b) => (a[1] < b[1] ? a : b))[0];
 
-        // General tips
-        tips.push('Dedica al menos 30 minutos diarios al estudio');
-        tips.push('Repasa las lecciones anteriores regularmente');
-
-        // Skill-specific tips
-        switch(lowestSkill) {
+        switch (weakestSkill) {
             case 'grammar':
-                tips.push('Practica formando oraciones completas');
-                tips.push('Revisa las conjugaciones de verbos regulares e irregulares');
+                tips.push('Practice more sentence construction exercises');
+                tips.push('Review verb conjugation patterns');
                 break;
             case 'vocabulary':
-                tips.push('Usa flashcards para memorizar palabras nuevas');
-                tips.push('Intenta usar el vocabulario nuevo en contexto');
+                tips.push('Use flashcards more frequently');
+                tips.push('Try writing sentences with new words');
                 break;
             case 'pronunciation':
-                tips.push('Escucha y repite los ejercicios de audio');
-                tips.push('Grábate hablando para identificar áreas de mejora');
+                tips.push('Listen to more audio examples');
+                tips.push('Practice speaking exercises daily');
                 break;
             case 'idioms':
-                tips.push('Practica las expresiones en conversaciones');
-                tips.push('Relaciona las expresiones con situaciones cotidianas');
+                tips.push('Focus on context-based learning');
+                tips.push('Study common English expressions');
                 break;
         }
 
         return tips;
-    }
-}
+    },
 
-// Initialize learning path when the document is loaded
+    // Save progress to localStorage
+    saveProgress() {
+        localStorage.setItem('skillMastery', JSON.stringify(this.skillMastery));
+    },
+
+    // Load progress from localStorage
+    loadProgress() {
+        const saved = localStorage.getItem('skillMastery');
+        if (saved) {
+            this.skillMastery = JSON.parse(saved);
+        }
+    },
+
+    // Get completed lessons based on skill mastery
+    getCompletedLessons() {
+        return Object.entries(this.lessonDependencies)
+            .filter(([_, deps]) => this.calculateReadiness(parseInt(_)) >= 100)
+            .map(([lesson, _]) => parseInt(lesson));
+    }
+};
+
+// Initialize when the module loads
 document.addEventListener('DOMContentLoaded', () => {
-    window.learningPath = new LearningPath();
+    LearningPath.loadProgress();
 }); 
