@@ -27,6 +27,10 @@ app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
 
+# Enable CORS and configure static file serving
+CORS(app)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching during development
+
 # Debug logging for database configuration
 app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
@@ -49,7 +53,6 @@ if not app.secret_key:
     app.secret_key = os.urandom(24)
 
 # Initialize extensions
-CORS(app)
 csrf = CSRFProtect(app)
 
 # Initialize database
@@ -232,11 +235,15 @@ def index():
 def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
-# Serve static files from the root directory
+# Explicit static file serving route
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     """Explicitly serve static files"""
-    return send_from_directory(app.static_folder, filename)
+    response = send_from_directory(app.static_folder, filename)
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])

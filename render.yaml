@@ -1,20 +1,26 @@
 services:
   - type: web
-    name: ingles_idiomatico
+    name: ingles-idiomatico-new
     env: python
     buildCommand: |
       echo "Starting build process..."
       pip install --upgrade pip
       pip install --no-cache-dir -r requirements.txt
       
-      # Ensure static directories exist
-      mkdir -p static/audio
+      # Create static directories
+      mkdir -p /opt/render/project/src/static/audio
+      mkdir -p /opt/render/project/src/static/css
+      mkdir -p /opt/render/project/src/static/js
       
-      # Copy static files
-      if [ -d "static" ]; then
-        echo "Copying static files..."
-        cp -r static/* /opt/render/project/src/static/
-      fi
+      # Copy static files with verbose output
+      echo "Copying static files..."
+      cp -rv static/audio/* /opt/render/project/src/static/audio/ || echo "No audio files to copy"
+      cp -rv static/css/* /opt/render/project/src/static/css/ || echo "No CSS files to copy"
+      cp -rv static/js/* /opt/render/project/src/static/js/ || echo "No JS files to copy"
+      
+      # List contents of static directory for verification
+      echo "Verifying static files..."
+      ls -R /opt/render/project/src/static/
       
       echo "Setting up environment..."
       export FLASK_APP=app.py
