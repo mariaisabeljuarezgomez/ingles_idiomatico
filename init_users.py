@@ -56,7 +56,7 @@ def init_users():
                 is_active=True,
                 email_verified=True
             )
-            admin.set_password('admin123')
+            admin.set_password('admin123!')
             logger.info("Created admin user")
 
             # Create teacher user
@@ -69,7 +69,7 @@ def init_users():
                 email_verified=True,
                 specialization='English Language'
             )
-            teacher.set_password('teacher123')
+            teacher.set_password('teacher123!')
             logger.info("Created teacher user")
 
             # Create student user
@@ -81,7 +81,7 @@ def init_users():
                 is_active=True,
                 email_verified=True
             )
-            student.set_password('student123')
+            student.set_password('student123!')
             logger.info("Created student user")
 
             # Add users to database
@@ -108,9 +108,9 @@ def init_users():
             if admin_check and teacher_check and student_check:
                 logger.info("Verified all users were created successfully!")
                 logger.info("\nDefault credentials:")
-                logger.info("Admin - Email: admin@inglesidiomatico.com, Password: admin123")
-                logger.info("Teacher - Email: teacher@inglesidiomatico.com, Password: teacher123")
-                logger.info("Student - Email: student@inglesidiomatico.com, Password: student123")
+                logger.info("Admin - Email: admin@inglesidiomatico.com, Password: admin123!")
+                logger.info("Teacher - Email: teacher@inglesidiomatico.com, Password: teacher123!")
+                logger.info("Student - Email: student@inglesidiomatico.com, Password: student123!")
                 return True
             else:
                 logger.error("User verification failed!")
