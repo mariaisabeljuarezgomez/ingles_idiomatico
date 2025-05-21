@@ -2,8 +2,12 @@ services:
   - type: web
     name: ingles-idiomatico
     env: python
-    buildCommand: pip install --no-cache-dir -r requirements.txt
-    startCommand: gunicorn app:app
+    buildCommand: |
+      pip install --upgrade pip
+      pip install --no-cache-dir -r requirements.txt
+      python manage.py db upgrade
+      python init_users.py
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app --log-level debug
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -15,6 +19,8 @@ services:
         fromDatabase:
           name: ingles_idiomatico_db
           property: connectionString
+      - key: FLASK_APP
+        value: app.py
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT
@@ -25,7 +31,12 @@ services:
         sync: false
       - key: MAIL_PASSWORD
         sync: false
-    autoDeploy: true 
+      - key: WEB_CONCURRENCY
+        value: "2"
+      - key: GUNICORN_CMD_ARGS
+        value: "--timeout 60 --access-logfile - --error-logfile -"
+    healthCheckPath: /login
+    autoDeploy: true
 
 databases:
   - name: ingles_idiomatico_db

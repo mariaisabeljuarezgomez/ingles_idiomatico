@@ -9,6 +9,8 @@ import csv
 from io import StringIO
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
+import logging
+from logging.handlers import RotatingFileHandler
 
 # Import db from extensions first
 from extensions import db
@@ -20,6 +22,19 @@ from config import config
 app = Flask(__name__, static_folder='static')
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
+
+# Configure logging
+if not app.debug:
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/ingles_idiomatico.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Inglés Idiomático startup')
 
 # Ensure secret key is set
 if not app.secret_key:
@@ -721,6 +736,23 @@ def student_dashboard():
     if current_user.role != 'student':
         return redirect(url_for('index'))
     return render_template('student_dashboard.html')
+
+# Error handlers
+@app.errorhandler(404)
+def not_found_error(error):
+    app.logger.error(f'Page not found: {request.url}')
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    app.logger.error(f'Server Error: {error}')
+    return render_template('500.html'), 500
+
+@app.errorhandler(502)
+def bad_gateway_error(error):
+    app.logger.error(f'Bad Gateway Error: {error}')
+    return render_template('502.html'), 502
 
 if __name__ == '__main__':
     with app.app_context():
