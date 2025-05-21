@@ -5,8 +5,8 @@
   "main": "app.py",
   "scripts": {
     "start": "python app.py",
-    "build:css": "tailwindcss -i ./static/css/main.css -o ./static/css/styles.css --minify",
-    "watch:css": "tailwindcss -i ./static/css/main.css -o ./static/css/styles.css --watch"
+    "build:css": "tailwindcss -i ./static/src/css/styles.css -o ./static/dist/css/styles.css --minify",
+    "watch:css": "tailwindcss -i ./static/src/css/styles.css -o ./static/dist/css/styles.css --watch"
   },
   "engines": {
     "node": ">=14.0.0"
