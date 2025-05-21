@@ -13,11 +13,11 @@ class AudioGenerator:
         self.ensure_directories()
         load_dotenv()  # Load environment variables from .env file
         
-        # Initialize Amazon Polly client using environment variables
+        # Initialize Amazon Polly client using audio-specific environment variables
         self.polly = boto3.client('polly',
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-            region_name='us-east-1'
+            aws_access_key_id=os.getenv('AWS_POLLY_ACCESS_KEY_ID'),      # Changed variable name
+            aws_secret_access_key=os.getenv('AWS_POLLY_SECRET_ACCESS_KEY'),  # Changed variable name
+            region_name=os.getenv('AWS_POLLY_REGION', 'us-east-1')  # Changed variable name, with default
         )
 
     def ensure_directories(self):
