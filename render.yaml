@@ -215,7 +215,7 @@ EOL
       "
       
       echo "\nBuild process completed successfully ✅"
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --log-level debug --access-logfile - --error-logfile - --capture-output
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120 --keep-alive 5 --max-requests 1000 --max-requests-jitter 50 --log-level debug --access-logfile - --error-logfile - --capture-output
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
