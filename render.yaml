@@ -157,6 +157,28 @@ EOL
           exit 1
       }
       
+      echo "\n=== Initializing Default Users ==="
+      echo "Running user initialization script..."
+      python init_users.py || {
+          echo "ERROR: Failed to initialize users. Checking user table..."
+          python -c "
+          from sqlalchemy import create_engine, text
+          import os
+          
+          engine = create_engine(os.getenv('DATABASE_URL'))
+          with engine.connect() as conn:
+              result = conn.execute(text('SELECT COUNT(*) FROM \"user\"'))
+              count = result.scalar()
+              print(f'\nCurrent user count: {count}')
+              
+              if count > 0:
+                  print('Users already exist, continuing...')
+              else:
+                  print('No users found in database!')
+                  sys.exit(1)
+          "
+      }
+      
       echo "\n=== Verifying Database Setup ==="
       python -c "
       from sqlalchemy import create_engine, inspect, text
