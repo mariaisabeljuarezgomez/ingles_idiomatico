@@ -21,10 +21,7 @@ from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording
 from config import config
 from init_users import init_users
 
-# Get the deployment directory from environment or default to current directory
-DEPLOY_DIR = os.getenv('DEPLOY_DIR', os.path.dirname(os.path.abspath(__file__)))
-
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -38,16 +35,15 @@ CORS(app)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching during development
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Debug logging for static file configuration
+# Debug logging for database configuration
 app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
 app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
-app.logger.info(f"Deploy Directory: {DEPLOY_DIR}")
+app.logger.info(f"Static folder: {app.static_folder}")
+app.logger.info(f"Static URL path: {app.static_url_path}")
 
-# List static files for debugging
-for root, dirs, files in os.walk(os.path.join(DEPLOY_DIR, 'static')):
-    for file in files:
-        app.logger.info(f"Static file found: {os.path.join(root, file)}")
+# Get the deployment directory from environment or default to current directory
+DEPLOY_DIR = os.getenv('DEPLOY_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 # Configure logging
 if not app.debug:

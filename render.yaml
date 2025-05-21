@@ -7,54 +7,12 @@ services:
       pip install --upgrade pip
       pip install --no-cache-dir -r requirements.txt
       
-      # Set up deployment directory structure
-      echo "Setting up deployment directory..."
-      DEPLOY_DIR=/opt/render/project/deploy
-      
-      # Create static directories
-      echo "Creating static directories..."
-      mkdir -p $DEPLOY_DIR/static/js
-      mkdir -p $DEPLOY_DIR/static/css
-      mkdir -p $DEPLOY_DIR/static/audio
-      
-      # Copy application files
-      echo "Copying application files..."
-      cp -v app.py config.py extensions.py init_users.py models.py requirements.txt $DEPLOY_DIR/
-      
-      # Copy static files with verbose output
-      echo "Copying static files..."
-      echo "Copying JS files..."
-      cp -v static/js/* $DEPLOY_DIR/static/js/ || echo "No JS files to copy"
-      echo "Copying CSS files..."
-      cp -v static/css/* $DEPLOY_DIR/static/css/ || echo "No CSS files to copy"
-      echo "Copying audio files..."
-      cp -v static/audio/* $DEPLOY_DIR/static/audio/ || echo "No audio files to copy"
-      
-      # Set permissions
-      echo "Setting permissions..."
-      chmod -R 755 $DEPLOY_DIR/static
-      
-      # Verify deployment
-      echo "Verifying deployment..."
-      echo "Static directory structure:"
-      ls -R $DEPLOY_DIR/static
-      
-      echo "JS files:"
-      ls -l $DEPLOY_DIR/static/js/
-      echo "CSS files:"
-      ls -l $DEPLOY_DIR/static/css/
-      
       echo "Setting up environment..."
       export FLASK_APP=app.py
       export FLASK_ENV=production
-      export DEPLOY_DIR=$DEPLOY_DIR
       
       echo "Build process completed ✅"
-    startCommand: |
-      cd /opt/render/project/deploy && \
-      PYTHONPATH=/opt/render/project/deploy \
-      DEPLOY_DIR=/opt/render/project/deploy \
-      gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120 --log-level=debug
+    startCommand: "gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
@@ -68,8 +26,6 @@ services:
           property: connectionString
       - key: FLASK_APP
         value: app.py
-      - key: DEPLOY_DIR
-        value: /opt/render/project/deploy
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT
