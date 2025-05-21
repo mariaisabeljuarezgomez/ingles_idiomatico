@@ -20,8 +20,15 @@ from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording
 from config import config
 
 app = Flask(__name__, static_folder='static')
+
+# Configure the application
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
+
+# Debug logging for database configuration
+app.logger.info('Inglés Idiomático startup')
+app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
+app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
 
 # Configure logging
 if not app.debug:
@@ -34,7 +41,6 @@ if not app.debug:
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
-    app.logger.info('Inglés Idiomático startup')
 
 # Ensure secret key is set
 if not app.secret_key:
@@ -43,7 +49,17 @@ if not app.secret_key:
 # Initialize extensions
 CORS(app)
 csrf = CSRFProtect(app)
+
+# Initialize database
 db.init_app(app)
+with app.app_context():
+    try:
+        db.create_all()
+        app.logger.info("Database tables created successfully")
+    except Exception as e:
+        app.logger.error(f"Error creating database tables: {str(e)}")
+
+# Initialize other extensions
 migrate = Migrate(app, db)
 login_manager = LoginManager()
 login_manager.init_app(app)
