@@ -222,6 +222,12 @@ def index():
             return redirect(url_for('student_dashboard'))
     return redirect(url_for('login'))
 
+@app.route('/index.html')
+@login_required
+def serve_lesson_interface():
+    return send_from_directory('.', 'index.html')
+
+# Serve static files from the root directory
 @app.route('/<path:path>')
 def serve_static(path):
     try:
