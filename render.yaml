@@ -7,20 +7,30 @@ services:
       pip install --upgrade pip
       pip install --no-cache-dir -r requirements.txt
       
-      # Create static directories
-      mkdir -p /opt/render/project/src/static/audio
-      mkdir -p /opt/render/project/src/static/css
-      mkdir -p /opt/render/project/src/static/js
+      # Create deployment directory
+      echo "Creating deployment directory..."
+      mkdir -p /opt/render/project/deploy/static
       
-      # Copy static files with verbose output
-      echo "Copying static files..."
-      cp -rv static/audio/* /opt/render/project/src/static/audio/ || echo "No audio files to copy"
-      cp -rv static/css/* /opt/render/project/src/static/css/ || echo "No CSS files to copy"
-      cp -rv static/js/* /opt/render/project/src/static/js/ || echo "No JS files to copy"
+      # Copy static files to deployment directory
+      echo "Copying static files to deployment directory..."
+      cp -rv static/* /opt/render/project/deploy/static/
       
-      # List contents of static directory for verification
-      echo "Verifying static files..."
-      ls -R /opt/render/project/src/static/
+      # Set proper permissions
+      echo "Setting permissions..."
+      chmod -R 755 /opt/render/project/deploy/static
+      
+      # Verify deployment directory contents
+      echo "Verifying deployment directory contents..."
+      ls -la /opt/render/project/deploy/static/
+      echo "Contents of js directory:"
+      ls -la /opt/render/project/deploy/static/js/
+      echo "File sizes in js directory:"
+      du -h /opt/render/project/deploy/static/js/* || echo "No JS files found"
+      
+      echo "Contents of css directory:"
+      ls -la /opt/render/project/deploy/static/css/
+      echo "File sizes in css directory:"
+      du -h /opt/render/project/deploy/static/css/* || echo "No CSS files found"
       
       echo "Setting up environment..."
       export FLASK_APP=app.py
@@ -40,18 +50,15 @@ services:
       
       print('Attempting database connection...')
       engine = create_engine(db_url)
-      try:
-          with engine.connect() as conn:
-              result = conn.execute(text('SELECT current_database(), current_schema(), current_user, version()'))
-              db, schema, user, version = result.fetchone()
-              print(f'\nConnection successful!')
-              print(f'Database: {db}')
-              print(f'Schema: {schema}')
-              print(f'User: {user}')
-              print(f'Version: {version}')
-      except Exception as e:
-          print(f'\nERROR: Failed to connect to database: {str(e)}', file=sys.stderr)
-          sys.exit(1)
+      
+      with engine.connect() as conn:
+          try:
+              result = conn.execute(text('SELECT COUNT(*) FROM \"user\"'))
+              count = result.scalar()
+              print(f'Successfully queried user table. Current record count: {count}')
+          except Exception as e:
+              print(f'ERROR: Failed to query user table: {str(e)}', file=sys.stderr)
+              sys.exit(1)
       "
       
       echo "\n=== Database Migration Process ==="
@@ -260,7 +267,7 @@ EOL
         value: "false"
     healthCheckPath: /login
     autoDeploy: true
-    staticPublishPath: ./static
+    staticPublishPath: /opt/render/project/deploy/static
 
 databases:
   - name: ingles_idiomatico_db
