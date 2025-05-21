@@ -23,11 +23,8 @@ from init_users import init_users
 
 # Get the deployment directory from environment or default to current directory
 DEPLOY_DIR = os.getenv('DEPLOY_DIR', os.path.dirname(os.path.abspath(__file__)))
-STATIC_DIR = os.path.join(DEPLOY_DIR, 'static')
 
-app = Flask(__name__, 
-           static_folder=STATIC_DIR,  # Use the deployment static directory
-           static_url_path='/static')
+app = Flask(__name__)
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -46,11 +43,9 @@ app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
 app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
 app.logger.info(f"Deploy Directory: {DEPLOY_DIR}")
-app.logger.info(f"Static Directory: {STATIC_DIR}")
-app.logger.info(f"Static URL path: {app.static_url_path}")
 
 # List static files for debugging
-for root, dirs, files in os.walk(STATIC_DIR):
+for root, dirs, files in os.walk(os.path.join(DEPLOY_DIR, 'static')):
     for file in files:
         app.logger.info(f"Static file found: {os.path.join(root, file)}")
 
@@ -254,32 +249,29 @@ def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
 # Direct file serving routes with explicit paths
-@app.route('/static/js/<path:filename>')
-@app.route('/js/<path:filename>')  # Fallback route
-def serve_js(filename):
-    app.logger.info(f'[JS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "js")}')
-    try:
-        return send_from_directory(os.path.join(STATIC_DIR, 'js'), filename)
-    except Exception as e:
-        app.logger.error(f'Error serving JS file {filename}: {str(e)}')
-        return f'File not found: {filename}', 404
-
-@app.route('/static/css/<path:filename>')
-@app.route('/css/<path:filename>')  # Fallback route
+@app.route('/css/<path:filename>')
 def serve_css(filename):
-    app.logger.info(f'[CSS Request] Serving: {filename} from {os.path.join(STATIC_DIR, "css")}')
+    app.logger.info(f'[CSS Request] Serving: {filename}')
     try:
-        return send_from_directory(os.path.join(STATIC_DIR, 'css'), filename)
+        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'css'), filename)
     except Exception as e:
         app.logger.error(f'Error serving CSS file {filename}: {str(e)}')
         return f'File not found: {filename}', 404
 
-@app.route('/static/audio/<path:filename>')
-@app.route('/audio/<path:filename>')  # Fallback route
-def serve_audio(filename):
-    app.logger.info(f'[Audio Request] Serving: {filename} from {os.path.join(STATIC_DIR, "audio")}')
+@app.route('/js/<path:filename>')
+def serve_js(filename):
+    app.logger.info(f'[JS Request] Serving: {filename}')
     try:
-        return send_from_directory(os.path.join(STATIC_DIR, 'audio'), filename)
+        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'js'), filename)
+    except Exception as e:
+        app.logger.error(f'Error serving JS file {filename}: {str(e)}')
+        return f'File not found: {filename}', 404
+
+@app.route('/audio/<path:filename>')
+def serve_audio(filename):
+    app.logger.info(f'[Audio Request] Serving: {filename}')
+    try:
+        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'audio'), filename)
     except Exception as e:
         app.logger.error(f'Error serving audio file {filename}: {str(e)}')
         return f'File not found: {filename}', 404
@@ -960,18 +952,42 @@ def test_static():
 def test_static_paths():
     """Test route to verify static file paths"""
     static_files = []
-    for root, dirs, files in os.walk(STATIC_DIR):
+    for root, dirs, files in os.walk(DEPLOY_DIR):
         for file in files:
             full_path = os.path.join(root, file)
-            rel_path = os.path.relpath(full_path, STATIC_DIR)
+            rel_path = os.path.relpath(full_path, DEPLOY_DIR)
             static_files.append(rel_path)
     
     return jsonify({
-        'static_dir': STATIC_DIR,
+        'deploy_dir': DEPLOY_DIR,
         'files': static_files,
-        'exists': os.path.exists(STATIC_DIR),
-        'is_dir': os.path.isdir(STATIC_DIR),
-        'readable': os.access(STATIC_DIR, os.R_OK)
+        'exists': os.path.exists(DEPLOY_DIR),
+        'is_dir': os.path.isdir(DEPLOY_DIR),
+        'readable': os.access(DEPLOY_DIR, os.R_OK)
+    })
+
+@app.route('/test-paths')
+def test_paths():
+    """Test route to verify file paths"""
+    css_dir = os.path.join(DEPLOY_DIR, 'static', 'css')
+    js_dir = os.path.join(DEPLOY_DIR, 'static', 'js')
+    
+    css_files = []
+    js_files = []
+    
+    if os.path.exists(css_dir):
+        css_files = os.listdir(css_dir)
+    if os.path.exists(js_dir):
+        js_files = os.listdir(js_dir)
+    
+    return jsonify({
+        'deploy_dir': DEPLOY_DIR,
+        'css_dir': css_dir,
+        'js_dir': js_dir,
+        'css_files': css_files,
+        'js_files': js_files,
+        'css_dir_exists': os.path.exists(css_dir),
+        'js_dir_exists': os.path.exists(js_dir)
     })
 
 if __name__ == '__main__':

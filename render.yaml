@@ -10,15 +10,25 @@ services:
       # Set up deployment directory structure
       echo "Setting up deployment directory..."
       DEPLOY_DIR=/opt/render/project/deploy
-      mkdir -p $DEPLOY_DIR/static/js $DEPLOY_DIR/static/css $DEPLOY_DIR/static/audio
+      
+      # Create static directories
+      echo "Creating static directories..."
+      mkdir -p $DEPLOY_DIR/static/js
+      mkdir -p $DEPLOY_DIR/static/css
+      mkdir -p $DEPLOY_DIR/static/audio
       
       # Copy application files
       echo "Copying application files..."
-      cp -rv app.py config.py extensions.py init_users.py models.py requirements.txt $DEPLOY_DIR/
+      cp -v app.py config.py extensions.py init_users.py models.py requirements.txt $DEPLOY_DIR/
       
-      # Copy static files with verbose output and preserve permissions
+      # Copy static files with verbose output
       echo "Copying static files..."
-      cp -rpv static/* $DEPLOY_DIR/static/
+      echo "Copying JS files..."
+      cp -v static/js/* $DEPLOY_DIR/static/js/ || echo "No JS files to copy"
+      echo "Copying CSS files..."
+      cp -v static/css/* $DEPLOY_DIR/static/css/ || echo "No CSS files to copy"
+      echo "Copying audio files..."
+      cp -v static/audio/* $DEPLOY_DIR/static/audio/ || echo "No audio files to copy"
       
       # Set permissions
       echo "Setting permissions..."
@@ -26,23 +36,13 @@ services:
       
       # Verify deployment
       echo "Verifying deployment..."
-      echo "Static directory contents:"
-      ls -la $DEPLOY_DIR/static
-      echo "JS directory contents:"
-      ls -la $DEPLOY_DIR/static/js
-      echo "CSS directory contents:"
-      ls -la $DEPLOY_DIR/static/css
+      echo "Static directory structure:"
+      ls -R $DEPLOY_DIR/static
       
-      # Verify file contents
-      echo "Verifying file contents..."
-      for file in $DEPLOY_DIR/static/js/*.js; do
-        echo "=== $file ==="
-        head -n 1 "$file"
-      done
-      for file in $DEPLOY_DIR/static/css/*.css; do
-        echo "=== $file ==="
-        head -n 1 "$file"
-      done
+      echo "JS files:"
+      ls -l $DEPLOY_DIR/static/js/
+      echo "CSS files:"
+      ls -l $DEPLOY_DIR/static/css/
       
       echo "Setting up environment..."
       export FLASK_APP=app.py
@@ -53,7 +53,7 @@ services:
     startCommand: |
       cd /opt/render/project/deploy && \
       PYTHONPATH=/opt/render/project/deploy \
-      STATIC_ROOT=/opt/render/project/deploy/static \
+      DEPLOY_DIR=/opt/render/project/deploy \
       gunicorn app:app --bind=0.0.0.0:$PORT --workers=4 --threads=4 --timeout=120 --log-level=debug
     envVars:
       - key: PYTHON_VERSION
@@ -70,8 +70,6 @@ services:
         value: app.py
       - key: DEPLOY_DIR
         value: /opt/render/project/deploy
-      - key: STATIC_ROOT
-        value: /opt/render/project/deploy/static
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT
