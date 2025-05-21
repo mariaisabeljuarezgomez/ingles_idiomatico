@@ -31,6 +31,22 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     
+    # Handle PostgreSQL database URL
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = database_url
+    else:
+        raise ValueError("DATABASE_URL environment variable is not set")
+    
+    # Set SQLAlchemy pool settings for production
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_size': 10,
+        'max_overflow': 20,
+        'pool_recycle': 1800,
+    }
+    
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
@@ -41,22 +57,6 @@ class ProductionConfig(Config):
         file_handler = StreamHandler()
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
-        
-        # Handle PostgreSQL database URL
-        database_url = os.environ.get('DATABASE_URL')
-        if database_url:
-            if database_url.startswith("postgres://"):
-                database_url = database_url.replace("postgres://", "postgresql://", 1)
-            cls.SQLALCHEMY_DATABASE_URI = database_url
-        else:
-            raise ValueError("DATABASE_URL environment variable is not set")
-        
-        # Set SQLAlchemy pool settings for production
-        cls.SQLALCHEMY_ENGINE_OPTIONS = {
-            'pool_size': 10,
-            'max_overflow': 20,
-            'pool_recycle': 1800,
-        }
 
 config = {
     'development': DevelopmentConfig,
