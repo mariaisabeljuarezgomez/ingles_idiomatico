@@ -757,6 +757,83 @@ def student_dashboard():
         return redirect(url_for('index'))
     return render_template('student_dashboard.html')
 
+@app.route('/lecciones')
+@login_required
+def lessons_page():
+    return render_template('lessons.html')
+
+@app.route('/lesson/<int:lesson_id>/start')
+@login_required
+def start_lesson(lesson_id):
+    # Record lesson start
+    progress = LessonProgress.query.filter_by(
+        user_id=current_user.id,
+        lesson_number=lesson_id
+    ).first()
+    
+    if not progress:
+        progress = LessonProgress(
+            user_id=current_user.id,
+            lesson_number=lesson_id,
+            completion_percentage=0,
+            started_at=datetime.utcnow()
+        )
+        db.session.add(progress)
+    
+    # Update user's current lesson
+    current_user.current_lesson = lesson_id
+    db.session.commit()
+    
+    # Redirect to the index.html with the specific lesson anchor
+    return redirect(f'/#lesson-{lesson_id}')
+
+@app.route('/api/lesson/progress', methods=['POST'])
+@login_required
+def update_lesson_progress():
+    data = request.get_json()
+    lesson_id = data.get('lesson_id')
+    progress_value = data.get('progress')
+    time_spent = data.get('time_spent', 0)
+    
+    progress = LessonProgress.query.filter_by(
+        user_id=current_user.id,
+        lesson_number=lesson_id
+    ).first()
+    
+    if not progress:
+        progress = LessonProgress(
+            user_id=current_user.id,
+            lesson_number=lesson_id,
+            started_at=datetime.utcnow()
+        )
+        db.session.add(progress)
+    
+    progress.completion_percentage = progress_value
+    progress.time_spent = (progress.time_spent or 0) + time_spent
+    
+    if progress_value == 100:
+        progress.completed_at = datetime.utcnow()
+    
+    # Update analytics
+    analytics = Analytics(
+        user_id=current_user.id,
+        event_type='lesson_progress',
+        event_data={
+            'lesson_id': lesson_id,
+            'progress': progress_value,
+            'time_spent': time_spent
+        },
+        timestamp=datetime.utcnow()
+    )
+    db.session.add(analytics)
+    
+    try:
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 # Error handlers
 @app.errorhandler(404)
 def not_found_error(error):

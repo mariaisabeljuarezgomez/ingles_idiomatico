@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecciones - Inglés Idiomático</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/css/styles.css" rel="stylesheet">
     <style>
         .lesson-card {
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             transition: transform 0.2s, box-shadow 0.2s;
             background: white;
             height: 100%;
+            overflow: hidden;
         }
         
         .lesson-card:hover {
@@ -21,7 +23,7 @@
         }
         
         .lesson-header {
-            background: #4285f4;
+            background: var(--primary-color);
             color: white;
             padding: 15px;
             border-radius: 10px 10px 0 0;
@@ -40,68 +42,63 @@
             align-items: center;
             justify-content: center;
             margin-right: 15px;
+            font-weight: 600;
         }
         
         .completed {
-            background: #34a853;
+            background: var(--success-color);
             color: white;
         }
         
         .in-progress {
-            background: #fbbc05;
+            background: var(--warning-color);
             color: white;
         }
         
         .start-button {
-            background: #4285f4;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
             color: white;
             border: none;
             padding: 8px 20px;
             border-radius: 5px;
             transition: background 0.2s;
+            text-decoration: none;
+            font-weight: 500;
         }
         
         .start-button:hover {
-            background: #3367d6;
+            background: var(--primary-dark);
+            color: white;
+        }
+        
+        .start-button i {
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar">
         <div class="container">
             <a class="navbar-brand" href="/">Inglés Idiomático</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/lecciones">Lecciones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/practica">Práctica</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
-                    </li>
-                </ul>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/lecciones" class="active">Lecciones</a>
+                <a href="/practica">Práctica</a>
+                <a href="/logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <div class="container mt-4">
-        <h2 class="mb-4">Mis Lecciones</h2>
-        <div class="row g-4">
+        <h2 class="section-title">Mis Lecciones</h2>
+        <div class="row g-4" id="lessons-container">
             <!-- Lesson cards will be dynamically populated -->
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Fetch lessons and user progress
@@ -114,7 +111,7 @@
                     return map;
                 }, {});
                 
-                const lessonContainer = document.querySelector('.row');
+                const lessonContainer = document.getElementById('lessons-container');
                 lessons.forEach(lesson => {
                     const completion = progressMap[lesson.id] || 0;
                     const status = completion === 100 ? 'completed' : 
@@ -142,8 +139,9 @@
                                          aria-valuemax="100">
                                     </div>
                                 </div>
-                                <a href="/lesson/${lesson.id}/start" class="start-button text-decoration-none">
+                                <a href="/lesson/${lesson.id}/start" class="start-button">
                                     ${completion > 0 ? 'Continuar' : 'Comenzar'}
+                                    <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
