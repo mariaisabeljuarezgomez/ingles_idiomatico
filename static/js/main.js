@@ -2,7 +2,7 @@
 window.lessonStates = window.lessonStates || {};
 
 // Base URL for all server requests
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'https://ingles-idiomatico-new.onrender.com';
 
 // DOM Elements
 const coverPage = document.getElementById('cover-page');
