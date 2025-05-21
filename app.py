@@ -21,7 +21,7 @@ from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording
 from config import config
 from init_users import init_users
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 # Configure the application
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
@@ -233,12 +233,10 @@ def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
 # Serve static files from the root directory
-@app.route('/<path:path>')
-def serve_static(path):
-    try:
-        return send_from_directory('.', path)
-    except Exception as e:
-        return str(e), 404
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Explicitly serve static files"""
+    return send_from_directory(app.static_folder, filename)
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
