@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 import csv
 from io import StringIO
 from flask_mail import Mail, Message
+from flask_wtf.csrf import CSRFProtect
 
 # Import db from extensions first
 from extensions import db
@@ -16,7 +17,7 @@ from extensions import db
 from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording, StudentStats, Analytics, TeacherFeedback
 from config import config
 
-app = Flask(__name__, static_folder='.')
+app = Flask(__name__, static_folder='static')
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
 
@@ -26,6 +27,7 @@ if not app.secret_key:
 
 # Initialize extensions
 CORS(app)
+csrf = CSRFProtect(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager()
@@ -175,9 +177,15 @@ def get_student_stats():
 
 # Serve static files from the root directory
 @app.route('/')
-@login_required
-def serve_index():
-    return send_from_directory('.', 'index.html')
+def index():
+    if current_user.is_authenticated:
+        if current_user.role == 'teacher':
+            return redirect(url_for('teacher_dashboard'))
+        elif current_user.role == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return redirect(url_for('student_dashboard'))
+    return redirect(url_for('login'))
 
 @app.route('/<path:path>')
 def serve_static(path):
@@ -706,6 +714,13 @@ def test_email():
         return jsonify({'success': True, 'message': 'Test email sent successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/student-dashboard')
+@login_required
+def student_dashboard():
+    if current_user.role != 'student':
+        return redirect(url_for('index'))
+    return render_template('student_dashboard.html')
 
 if __name__ == '__main__':
     with app.app_context():
