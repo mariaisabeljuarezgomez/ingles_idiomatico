@@ -1,148 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Inglés Idiomático</title>
-    <!-- Temporarily use CDN while we fix the build process -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#4F46E5",
-                        secondary: "#6366F1",
-                        'primary-dark': "#4338CA",
-                        'primary-light': "#818CF8"
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/static/css/styles.css" rel="stylesheet">
     <style>
-        .blob {
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #0a1929 0%, #1a2942 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #1557c0;
+            transform: translateY(-1px);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: white;
+        }
+
+        /* Moving light effect */
+        .light-effect {
             position: absolute;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, 
+                rgba(66, 133, 244, 0.15) 0%,
+                rgba(66, 133, 244, 0.1) 20%,
+                rgba(66, 133, 244, 0) 70%);
             border-radius: 50%;
-            mix-blend-mode: multiply;
-            filter: blur(40px);
-            opacity: 0.7;
-            animation: blob 7s infinite;
             pointer-events: none;
+            z-index: 0;
+            animation: moveLight 15s infinite;
         }
 
-        .blob-1 {
-            background: rgb(216, 180, 254);
-            width: 18rem;
-            height: 18rem;
-            top: -1rem;
-            right: -1rem;
+        .light-effect:nth-child(2) {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, 
+                rgba(52, 168, 83, 0.15) 0%,
+                rgba(52, 168, 83, 0.1) 20%,
+                rgba(52, 168, 83, 0) 70%);
+            animation: moveLight2 20s infinite;
         }
 
-        .blob-2 {
-            background: rgb(253, 224, 71);
-            width: 18rem;
-            height: 18rem;
-            top: 5rem;
-            right: 5rem;
+        .light-effect:nth-child(3) {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, 
+                rgba(251, 188, 4, 0.15) 0%,
+                rgba(251, 188, 4, 0.1) 20%,
+                rgba(251, 188, 4, 0) 70%);
+            animation: moveLight3 25s infinite;
         }
 
-        .blob-3 {
-            background: rgb(249, 168, 212);
-            width: 18rem;
-            height: 18rem;
-            bottom: -2rem;
-            right: 5rem;
+        @keyframes moveLight {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(50%, -30%) scale(1.2); }
+            50% { transform: translate(30%, 50%) scale(0.8); }
+            75% { transform: translate(-30%, 30%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
+        @keyframes moveLight2 {
+            0% { transform: translate(50%, 50%) scale(1.2); }
+            25% { transform: translate(-30%, 30%) scale(0.9); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            75% { transform: translate(30%, -30%) scale(0.8); }
+            100% { transform: translate(50%, 50%) scale(1.2); }
+        }
+
+        @keyframes moveLight3 {
+            0% { transform: translate(0%, 0%) scale(1); }
+            25% { transform: translate(40%, -40%) scale(1.3); }
+            50% { transform: translate(-40%, -20%) scale(0.9); }
+            75% { transform: translate(-20%, 40%) scale(1.1); }
+            100% { transform: translate(0%, 0%) scale(1); }
+        }
+
+        /* Error message styling */
+        .error-message {
+            background: rgba(234, 67, 53, 0.1);
+            border: 1px solid rgba(234, 67, 53, 0.3);
+            color: #ea4335;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .error-message i {
+            margin-right: 0.5rem;
+        }
+
+        /* Success message styling */
+        .success-message {
+            background: rgba(52, 168, 83, 0.1);
+            border: 1px solid rgba(52, 168, 83, 0.3);
+            color: #34a853;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .success-message i {
+            margin-right: 0.5rem;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    
-    <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg relative z-10">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Inglés Idiomático
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Inicia sesión para continuar
-            </p>
+<body>
+    <!-- Moving light effects -->
+    <div class="light-effect"></div>
+    <div class="light-effect"></div>
+    <div class="light-effect"></div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Inglés Idiomático</h1>
+            <p>Inicia sesión para continuar tu aprendizaje</p>
         </div>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        <span class="block sm:inline">{{ message }}</span>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ error }}
+        </div>
+        {% endif %}
 
-        <form method="POST" action="{{ url_for('login', _external=True) }}" class="mt-8 space-y-6">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="email" class="sr-only">Email</label>
-                    <input id="email" 
-                           name="email" 
-                           type="email" 
-                           autocomplete="email" 
-                           required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" 
-                           placeholder="Email">
-                </div>
-                <div>
-                    <label for="password" class="sr-only">Contraseña</label>
-                    <input id="password" 
-                           name="password" 
-                           type="password" 
-                           autocomplete="current-password" 
-                           required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" 
-                           placeholder="Contraseña">
-                </div>
+        {% if success %}
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            {{ success }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
             </div>
 
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input id="remember-me" 
-                           name="remember" 
-                           type="checkbox" 
-                           class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-                        Recordar
-                    </label>
-                </div>
-
-                <div class="text-sm">
-                    <a href="{{ url_for('reset_password_request', _external=True) }}" class="font-medium text-primary hover:text-primary-dark">
-                        ¿Olvidaste tu contraseña?
-                    </a>
-                </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
             </div>
 
-            <div>
-                <button type="submit" 
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <svg class="h-5 w-5 text-primary-dark group-hover:text-primary-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                    Iniciar Sesión
-                </button>
-            </div>
+            <button type="submit" class="login-btn">
+                Iniciar Sesión
+            </button>
         </form>
+
+        <div class="forgot-password">
+            <a href="{{ url_for('reset_password') }}">¿Olvidaste tu contraseña?</a>
+        </div>
     </div>
+
+    <script>
+        // Add subtle parallax effect to light elements based on mouse movement
+        document.addEventListener('mousemove', (e) => {
+            const lights = document.querySelectorAll('.light-effect');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            lights.forEach((light, index) => {
+                const strength = (3 - index) * 20; // Decreasing strength for each subsequent light
+                const offsetX = (mouseX - 0.5) * strength;
+                const offsetY = (mouseY - 0.5) * strength;
+                
+                light.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
+        });
+    </script>
 </body>
 </html> 
