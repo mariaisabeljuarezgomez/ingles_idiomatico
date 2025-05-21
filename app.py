@@ -21,29 +21,16 @@ from models import User, LessonProgress, ExerciseAttempt, PronunciationRecording
 from config import config
 from init_users import init_users
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
+app = Flask(__name__, static_folder='static')
 
 # Configure the application
 app.config.from_object(config[os.getenv('FLASK_ENV', 'production')])
 config[os.getenv('FLASK_ENV', 'production')].init_app(app)
 
-# Enable CORS and configure static file serving
-CORS(app)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching during development
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-
 # Debug logging for database configuration
 app.logger.info('Inglés Idiomático startup')
 app.logger.info(f"Database URL: {app.config.get('SQLALCHEMY_DATABASE_URI', 'Not set!')}")
 app.logger.info(f"Environment: {os.getenv('FLASK_ENV', 'production')}")
-app.logger.info(f"Static folder: {app.static_folder}")
-app.logger.info(f"Static URL path: {app.static_url_path}")
-
-# Get the deployment directory from environment or default to current directory
-DEPLOY_DIR = os.getenv('DEPLOY_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 # Configure logging
 if not app.debug:
@@ -62,6 +49,7 @@ if not app.secret_key:
     app.secret_key = os.urandom(24)
 
 # Initialize extensions
+CORS(app)
 csrf = CSRFProtect(app)
 
 # Initialize database
@@ -244,44 +232,13 @@ def index():
 def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
-# Add route to serve lesson HTML files
-@app.route('/lessons/<path:filename>')
-@login_required
-def serve_lesson(filename):
-    app.logger.info(f'[Lesson Request] Serving: {filename}')
+# Serve static files from the root directory
+@app.route('/<path:path>')
+def serve_static(path):
     try:
-        return send_from_directory('lessons', filename)
+        return send_from_directory('.', path)
     except Exception as e:
-        app.logger.error(f'Error serving lesson file {filename}: {str(e)}')
-        return f'Lesson file not found: {filename}', 404
-
-# Direct file serving routes with explicit paths
-@app.route('/css/<path:filename>')
-def serve_css(filename):
-    app.logger.info(f'[CSS Request] Serving: {filename}')
-    try:
-        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'css'), filename)
-    except Exception as e:
-        app.logger.error(f'Error serving CSS file {filename}: {str(e)}')
-        return f'File not found: {filename}', 404
-
-@app.route('/js/<path:filename>')
-def serve_js(filename):
-    app.logger.info(f'[JS Request] Serving: {filename}')
-    try:
-        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'js'), filename)
-    except Exception as e:
-        app.logger.error(f'Error serving JS file {filename}: {str(e)}')
-        return f'File not found: {filename}', 404
-
-@app.route('/audio/<path:filename>')
-def serve_audio(filename):
-    app.logger.info(f'[Audio Request] Serving: {filename}')
-    try:
-        return send_from_directory(os.path.join(DEPLOY_DIR, 'static', 'audio'), filename)
-    except Exception as e:
-        app.logger.error(f'Error serving audio file {filename}: {str(e)}')
-        return f'File not found: {filename}', 404
+        return str(e), 404
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
@@ -917,85 +874,6 @@ def internal_error(error):
 def bad_gateway_error(error):
     app.logger.error(f'Bad Gateway Error: {error}')
     return render_template('502.html'), 502
-
-@app.route('/test-static')
-def test_static():
-    """Test route to verify static file serving"""
-    return '''
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Static File Test</title>
-        <link href="/static/css/styles.css" rel="stylesheet">
-    </head>
-    <body>
-        <h1>Static File Test</h1>
-        <div id="test-content">
-            <p>This page tests static file loading.</p>
-            <p>CSS Status: <span id="css-status">Checking...</span></p>
-            <p>JS Status: <span id="js-status">Checking...</span></p>
-        </div>
-        <script src="/static/js/main.js"></script>
-        <script>
-            // Test CSS loading
-            window.onload = function() {
-                const testEl = document.getElementById('test-content');
-                const cssStatus = document.getElementById('css-status');
-                const jsStatus = document.getElementById('js-status');
-                
-                // Check if CSS is loaded
-                const styles = window.getComputedStyle(testEl);
-                cssStatus.textContent = styles ? 'Loaded ✅' : 'Failed ❌';
-                
-                // Check if JS is loaded
-                jsStatus.textContent = typeof showLesson === 'function' ? 'Loaded ✅' : 'Failed ❌';
-            };
-        </script>
-    </body>
-    </html>
-    '''
-
-@app.route('/test-static-paths')
-def test_static_paths():
-    """Test route to verify static file paths"""
-    static_files = []
-    for root, dirs, files in os.walk(DEPLOY_DIR):
-        for file in files:
-            full_path = os.path.join(root, file)
-            rel_path = os.path.relpath(full_path, DEPLOY_DIR)
-            static_files.append(rel_path)
-    
-    return jsonify({
-        'deploy_dir': DEPLOY_DIR,
-        'files': static_files,
-        'exists': os.path.exists(DEPLOY_DIR),
-        'is_dir': os.path.isdir(DEPLOY_DIR),
-        'readable': os.access(DEPLOY_DIR, os.R_OK)
-    })
-
-@app.route('/test-paths')
-def test_paths():
-    """Test route to verify file paths"""
-    css_dir = os.path.join(DEPLOY_DIR, 'static', 'css')
-    js_dir = os.path.join(DEPLOY_DIR, 'static', 'js')
-    
-    css_files = []
-    js_files = []
-    
-    if os.path.exists(css_dir):
-        css_files = os.listdir(css_dir)
-    if os.path.exists(js_dir):
-        js_files = os.listdir(js_dir)
-    
-    return jsonify({
-        'deploy_dir': DEPLOY_DIR,
-        'css_dir': css_dir,
-        'js_dir': js_dir,
-        'css_files': css_files,
-        'js_files': js_files,
-        'css_dir_exists': os.path.exists(css_dir),
-        'js_dir_exists': os.path.exists(js_dir)
-    })
 
 if __name__ == '__main__':
     with app.app_context():
