@@ -8,6 +8,7 @@
     --bg-primary: #f1f5f9;
     --bg-secondary: #ffffff;
     --border-color: #e2e8f0;
+    --primary-dark-rgb: 7, 89, 133; /* Added for practice-btn shadow */
     
     /* Responsive spacing units */
     --space-unit: clamp(0.5rem, 2vw, 1rem);
@@ -109,14 +110,33 @@ p {
     padding: var(--space-sm) 0;
 }
 
+.navbar .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-sm); 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    /* Assuming .btn class will provide most styling like color, background, padding */
+    font-weight: bold; /* Keep brand text bold */
+    margin-right: var(--space-md); /* Space between brand and nav-links */
+    /* If .btn padding is too large for brand, it can be adjusted here or by a more specific selector */
+    /* e.g., padding: var(--space-xs) var(--space-sm); */
+}
+
 .nav-links {
-    display: none;
+    display: none; 
 }
 
 @media (min-width: 768px) {
     .nav-links {
         display: flex;
-        gap: var(--space-md);
+        align-items: center; 
+        gap: var(--space-sm); /* Adjust gap as needed */
     }
 }
 
@@ -152,18 +172,41 @@ p {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-sm) var(--space-md); /* Default padding */
     border-radius: 0.5rem;
-    font-weight: 500;
+    font-weight: 600; /* Standardized font-weight */
     transition: all 0.2s ease;
     font-size: var(--font-size-sm);
     gap: var(--space-xs);
-    width: 100%;
+    /* width: 100%; Removed for more flexible buttons by default */
+    background-color: var(--primary); /* Standard button background */
+    color: white; /* Standard button text color */
+    text-decoration: none; /* Remove underline for <a> tags styled as buttons */
+    border: 1px solid transparent; /* Ensure consistent box model, transparent border */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow */
+    cursor: pointer;
 }
+
+.btn:hover {
+    background-color: var(--primary-dark); /* Darken button on hover */
+    color: white; /* Ensure text color remains white */
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Enhance shadow on hover */
+}
+
+/* Ensure navbar-brand, when also a btn, has appropriate padding and retains text color */
+.navbar-brand.btn {
+    padding: var(--space-xs) var(--space-sm); /* Smaller padding for navbar brand button */
+    color: white; /* Ensure text is white */
+}
+.navbar-brand.btn:hover {
+    color: white; /* Keep text white on hover */
+}
+
 
 @media (min-width: 640px) {
     .btn {
-        width: auto;
+        width: auto; /* Allow buttons to size to content on larger screens */
     }
 }
 
@@ -1604,3 +1647,151 @@ section h2 {
     color: var(--primary-dark);
     font-weight: 600;
 } 
+
+/* Practice Page / Dashboard Component Styles */
+.practice-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    padding: var(--space-xl) var(--space-md);
+    border-radius: 0.5rem; /* Consistent with other buttons/cards */
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.practice-header h1 {
+    font-size: var(--font-size-3xl); /* Use defined variable */
+    color: white; /* Ensure override from base h1 */
+    margin-bottom: var(--space-sm);
+}
+
+.practice-header p {
+    font-size: var(--font-size-lg); /* Use defined variable */
+    color: var(--primary-light); 
+    max-width: 700px;
+    margin: 0 auto var(--space-md) auto; /* Center paragraph */
+}
+
+.practice-container {
+    max-width: 1200px;
+    margin: var(--space-lg) auto; /* Vertical and horizontal centering */
+    padding: var(--space-md); /* Consistent padding */
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg); /* Generous gap for cards */
+}
+
+.practice-card {
+    background-color: var(--bg-secondary);
+    border-radius: 1rem; /* Slightly larger radius for distinct cards */
+    padding: var(--space-lg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden; /* For ::before pseudo-element */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--border-color);
+}
+
+.practice-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px; /* Initial height of the accent bar */
+    background-color: var(--primary);
+    transition: height 0.3s ease;
+}
+
+.practice-card:hover::before {
+    height: 8px; /* Accent bar grows on hover */
+}
+
+.practice-card:hover {
+    transform: translateY(-8px); /* Lift card on hover */
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+.practice-icon {
+    font-size: 2.5rem; 
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+    line-height: 1; 
+}
+
+.practice-card h3 {
+    font-size: var(--font-size-xl); /* Use defined variable */
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.practice-card p {
+    font-size: var(--font-size-base); /* Use defined variable */
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+    flex-grow: 1; 
+}
+
+.skill-level {
+    display: inline-block; /* So it doesn't take full width */
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 0.25rem; 
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    margin-bottom: var(--space-md);
+}
+
+.practice-btn {
+    display: inline-flex; /* Align icon and text */
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg); 
+    border-radius: 0.5rem; 
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    color: white;
+    background: linear-gradient(45deg, var(--primary) 0%, var(--primary-dark) 100%);
+    text-decoration: none; /* Remove underline if it's an <a> tag */
+    transition: all 0.3s ease;
+    border: none; 
+    box-shadow: 0 4px 12px rgba(var(--primary-dark-rgb), 0.2);
+}
+
+.practice-btn:hover {
+    transform: translateY(-3px) scale(1.03); /* Subtle lift and scale */
+    box-shadow: 0 6px 16px rgba(var(--primary-dark-rgb), 0.3);
+    background: linear-gradient(45deg, var(--primary-dark) 0%, var(--primary) 100%); 
+}
+
+/* Responsive adjustments for practice page elements */
+@media (max-width: 768px) {
+    .practice-grid {
+        grid-template-columns: 1fr; 
+        gap: var(--space-md);
+    }
+
+    .practice-header {
+        padding: var(--space-lg) var(--space-sm);
+    }
+
+    .practice-header h1 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .practice-header p {
+        font-size: var(--font-size-base);
+    }
+
+    .practice-card {
+        padding: var(--space-md);
+    }
+}
