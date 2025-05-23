@@ -233,12 +233,12 @@ def serve_lesson_interface():
     return send_from_directory('.', 'index.html')
 
 # Serve static files from the root directory
-@app.route('/<path:path>')
-def serve_static(path):
-    try:
-        return send_from_directory('.', path)
-    except Exception as e:
-        return str(e), 404
+# @app.route('/<path:path>')
+# def serve_static(path):
+#     try:
+#         return send_from_directory('.', path)
+#     except Exception as e:
+#         return str(e), 404
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
