@@ -578,13 +578,13 @@ button[onclick*="grabar"] i {
 }
 
 .section-title {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: var(--primary-dark);
-    margin-bottom: 1.5rem;
-    text-align: center;
-    border-bottom: 2px solid var(--primary-light);
-    padding-bottom: 0.75rem;
+    font-size: 1.3rem; /* Updated */
+    font-weight: 600; /* Remains 600 */
+    color: #1a73e8; /* Updated */
+    margin-bottom: 1rem; /* Updated */
+    text-align: center; /* Remains center */
+    border-bottom: 2px solid var(--primary-light); /* Preserved */
+    padding-bottom: 0.75rem; /* Preserved */
 }
 
 .subsection-title {
