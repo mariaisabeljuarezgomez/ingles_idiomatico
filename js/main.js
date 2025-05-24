@@ -82,16 +82,21 @@ document.addEventListener('DOMContentLoaded', () => {
         startCourseBtn.addEventListener('click', () => {
             console.log("Comenzar Curso button clicked!"); // Log to confirm click
 
-            // Hide the cover page
+            // Hide the cover page (start transition)
             coverPage.style.opacity = '0';
-            coverPage.style.pointerEvents = 'none'; // Disable interactions
-            
-            // After animation, hide it completely and show main content
+            coverPage.style.pointerEvents = 'none'; // Disable interactions on cover page
+
+            // Show main content (start transition)
+            mainContentArea.style.display = 'flex'; // Change display first to enable transition
             setTimeout(() => {
-                coverPage.style.display = 'none';
-                mainContentArea.style.display = 'flex'; // Use flex to enable sidebar/main layout
                 mainContentArea.style.opacity = '1';
-            }, 500); // Match this timeout to your CSS transition duration for opacity
+            }, 10); // A small delay to ensure display:flex is applied before opacity transition
+
+            // After cover page finishes fading out, set its display to none
+            coverPage.addEventListener('transitionend', function handler() {
+                coverPage.style.display = 'none';
+                coverPage.removeEventListener('transitionend', handler);
+            }, { once: true }); // Ensure this runs only once
         });
     } else {
         console.error("Required elements for start button functionality not found.");
