@@ -77,50 +77,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const lessonDefaultContent = document.getElementById('lesson-default-content');
     const lessonContent = document.getElementById('lesson-content');
     const lessonToc = document.getElementById('lesson-toc'); // Table of Contents for lessons
+    const testButton = document.getElementById('test-button'); 
 
     if (startCourseBtn && coverPage && mainContentArea) {
         startCourseBtn.addEventListener('click', () => {
-            console.log("Comenzar Curso button clicked!"); // Log to confirm click
+            console.log("Comenzar Curso button clicked!"); 
 
-            // Hide the cover page (start transition)
+            // Start fading out cover page
             coverPage.style.opacity = '0';
-            coverPage.style.pointerEvents = 'none'; // Disable interactions on cover page
+            // Important: Set display to flex *before* the transition of mainContentArea starts
+            // This is done via a small timeout to ensure browser registers the display change
+            mainContentArea.style.display = 'flex'; 
 
-            // Show main content (start transition)
-            mainContentArea.style.display = 'flex'; // Change display first to enable transition
-            setTimeout(() => {
-                mainContentArea.style.opacity = '1';
-            }, 10); // A small delay to ensure display:flex is applied before opacity transition
-
-            // After cover page finishes fading out, set its display to none
+            // After cover page finishes fading out, hide it completely
             coverPage.addEventListener('transitionend', function handler() {
                 coverPage.style.display = 'none';
                 coverPage.removeEventListener('transitionend', handler);
-            }, { once: true }); // Ensure this runs only once
+                // Now that cover page is hidden, fade in main content
+                setTimeout(() => {
+                    mainContentArea.style.opacity = '1';
+                }, 10); // Small delay to ensure display:flex is rendered
+            }, { once: true }); 
+            
+            // Disable pointer events on cover page immediately
+            coverPage.style.pointerEvents = 'none'; 
         });
     } else {
         console.error("Required elements for start button functionality not found.");
     }
 
+    // Listener for the Test Button
+    if (testButton) {
+        testButton.addEventListener('click', () => {
+            console.log("Test button clicked!");
+            alert("Test button clicked!"); 
+        });
+    } else {
+        console.error("Test button not found.");
+    }
+
     // --- Dynamic Lesson Loading (Placeholder for now) ---
-    // This section will be expanded once the main button works.
-    // We will need to remove the individual lessonX.js script tags from index.html
-    // and load them here based on sidebar clicks.
     if (lessonToc && lessonDisplayContainer && lessonContent && lessonDefaultContent) {
         lessonToc.addEventListener('click', (event) => {
             const target = event.target;
             if (target.tagName === 'A' && target.closest('#lesson-toc')) {
-                event.preventDefault(); // Prevent default anchor link behavior
-                const lessonId = target.getAttribute('href').substring(1); // e.g., "lesson-1"
+                event.preventDefault(); 
+                const lessonId = target.getAttribute('href').substring(1); 
                 console.log(`Clicked on ${lessonId}`);
 
-                // Hide default content if visible
                 lessonDefaultContent.style.display = 'none';
-                // Clear previous lesson content
                 lessonContent.innerHTML = '';
                 
-                // You would typically fetch the HTML content for the lesson here
-                // For now, let's just log and perhaps display a simple message
                 lessonContent.innerHTML = `<h2>Cargando ${target.textContent}...</h2>`;
 
                 // This is where you would load the specific lesson's HTML and JS
