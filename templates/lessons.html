@@ -1,288 +1,153 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lecciones - Inglés Idiomático</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="/static/css/styles.css" rel="stylesheet">
-    <style>
-        /* Mobile-first approach */
-        .lessons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
+{% extends "base.html" %}
 
-        @media (min-width: 768px) {
-            .lessons-container {
-                flex-direction: row;
-            }
-        }
+{% block title %}Lecciones del Curso{% endblock %}
 
-        /* Sidebar styles */
-        .lessons-sidebar {
-            background: white;
-            border-radius: 10px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 100%;
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
-            position: sticky;
-            top: 80px;
-        }
+{% block styles %}
+{{ super() }}
+<style>
+    /* Basic layout styles for the lessons page */
+    .lessons-container { 
+        display: flex; 
+        margin-top: 1px; /* Adjust if your navbar has a fixed height */
+        height: calc(100vh - 70px); /* Adjust 70px based on your actual header/navbar height */
+    }
+    #lesson-sidebar { 
+        width: 250px; 
+        min-width: 200px; 
+        padding: 15px; 
+        background-color: #e9ecef; /* Light gray sidebar */
+        border-right: 1px solid #ccc; 
+        overflow-y: auto; /* Allows scrolling if many lessons */
+    }
+    #lesson-sidebar h2 { 
+        font-size: 1.4em; 
+        margin-bottom: 15px; 
+        color: #333;
+    }
+    #lesson-sidebar ul { 
+        list-style: none; 
+        padding: 0; 
+        margin: 0;
+    }
+    #lesson-sidebar ul li a { 
+        display: block; 
+        padding: 8px 10px; 
+        text-decoration: none; 
+        color: #333; 
+        border-radius: 4px; 
+        margin-bottom: 5px; 
+        font-size: 0.9em;
+        transition: background-color 0.2s ease-in-out;
+    }
+    #lesson-sidebar ul li a:hover { 
+        background-color: #d4dadf; 
+    }
+    #lesson-sidebar ul li a.active-lesson { 
+        background-color: var(--primary, #007bff); /* Use your site's primary color variable */
+        color: white; 
+        font-weight: bold; 
+    }
+    #lesson-content-display { 
+        flex-grow: 1; 
+        padding: 20px; 
+        overflow-y: auto; /* Allows scrolling for long lesson content */
+        background-color: #ffffff; /* White background for content area */
+    }
+    #lesson-placeholder { 
+        text-align: center; 
+        margin-top: 50px; 
+        color: #6c757d; /* Muted text color */
+    }
+    #lesson-placeholder h2 { font-size: 1.8em; }
+</style>
+{% endblock %}
 
-        @media (min-width: 768px) {
-            .lessons-sidebar {
-                width: 300px;
-                flex-shrink: 0;
-            }
-        }
-
-        /* Lesson content styles */
-        .lesson-content {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            flex-grow: 1;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        .lesson-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .lesson-item {
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .lesson-item:hover {
-            background-color: var(--primary-light);
-        }
-
-        .lesson-item.active {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .lesson-item i {
-            color: var(--primary-color);
-            width: 20px;
-        }
-
-        /* Mobile navigation button */
-        .mobile-nav-toggle {
-            display: none;
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-
-        @media (max-width: 767px) {
-            .mobile-nav-toggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .lessons-sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                width: 80%;
-                max-width: 300px;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 1001;
-            }
-
-            .lessons-sidebar.active {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 1000;
-            }
-
-            .sidebar-overlay.active {
-                display: block;
-            }
-        }
-
-        /* Responsive typography */
-        h1 {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-        }
-
-        h2 {
-            font-size: clamp(1.25rem, 4vw, 2rem);
-        }
-
-        p {
-            font-size: clamp(0.875rem, 3vw, 1rem);
-        }
-
-        /* Lesson content responsiveness */
-        .lesson-content img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .lesson-content video {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Exercise container responsiveness */
-        .exercise-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .exercise-item {
-            background: var(--background-light);
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        /* Form elements responsiveness */
-        input[type="text"],
-        input[type="email"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        /* Button responsiveness */
-        .btn {
-            width: auto;
-            min-width: 120px;
-            padding: 0.75rem 1.5rem;
-        }
-
-        @media (max-width: 480px) {
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="/">Inglés Idiomático</a>
-            <div class="nav-links">
-                <a href="/dashboard">Dashboard</a>
-                <a href="/lecciones" class="active">Lecciones</a>
-                <a href="/practica">Práctica</a>
-                <a href="/logout">Cerrar Sesión</a>
-            </div>
-        </div>
+{% block content %}
+<div class="lessons-container">
+    <nav id="lesson-sidebar">
+        <h2>Lecciones</h2>
+        <ul id="lesson-toc-list">
+            {# Ensure these filenames match exactly what's in static/lessons_html/ #}
+            <li><a href="#" data-lesson-id="1" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson1.html') }}" class="lesson-link">Lección 1: Verbo BE</a></li>
+            <li><a href="#" data-lesson-id="2" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson2.html') }}" class="lesson-link">Lección 2: Artículos</a></li>
+            <li><a href="#" data-lesson-id="3" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson3.html') }}" class="lesson-link">Lección 3: Preposiciones</a></li>
+            <li><a href="#" data-lesson-id="4" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson4.html') }}" class="lesson-link">Lección 4: There is/are</a></li>
+            <li><a href="#" data-lesson-id="5" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson5.html') }}" class="lesson-link">Lección 5: Preposición OF</a></li>
+            <li><a href="#" data-lesson-id="6" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson6.html') }}" class="lesson-link">Lección 6: Palabra HOME</a></li>
+            <li><a href="#" data-lesson-id="7" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson7.html') }}" class="lesson-link">Lección 7: Preposición FOR</a></li>
+            <li><a href="#" data-lesson-id="8" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson8.html') }}" class="lesson-link">Lección 8: Días y Posesivo</a></li>
+            <li><a href="#" data-lesson-id="9" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson9.html') }}" class="lesson-link">Lección 9: Verbo DO</a></li>
+            <li><a href="#" data-lesson-id="10" data-lesson-path="{{ url_for('static', filename='lessons_html/lesson10.html') }}" class="lesson-link">Lección 10: Verbo HAVE</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
-        <div class="lessons-container">
-            <!-- Sidebar -->
-            <aside class="lessons-sidebar">
-                <h2>Lecciones</h2>
-                <ul class="lesson-list">
-                    <!-- Lessons will be dynamically populated -->
-                </ul>
-            </aside>
-
-            <!-- Lesson content -->
-            <main class="lesson-content">
-                <div id="lesson-content">
-                    <!-- Lesson content will be dynamically populated -->
-                    <h1>Selecciona una lección</h1>
-                    <p>Elige una lección del menú para comenzar a aprender.</p>
-                </div>
-            </main>
+    <main id="lesson-content-display">
+        <div id="lesson-placeholder">
+            <h2>¡Bienvenido al Curso de Inglés Idiomático!</h2>
+            <p>Selecciona una lección del menú para comenzar.</p>
         </div>
-    </div>
+    </main>
+</div>
+{% endblock %}
 
-    <!-- Mobile navigation toggle -->
-    <button class="mobile-nav-toggle">
-        <i class="fas fa-bars"></i>
-    </button>
+{% block scripts %}
+{{ super() }} {# Includes global scripts from base.html #}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const lessonLinks = document.querySelectorAll('.lesson-link');
+    const lessonContentDisplay = document.getElementById('lesson-content-display');
+    let currentLessonPath = null; 
 
-    <!-- Sidebar overlay for mobile -->
-    <div class="sidebar-overlay"></div>
+    function loadLessonContent(lessonPath) {
+        currentLessonPath = lessonPath; 
+        lessonContentDisplay.innerHTML = '<p style="text-align:center; margin-top:50px; font-size:1.2em;">Cargando lección...</p>';
 
-    <script src="/static/js/learningPath.js"></script>
-    <script>
-        // Mobile sidebar functionality
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        const sidebar = document.querySelector('.lessons-sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
+        fetch(lessonPath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status}: No se pudo cargar ${lessonPath}`);
+                }
+                return response.text();
+            })
+            .then(fullHtml => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(fullHtml, 'text/html');
+                
+                let contentToInjectHTML = '';
+                const lessonSpecificContent = doc.querySelector('.lesson-content-area'); // Assuming your static lessons have this wrapper
 
-        function toggleSidebar() {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-            mobileNavToggle.innerHTML = sidebar.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        }
+                if (lessonSpecificContent) {
+                    contentToInjectHTML = lessonSpecificContent.innerHTML;
+                     console.log("Injected content from .lesson-content-area of " + lessonPath);
+                } else if (doc.body) {
+                    console.warn("'.lesson-content-area' not found in fetched HTML ("+lessonPath+"). Using entire body content.");
+                    contentToInjectHTML = doc.body.innerHTML;
+                } else {
+                    console.warn("Neither '.lesson-content-area' nor 'body' found in "+lessonPath+". Using raw fetched HTML.");
+                    contentToInjectHTML = fullHtml; 
+                }
+                
+                lessonContentDisplay.innerHTML = contentToInjectHTML;
+                console.log("Lesson content loaded from: " + lessonPath);
 
-        mobileNavToggle.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', toggleSidebar);
+                // Scripts loaded via innerHTML do not execute. We address this next.
+            })
+            .catch(error => {
+                console.error('Error fetching lesson content:', error);
+                lessonContentDisplay.innerHTML = '<p style="color:red; text-align:center; padding:30px;">Error al cargar la lección. Revisa la consola (F12).</p>';
+            });
+    }
 
-        // Close sidebar when a lesson is selected (mobile)
-        document.querySelector('.lesson-list').addEventListener('click', (e) => {
-            if (window.innerWidth < 768) {
-                toggleSidebar();
-            }
+    lessonLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const lessonPath = this.dataset.lessonPath;
+            loadLessonContent(lessonPath);
+
+            lessonLinks.forEach(l => l.classList.remove('active-lesson'));
+            this.classList.add('active-lesson');
         });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            }
-        });
-    </script>
-</body>
-</html> 
+    });
+});
+</script>
+{% endblock %}
