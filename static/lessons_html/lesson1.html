@@ -1,121 +1,99 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección 1: El Tiempo Presente del Verbo BE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
-    <div class="lesson-content-area">
-        <h1>Lección 1: El Tiempo Presente del Verbo BE</h1>
-        <p>En esta lección, aprenderemos a usar el verbo "to be" en tiempo presente, que es fundamental en inglés.</p>
+<!-- This is static/lessons_html/lesson1.html (as a content fragment) -->
+<!-- It does NOT include <html>, <head>, <body>, or global CSS/JS links -->
+<!-- Lesson-specific styles from the original <head> could be included here if needed, -->
+<!-- or moved to the main styles.css, or loaded by the main lessons.html JS. -->
+<!-- For simplicity now, we assume main styles.css handles most visual styling. -->
 
-        <h2>1. Vocabulario</h2>
-        <div class="flashcard-section" id="flashcard-section-1">
-            <div class="flashcard-controls">
-                <button class="flashcard-nav prev"><i class="fas fa-arrow-left"></i></button>
-                <button class="flashcard-nav next"><i class="fas fa-arrow-right"></i></button>
-            </div>
-            <div class="flashcard-container">
-                <div class="flashcard" data-word="I" data-translation="Yo" data-audio="/static/audio/lesson1/i.mp3"></div>
-                <div class="flashcard" data-word="You" data-translation="Tú/Ustedes" data-audio="/static/audio/lesson1/you.mp3"></div>
-                <div class="flashcard" data-word="He" data-translation="Él" data-audio="/static/audio/lesson1/he.mp3"></div>
-                <div class="flashcard" data-word="She" data-translation="Ella" data-audio="/static/audio/lesson1/she.mp3"></div>
-                <div class="flashcard" data-word="It" data-translation="Eso/Ello" data-audio="/static/audio/lesson1/it.mp3"></div>
-                <div class="flashcard" data-word="We" data-translation="Nosotros/Nosotras" data-audio="/static/audio/lesson1/we.mp3"></div>
-                <div class="flashcard" data-word="They" data-translation="Ellos/Ellas" data-audio="/static/audio/lesson1/they.mp3"></div>
-                <div class="flashcard" data-word="Am" data-translation="Soy/Estoy" data-audio="/static/audio/lesson1/am.mp3"></div>
-                <div class="flashcard" data-word="Is" data-translation="Es/Está" data-audio="/static/audio/lesson1/is.mp3"></div>
-                <div class="flashcard" data-word="Are" data-translation="Son/Están" data-audio="/static/audio/lesson1/are.mp3"></div>
-                <div class="flashcard" data-word="Student" data-translation="Estudiante" data-audio="/static/audio/lesson1/student.mp3"></div>
-                <div class="flashcard" data-word="Teacher" data-translation="Profesor/a" data-audio="/static/audio/lesson1/teacher.mp3"></div>
-                <div class="flashcard" data-word="Happy" data-translation="Feliz" data-audio="/static/audio/lesson1/happy.mp3"></div>
-                <div class="flashcard" data-word="Sad" data-translation="Triste" data-audio="/static/audio/lesson1/sad.mp3"></div>
-                <div class="flashcard" data-word="Home" data-translation="Casa" data-audio="/static/audio/lesson1/home.mp3"></div>
-                <div class="flashcard" data-word="School" data-translation="Escuela" data-audio="/static/audio/lesson1/school.mp3"></div>
-            </div>
-            <button class="flashcard-play-all"><i class="fas fa-play"></i> Reproducir todo</button>
-            <div class="flashcard-status"></div>
+<div class="lesson-content-area">
+    <h1>Lección 1: El Tiempo Presente del Verbo BE</h1>
+    <p>En esta lección, aprenderemos a usar el verbo "to be" en tiempo presente, que es fundamental en inglés.</p>
+
+    <h2>1. Vocabulario</h2>
+    <div class="flashcard-section" id="flashcard-section-1"> {# ID for JS to target this section #}
+        <div class="flashcard-controls">
+            {# Classes for JS to target, inline onclicks REMOVED #}
+            <button class="flashcard-nav prev-flashcard"><i class="fas fa-arrow-left"></i> Anterior</button> 
+            <button class="flashcard-nav flip-flashcard"><i class="fas fa-sync-alt"></i> Girar</button>
+            <button class="flashcard-nav next-flashcard">Siguiente <i class="fas fa-arrow-right"></i></button>
         </div>
-
-        <h2>2. Explicación Gramatical: El Verbo "To Be"</h2>
-        <p>El verbo "to be" es irregular y significa "ser" o "estar".</p>
-        <ul>
-            <li><strong>I am</strong> (Yo soy/estoy)</li>
-            <li><strong>You are</strong> (Tú eres/estás, Ustedes son/están)</li>
-            <li><strong>He is</strong> (Él es/está)</li>
-            <li><strong>She is</strong> (Ella es/está)</li>
-            <li><strong>It is</strong> (Eso/Ello es/está - para objetos, animales, ideas)</li>
-            <li><strong>We are</strong> (Nosotros/as somos/estamos)</li>
-            <li><strong>They are</strong> (Ellos/as son/están)</li>
-        </ul>
-
-        <h2>3. Ejercicios</h2>
-        <div class="exercise-section" id="exercise-section-1">
-            <h3>Ejercicio 1: Completa las oraciones con la forma correcta de "to be".</h3>
-            <div class="exercise-item" data-type="fill-in-the-blank">
-                <p>I ___ a student.</p>
-                <input type="text" data-correct="am">
-                <button class="check-answer-btn">Comprobar</button>
-                <div class="feedback"></div>
-            </div>
-            <div class="exercise-item" data-type="fill-in-the-blank">
-                <p>She ___ happy.</p>
-                <input type="text" data-correct="is">
-                <button class="check-answer-btn">Comprobar</button>
-                <div class="feedback"></div>
-            </div>
-            <div class="exercise-item" data-type="fill-in-the-blank">
-                <p>They ___ at school.</p>
-                <input type="text" data-correct="are">
-                <button class="check-answer-btn">Comprobar</button>
-                <div class="feedback"></div>
+        <div class="flashcard-container">
+            {# This is a TEMPLATE for ONE card. JS will populate it. #}
+            {# Original data-attributes are removed as data now comes from lesson1.js #}
+            <div class="flashcard"> 
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <div class="flashcard-word">WORD_PLACEHOLDER</div>
+                        <div class="flashcard-example">EXAMPLE_PLACEHOLDER</div>
+                        <button class="audio-btn"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-translation">TRANSLATION_PLACEHOLDER</div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="exercise-section" id="exercise-section-2">
-            <h3>Ejercicio 2: Traduce las siguientes oraciones.</h3>
-            <div class="exercise-item" data-type="translation">
-                <p>Yo estoy en casa.</p>
-                <input type="text" data-correct="I am at home.">
-                <button class="check-answer-btn">Comprobar</button>
-                <div class="feedback"></div>
-            </div>
-            <div class="exercise-item" data-type="translation">
-                <p>Ella es una profesora.</p>
-                <input type="text" data-correct="She is a teacher.">
-                <button class="check-answer-btn">Comprobar</button>
-                <div class="feedback"></div>
-            </div>
-        </div>
-        
-        <h2>4. Práctica de Pronunciación</h2>
-        <p>Graba tu voz diciendo las siguientes palabras y frases:</p>
-        <div class="pronunciation-practice">
-            <div class="phrase">
-                <p>I am happy.</p>
-                <button class="record-btn"><i class="fas fa-microphone"></i> Grabar</button>
-                <button class="stop-btn" style="display: none;"><i class="fas fa-stop"></i> Detener</button>
-                <audio controls style="display: none;"></audio>
-                <button class="play-recording-btn" style="display: none;"><i class="fas fa-play"></i> Reproducir</button>
-            </div>
-            <div class="phrase">
-                <p>They are students.</p>
-                <button class="record-btn"><i class="fas fa-microphone"></i> Grabar</button>
-                <button class="stop-btn" style="display: none;"><i class="fas fa-stop"></i> Detener</button>
-                <audio controls style="display: none;"></audio>
-                <button class="play-recording-btn" style="display: none;"><i class="fas fa-play"></i> Reproducir</button>
-            </div>
-        </div>
+        <button class="flashcard-play-all"><i class="fas fa-play"></i> Reproducir todo</button>
+        <div class="flashcard-status">Tarjeta X de Y</div>
     </div>
 
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/flashcards.js"></script>
-    <script src="/static/js/exercise.js"></script>
-    <script src="/static/js/audioRecorder.js"></script>
-    <script src="/static/js/lesson1.js"></script>
-</body>
-</html>
+    <h2>2. Explicación Gramatical: El Verbo "To Be"</h2>
+    <p>El verbo "to be" es irregular y significa "ser" o "estar".</p>
+    <ul>
+        <li><strong>I am</strong> (Yo soy/estoy)</li>
+        <li><strong>You are</strong> (Tú eres/estás, Ustedes son/están)</li>
+        <li><strong>He is</strong> (Él es/está)</li>
+        <li><strong>She is</strong> (Ella es/está)</li>
+        <li><strong>It is</strong> (Eso/Ello es/está - para objetos, animales, ideas)</li>
+        <li><strong>We are</strong> (Nosotros/as somos/estamos)</li>
+        <li><strong>They are</strong> (Ellos/as son/están)</li>
+    </ul>
+
+    <h2>3. Ejercicios</h2>
+    <div class="exercise-section" id="exercise1-L1"> {# ID for JS to target this exercise section #}
+        <h3>Ejercicio 1: Completa las oraciones con la forma correcta de "to be".</h3>
+        {# JS (exercise.js via lesson1.js) will populate these based on data #}
+        <!-- Example structure for one item (JS will generate these):
+        <div class="exercise-item" data-type="fill-in-the-blank">
+            <p>I ___ a student.</p>
+            <input type="text" data-correct="am">
+            <button class="check-answer-btn">Comprobar</button>
+            <div class="feedback"></div>
+        </div>
+        -->
+    </div>
+
+    <div class="exercise-section" id="exercise2-L1"> {# ID for JS to target this exercise section #}
+        <h3>Ejercicio 2: Traduce las siguientes oraciones.</h3>
+        {# JS will populate these #}
+    </div>
+    
+    <h2>4. Práctica de Pronunciación</h2>
+    <p>Graba tu voz diciendo las siguientes palabras y frases:</p>
+    <div class="pronunciation-practice" id="pronunciation-L1"> {# ID for JS to target #}
+        {# JS (audioRecorder.js via lesson1.js) will make these interactive #}
+        <div class="phrase">
+            <p>I am happy.</p>
+            <button class="record-btn"><i class="fas fa-microphone"></i> Grabar</button>
+            <button class="stop-btn" style="display: none;"><i class="fas fa-stop"></i> Detener</button>
+            <audio controls style="display: none;"></audio>
+            <button class="play-recording-btn" style="display: none;"><i class="fas fa-play"></i> Reproducir</button>
+        </div>
+        <div class="phrase">
+            <p>They are students.</p>
+            <button class="record-btn"><i class="fas fa-microphone"></i> Grabar</button>
+            <button class="stop-btn" style="display: none;"><i class="fas fa-stop"></i> Detener</button>
+            <audio controls style="display: none;"></audio>
+            <button class="play-recording-btn" style="display: none;"><i class="fas fa-play"></i> Reproducir</button>
+        </div>
+    </div>
+</div>
+
+<!-- 
+    IMPORTANT:
+    - NO <html>, <head>, <body> tags.
+    - NO links to global CSS like /static/css/styles.css (handled by base.html).
+    - NO links to global JS like /static/js/main.js, flashcards.js, exercise.js (handled by base.html).
+    - Lesson-specific JS (like a /static/js/lesson1.js) should be loaded by base.html,
+      and its initialization function called by the main script in templates/lessons.html
+      AFTER this fragment is loaded. We are NOT putting <script src="/static/js/lesson1.js"></script> here.
+-->

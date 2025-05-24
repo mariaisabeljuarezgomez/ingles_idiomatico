@@ -5,28 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Inglés Idiomático{% endblock %}</title>
     
-    {# Common Fonts & Icons - These should work as they are standard CDNs #}
+    {# Common Fonts & Icons #}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    {# Main Stylesheet - This assumes you have styles.css in static/css/ #}
+    {# Main Stylesheet #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     
-    {# Block for page-specific styles - Child templates can add more CSS here #}
     {% block styles %}{% endblock %}
 </head>
 <body>
     <header>
-        <nav class="navbar"> {# Assuming your styles.css has rules for .navbar, .container, .navbar-brand, .nav-links, .btn #}
+        <nav class="navbar">
             <div class="container">
                 <a class="navbar-brand" href="{{ url_for('index') }}">Inglés Idiomático</a>
                 <div class="nav-links">
                     {% if current_user.is_authenticated %}
-                        {# Links for logged-in users #}
                         {% if current_user.role == 'student' %}
                             <a href="{{ url_for('student_dashboard') }}" class="btn nav-btn">Dashboard</a>
                             <a href="{{ url_for('lessons_page') }}" class="btn nav-btn">Lecciones</a>
-                            {# <a href="{{ url_for('practice_page') }}" class="btn nav-btn">Práctica</a> #}
                         {% elif current_user.role == 'teacher' %}
                             <a href="{{ url_for('teacher_dashboard') }}" class="btn nav-btn">Dashboard Profesor</a>
                         {% elif current_user.role == 'admin' %}
@@ -34,10 +31,8 @@
                         {% endif %}
                         <a href="{{ url_for('logout') }}" class="btn nav-btn">Cerrar Sesión</a>
                     {% else %}
-                        {# Links for logged-out users #}
                         <a href="{{ url_for('login') }}" class="btn nav-btn">Iniciar Sesión</a>
-                        {# Example: You might have a registration button #}
-                        {# <a href="{{ url_for('register') }}" class="btn btn-secondary nav-btn">Registrarse</a> #}
+                         {# <a href="{{ url_for('register') }}" class="btn btn-secondary nav-btn">Registrarse</a> #}
                     {% endif %}
                 </div>
             </div>
@@ -45,7 +40,6 @@
     </header>
 
     <main class="container main-content-area" style="padding-top: 20px; padding-bottom: 20px; min-height: 75vh;">
-        {# Flash messages section - For displaying messages like "Login successful" or errors #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <ul class="flash-messages" style="list-style:none; padding:0; margin-bottom:20px;">
@@ -62,24 +56,46 @@
             {% endif %}
         {% endwith %}
 
-        {# Main content from child templates (like lessons.html) will be inserted here #}
         {% block content %}{% endblock %}
     </main>
 
     <footer style="text-align: center; padding: 20px; background-color: #333; color: white; margin-top: auto;">
-        {# THIS IS THE CORRECTED COPYRIGHT LINE - NO MORE {% now %} TAG #}
         <p>© 2024 Inglés Idiomático. Todos los derechos reservados.</p>
     </footer>
 
-    {# Common JavaScript files - Make sure these files exist in your static/js/ folder #}
-    {# These scripts will be loaded on every page that extends this base.html #}
+    {# Global JavaScript Modules (e.g., for flashcards, exercises) #}
     <script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/exercise.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/exercise.js') }}"></script> 
     <script src="{{ url_for('static', filename='js/audioRecorder.js') }}"></script>
-    {# If you have a main.js for site-wide interactions, uncomment and ensure it exists: #}
     {# <script src="{{ url_for('static', filename='js/main.js') }}"></script> #}
 
-    {# Block for page-specific scripts - Child templates can add more JS here #}
-    {% block scripts %}{% endblock %}
+    {# Lesson-Specific Data/Initializer Scripts #}
+    {# These define window.lessonModules.lessonX objects #}
+    <script src="{{ url_for('static', filename='js/lesson1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson5.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson6.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson7.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson8.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson9.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lesson10.js') }}"></script>
+    {# Create empty placeholder files for lesson2.js through lesson10.js in static/js/ if they don't exist yet, #}
+    {# or comment out the lines for lessons you haven't created the JS for. #}
+    {# Example content for an empty static/js/lessonX.js: #}
+    /*
+    (function() {
+        if (!window.lessonModules) { window.lessonModules = {}; }
+        window.lessonModules.lessonX = { // Replace X with lesson number
+            initialize: function() { console.log("Lesson X placeholder initialized."); },
+            cleanup: function() { console.log("Lesson X placeholder cleanup."); }
+        };
+    })();
+    */
+
+    {# This is where child templates (like lessons.html) will insert their page-specific scripts #}
+    {# These scripts will run AFTER all the above scripts have been loaded and parsed #}
+    {% block scripts %}{% endblock %} 
 </body>
 </html>
