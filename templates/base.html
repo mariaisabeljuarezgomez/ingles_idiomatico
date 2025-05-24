@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{ lang or 'es' }}"> {# Default to Spanish, can be overridden #}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Inglés Idiomático{% endblock %}</title>
+    
+    {# Common Fonts & Icons #}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    {# Main Stylesheet - Make sure this path is correct and styles.css exists #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    {# Page-specific styles can be added here by child templates #}
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar"> {# Assuming you have navbar styles #}
+            <div class="container">
+                <a class="navbar-brand" href="{{ url_for('index') }}">Inglés Idiomático</a>
+                <div class="nav-links">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role == 'student' %}
+                            <a href="{{ url_for('student_dashboard') }}" class="btn">Dashboard</a>
+                            <a href="{{ url_for('lessons_page') }}" class="btn">Lecciones</a>
+                            {# <a href="{{ url_for('practice_page') }}" class="btn">Práctica</a> #}
+                        {% elif current_user.role == 'teacher' %}
+                            <a href="{{ url_for('teacher_dashboard') }}" class="btn">Dashboard Profesor</a>
+                        {% elif current_user.role == 'admin' %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="btn">Dashboard Admin</a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="btn">Cerrar Sesión</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn">Iniciar Sesión</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Registrarse</a> {# Example secondary button #}
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container" style="padding-top: 20px; padding-bottom: 20px; min-height: 75vh;">
+        {# Flash messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages" style="list-style:none; padding:0;">
+                {% for category, message in messages %}
+                    <li class="{{ category }}" style="padding:10px; margin-bottom:10px; border-radius:4px; background-color: #e0e0e0; text-align:center;">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {# Main content from child templates goes here #}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 20px; background-color: #333; color: white; margin-top: auto;">
+        <p>© {% now 'utc', '%Y' %} Inglés Idiomático. Todos los derechos reservados.</p>
+    </footer>
+
+    {# Common JavaScript files #}
+    {# Example: <script src="{{ url_for('static', filename='js/main.js') }}"></script> #}
+    {# Make sure these global JS files exist and are correctly referenced #}
+    <script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/exercise.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/audioRecorder.js') }}"></script>
+    {# Add other global JS like main.js if you have it #}
+
+
+    {# Page-specific scripts can be added here by child templates #}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
