@@ -49,7 +49,7 @@ function playAudio(audioId) {
     const lessonMatch = audioId.match(/L(\d+)/);
     const lessonNumber = lessonMatch ? lessonMatch[1] : '1';
 
-    const audio = new Audio(`../audio/lesson${lessonNumber}/${audioId}.mp3`);
+    const audio = new Audio(`/static/audio/lesson${lessonNumber}/${audioId}.mp3`); // Corrected path
     audio.play().catch(error => {
         console.error('Error playing audio:', error);
         // Fallback to speech synthesis if audio file fails to play
@@ -66,4 +66,78 @@ if (window.speechSynthesis) {
     window.speechSynthesis.onvoiceschanged = () => {
         window.speechSynthesis.getVoices();
     };
-} 
+}
+
+// --- NEW FUNCTIONALITY FOR COVER PAGE AND START BUTTON ---
+document.addEventListener('DOMContentLoaded', () => {
+    const startCourseBtn = document.getElementById('start-course-btn');
+    const coverPage = document.getElementById('cover-page');
+    const mainContentArea = document.getElementById('main-content-area');
+    const lessonDisplayContainer = document.getElementById('lesson-display-container');
+    const lessonDefaultContent = document.getElementById('lesson-default-content');
+    const lessonContent = document.getElementById('lesson-content');
+    const lessonToc = document.getElementById('lesson-toc'); // Table of Contents for lessons
+    const testButton = document.getElementById('test-button'); // NEW LINE FOR TEST BUTTON
+
+    if (startCourseBtn && coverPage && mainContentArea) {
+        startCourseBtn.addEventListener('click', () => {
+            console.log("Comenzar Curso button clicked!"); // Log to confirm click
+
+            // Hide the cover page (start transition)
+            coverPage.style.opacity = '0';
+            coverPage.style.pointerEvents = 'none'; // Disable interactions on cover page
+
+            // After cover page finishes fading out, set its display to none
+            coverPage.addEventListener('transitionend', function handler() {
+                coverPage.style.display = 'none';
+                coverPage.removeEventListener('transitionend', handler);
+            }, { once: true }); // Ensure this runs only once
+
+            // Show main content (start transition)
+            mainContentArea.style.display = 'flex'; // Change display first to enable transition
+            setTimeout(() => {
+                mainContentArea.style.opacity = '1';
+            }, 10); // A small delay to ensure display:flex is applied before opacity transition
+        });
+    } else {
+        console.error("Required elements for start button functionality not found.");
+    }
+
+    // NEW BLOCK FOR TEST BUTTON LISTENER
+    if (testButton) {
+        testButton.addEventListener('click', () => {
+            console.log("Test button clicked!");
+            alert("Test button clicked!"); // This alert will give immediate feedback
+        });
+    } else {
+        console.error("Test button not found.");
+    }
+    // END NEW BLOCK
+
+    // --- Dynamic Lesson Loading (Placeholder for now) ---
+    // This section will be expanded once the main button works.
+    // We will need to remove the individual lessonX.js script tags from index.html
+    // and load them here based on sidebar clicks.
+    if (lessonToc && lessonDisplayContainer && lessonContent && lessonDefaultContent) {
+        lessonToc.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.tagName === 'A' && target.closest('#lesson-toc')) {
+                event.preventDefault(); // Prevent default anchor link behavior
+                const lessonId = target.getAttribute('href').substring(1); // e.g., "lesson-1"
+                console.log(`Clicked on ${lessonId}`);
+
+                // Hide default content if visible
+                lessonDefaultContent.style.display = 'none';
+                // Clear previous lesson content
+                lessonContent.innerHTML = '';
+                
+                // You would typically fetch the HTML content for the lesson here
+                // For now, let's just log and perhaps display a simple message
+                lessonContent.innerHTML = `<h2>Cargando ${target.textContent}...</h2>`;
+
+                // This is where you would load the specific lesson's HTML and JS
+                // Example: loadLesson(lessonId); // This function needs to be created
+            }
+        });
+    }
+});
