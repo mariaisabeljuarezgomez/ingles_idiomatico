@@ -231,17 +231,6 @@ def index():
             return redirect(url_for('student_dashboard'))
     return redirect(url_for('login'))
 
-# This route serves the main lesson interface (the one with the sphere and "Comenzar Curso")
-# The "IR A CURSO" button on student_dashboard.html should link to /index.html
-@app.route('/index.html')
-@login_required
-def serve_lesson_interface():
-    # If index.html is in your 'static' folder (because app is Flask(__name__, static_folder='static')),
-    # then send_from_directory('static', 'index.html') or accessing directly via /static/index.html might be needed.
-    # However, if it's in the root (which seems to be your setup based on previous attempts), then '.' is correct.
-    # If it's in the 'templates' folder, use render_template('index.html').
-    # Given your current setup and the issue, let's assume it's in the root (or directly served by web server).
-    return send_from_directory('.', 'index.html')
 
 # API Routes
 @app.route('/api/lessons', methods=['GET'])
